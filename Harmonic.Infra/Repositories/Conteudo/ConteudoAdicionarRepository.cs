@@ -9,12 +9,12 @@ using System.Data;
 
 namespace Harmonic.Infra.Repositories.Conteudo;
 
-internal class AdicionarConteudoRepository : Repository, IAdicionarConteudoRepository
+internal class ConteudoAdicionarRepository : Repository, IConteudoAdicionarRepository
 {
     private readonly IProcedureNameBuilderAddStrategy _procedureNameBuilderAddStrategy;
     private readonly IValidator<ConteudoEntity> _validator;
 
-    public AdicionarConteudoRepository(IProcedureNameBuilderAddStrategy procedureNameBuilderAddStrategy, IValidator<ConteudoEntity> validator)
+    public ConteudoAdicionarRepository(IProcedureNameBuilderAddStrategy procedureNameBuilderAddStrategy, IValidator<ConteudoEntity> validator)
     {
         _procedureNameBuilderAddStrategy = procedureNameBuilderAddStrategy;
         _validator = validator;
@@ -26,8 +26,8 @@ internal class AdicionarConteudoRepository : Repository, IAdicionarConteudoRepos
 
         object parameters = new
         {
-            entity.DataCadastro,
-            entity.Descricao,
+           dataCadastroParam = entity.DataCadastro,
+            descricaoParam = entity.Descricao,
             idFeedbackParam = entity.Feedback.Id,
             idTipoConteudoParam = entity.TipoConteudo.Id,
             idPaisParam = entity.Pais,
@@ -40,7 +40,7 @@ internal class AdicionarConteudoRepository : Repository, IAdicionarConteudoRepos
 
         using (IDbConnection conn = Connect())
         {
-            var validationFailureMessage = "Não foi possível adicionar o conteúdo";
+            var validationFailureMessage = "Dados inválidos do conteúdo foram informados";
             return await conn.ExecuteValidatingAsync(entity, _validator, validationFailureMessage, command);
         }
     }

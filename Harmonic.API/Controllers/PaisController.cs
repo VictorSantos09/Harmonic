@@ -1,5 +1,5 @@
 ﻿using Harmonic.Regras.Services.Conteudo.DTOs;
-using Harmonic.Regras.Services.Pais.Add;
+using Harmonic.Regras.Services.Pais;
 using Microsoft.AspNetCore.Mvc;
 using QuickKit.AspNetCore.Attributes;
 using QuickKit.AspNetCore.Controllers.Contracts;
@@ -13,9 +13,9 @@ namespace Harmonic.API.Controllers;
 [Route("[controller]")]
 public class PaisController : ControllerBase, IAddController<PaisDTO>
 {
-    private readonly IAdicionarPaisService _adicionarPaisService;
+    private readonly IPaisAdicionarService _adicionarPaisService;
 
-    public PaisController(IAdicionarPaisService adicionarPaisService)
+    public PaisController(IPaisAdicionarService adicionarPaisService)
     {
         _adicionarPaisService = adicionarPaisService;
     }

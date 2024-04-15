@@ -3,16 +3,17 @@ using Harmonic.Domain.Entities.Feedback;
 using Harmonic.Domain.Entities.Pais;
 using Harmonic.Domain.Entities.TipoConteudo;
 using Harmonic.Regras.Contracts.Repositories.Conteudo;
+using Harmonic.Regras.Services.Conteudo.Contracts;
 using Harmonic.Regras.Services.Conteudo.DTOs;
 using QuickKit.ResultTypes;
 
-namespace Harmonic.Regras.Services.Conteudo.Add;
+namespace Harmonic.Regras.Services.Conteudo;
 
-internal class AdicionarConteudoService : IAdicionarConteudoService
+internal class ConteudoAdicionarService : IConteudoAdicionarService
 {
-    private readonly IAdicionarConteudoRepository _adicionarConteudoRepository;
+    private readonly IConteudoAdicionarRepository _adicionarConteudoRepository;
 
-    public AdicionarConteudoService(IAdicionarConteudoRepository adicionarConteudoRepository)
+    public ConteudoAdicionarService(IConteudoAdicionarRepository adicionarConteudoRepository)
     {
         _adicionarConteudoRepository = adicionarConteudoRepository;
     }

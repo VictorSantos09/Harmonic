@@ -3,7 +3,7 @@ using QuickKit.Repositories.Contracts;
 
 namespace Harmonic.Regras.Contracts.Repositories.Conteudo;
 
-public interface IAdicionarConteudoRepository : IAddRepository<ConteudoEntity>
+public interface IConteudoAdicionarRepository : IAddRepository<ConteudoEntity>
 {
 
 }

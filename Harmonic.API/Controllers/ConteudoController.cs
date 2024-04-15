@@ -1,4 +1,6 @@
-﻿using Harmonic.Regras.Services.Conteudo.Add;
+﻿using Harmonic.API.Common;
+using Harmonic.Domain.Entities.Conteudo;
+using Harmonic.Regras.Services.Conteudo.Contracts;
 using Harmonic.Regras.Services.Conteudo.DTOs;
 using Microsoft.AspNetCore.Mvc;
 using QuickKit.AspNetCore.Attributes;
@@ -9,13 +11,22 @@ namespace Harmonic.API.Controllers;
 
 [ApiController]
 [Route("[controller]")]
-public class ConteudoController : ControllerBase
+public class ConteudoController : ControllerBase, ISelfContainedController<ConteudoDTO, ConteudoEntity, int>
 {
-    private readonly IAdicionarConteudoService _adicionarConteudoService;
+    private readonly IConteudoAdicionarService _adicionarConteudoService;
+    private readonly IConteudoDeletarService _conteudoDeletarService;
+    private readonly IConteudoAtualizarService _conteudoAtualizarService;
+    private readonly IConteudoGetService _conteudoGetService;
 
-    public ConteudoController(IAdicionarConteudoService adicionarConteudoService)
+    public ConteudoController(IConteudoAdicionarService adicionarConteudoService,
+                              IConteudoDeletarService conteudoDeletarService,
+                              IConteudoAtualizarService conteudoAtualizarService,
+                              IConteudoGetService conteudoGetService)
     {
         _adicionarConteudoService = adicionarConteudoService;
+        _conteudoDeletarService = conteudoDeletarService;
+        _conteudoAtualizarService = conteudoAtualizarService;
+        _conteudoGetService = conteudoGetService;
     }
 
     [Add]
@@ -26,26 +37,30 @@ public class ConteudoController : ControllerBase
     }
 
     [Delete]
-    public Task<IActionResult> DeleteAsync(int id, CancellationToken cancellationToken = default)
+    public async Task<IActionResult> DeleteAsync(int id, CancellationToken cancellationToken = default)
     {
-        throw new NotImplementedException();
+        var result = await _conteudoDeletarService.DeleteAsync(id, cancellationToken);
+        return result.Convert(HttpStatusCode.BadRequest);
     }
 
     [GetAll]
-    public Task<ActionResult<IEnumerable<ConteudoDTO>>> GetAllAsync(CancellationToken cancellationToken = default)
+    public async Task<ActionResult<IEnumerable<ConteudoEntity>>> GetAllAsync(CancellationToken cancellationToken = default)
     {
-        throw new NotImplementedException();
+        var result = await _conteudoGetService.GetAllAsync(cancellationToken);
+        return result.Convert(HttpStatusCode.NoContent);
     }
 
     [GetById]
-    public Task<ActionResult<ConteudoDTO?>> GetByIdAsync(int id, CancellationToken cancellationToken = default)
+    public async Task<ActionResult<ConteudoEntity?>> GetByIdAsync(int id, CancellationToken cancellationToken = default)
     {
-        throw new NotImplementedException();
+        var result = await _conteudoGetService.GetByIdAsync(id, cancellationToken);
+        return result.Convert(HttpStatusCode.NotFound);
     }
 
     [Update]
-    public Task<IActionResult> UpdateAsync(ConteudoDTO dto, CancellationToken cancellationToken = default)
+    public async Task<IActionResult> UpdateAsync(ConteudoDTO dto, CancellationToken cancellationToken = default)
     {
-        throw new NotImplementedException();
+        var result = await _conteudoAtualizarService.UpdateAsync(dto, cancellationToken);
+        return result.Convert(HttpStatusCode.BadRequest);
     }
 }

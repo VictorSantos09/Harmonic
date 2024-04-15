@@ -7,13 +7,13 @@ using QuickKit.Builders.ProcedureName.Add;
 using QuickKit.Extensions;
 using System.Data;
 
-namespace Harmonic.Infra.Repositories.Pais.Add;
-internal class AdicionarPaisRepository : Repository, IAdicionarPaisRepository
+namespace Harmonic.Infra.Repositories.Pais;
+internal class PaisAdicionarRepository : Repository, IAdicionarPaisRepository
 {
     private readonly IProcedureNameBuilderAddStrategy _procedureNameBuilderAddStrategy;
     private readonly IValidator<PaisEntity> _validator;
 
-    public AdicionarPaisRepository(IProcedureNameBuilderAddStrategy procedureNameBuilderAddStrategy, IValidator<PaisEntity> validator)
+    public PaisAdicionarRepository(IProcedureNameBuilderAddStrategy procedureNameBuilderAddStrategy, IValidator<PaisEntity> validator)
     {
         _procedureNameBuilderAddStrategy = procedureNameBuilderAddStrategy;
         _validator = validator;
