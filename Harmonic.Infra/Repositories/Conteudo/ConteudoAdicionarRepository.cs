@@ -2,6 +2,7 @@
 using FluentValidation;
 using Harmonic.Domain.Entities.Conteudo;
 using Harmonic.Regras.Contracts.Repositories.Conteudo;
+using Harmonic.Shared.Constants.Base;
 using Harmonic.Shared.Data;
 using QuickKit.Builders.ProcedureName.Add;
 using QuickKit.Extensions;
@@ -40,8 +41,7 @@ internal class ConteudoAdicionarRepository : Repository, IConteudoAdicionarRepos
 
         using (IDbConnection conn = Connect())
         {
-            var validationFailureMessage = "Dados inválidos do conteúdo foram informados";
-            return await conn.ExecuteValidatingAsync(entity, _validator, validationFailureMessage, command);
+            return await conn.ExecuteValidatingAsync(entity, _validator, DefaultMessages.INVALID_DATA, command);
         }
     }
 }

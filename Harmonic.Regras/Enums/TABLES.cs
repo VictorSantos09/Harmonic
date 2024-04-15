@@ -1,4 +1,4 @@
-﻿namespace Harmonic.Regras.Contracts.Repositories.Common;
+﻿namespace Harmonic.Regras.Enums;
 
 public enum TABLES
 {

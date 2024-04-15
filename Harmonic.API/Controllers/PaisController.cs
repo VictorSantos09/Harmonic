@@ -1,5 +1,5 @@
 ﻿using Harmonic.Regras.Services.Conteudo.DTOs;
-using Harmonic.Regras.Services.Pais;
+using Harmonic.Regras.Services.Pais.Contracts;
 using Microsoft.AspNetCore.Mvc;
 using QuickKit.AspNetCore.Attributes;
 using QuickKit.AspNetCore.Controllers.Contracts;

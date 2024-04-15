@@ -2,6 +2,7 @@
 using Harmonic.Domain.Entities.Pais;
 using Harmonic.Regras.Contracts.Repositories.Pais;
 using Harmonic.Regras.Services.Conteudo.DTOs;
+using Harmonic.Regras.Services.Pais.Contracts;
 using QuickKit.ResultTypes;
 
 namespace Harmonic.Regras.Services.Pais;

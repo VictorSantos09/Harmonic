@@ -1,5 +1,6 @@
 ﻿using Dapper;
 using Harmonic.Regras.Contracts.Repositories.Common;
+using Harmonic.Regras.Enums;
 using Harmonic.Shared.Data;
 using System.Data;
 

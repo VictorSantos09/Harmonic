@@ -16,7 +16,7 @@ public record FeedbackDTO(int Id, int TotalCurtidas, int TotalGosteis)
 
 }
 
-public record PaisDTO(string Nome)
+public record PaisDTO(string Nome, int Id)
 {
 
 }

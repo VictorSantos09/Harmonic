@@ -1,4 +1,6 @@
-﻿namespace Harmonic.Regras.Contracts.Repositories.Common;
+﻿using Harmonic.Regras.Enums;
+
+namespace Harmonic.Regras.Contracts.Repositories.Common;
 
 public interface IExistsRepository
 {
