@@ -1,0 +1,31 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net7.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Harmonic.Domain\Harmonic.Domain.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="QuickKit">
+      <HintPath>..\External\QuickKit\QuickKit.dll</HintPath>
+    </Reference>
+    <Reference Include="QuickKit.AspNetCore">
+      <HintPath>..\External\QuickKit\QuickKit.AspNetCore.dll</HintPath>
+    </Reference>
+    <Reference Include="QuickKit.ResultTypes">
+      <HintPath>..\External\QuickKit\QuickKit.ResultTypes.dll</HintPath>
+    </Reference>
+    <Reference Include="QuickKit.Security">
+      <HintPath>..\External\QuickKit\QuickKit.Security.dll</HintPath>
+    </Reference>
+    <Reference Include="QuickKit.Shared">
+      <HintPath>..\External\QuickKit\QuickKit.Shared.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
+</Project>

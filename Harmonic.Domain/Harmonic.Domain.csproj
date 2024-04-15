@@ -1,0 +1,24 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net7.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="FluentValidation" Version="11.9.0" />
+    <PackageReference Include="FluentValidation.DependencyInjectionExtensions" Version="11.9.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Harmonic.Shared\Harmonic.Shared.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="QuickKit.Shared">
+      <HintPath>..\External\QuickKit\QuickKit.Shared.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
+</Project>
