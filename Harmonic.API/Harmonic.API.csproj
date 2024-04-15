@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
-    <TargetFramework>net7.0</TargetFramework>
+    <TargetFramework>net8.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
   </PropertyGroup>
@@ -36,6 +36,14 @@
     <Reference Include="QuickKit.Shared">
       <HintPath>..\External\QuickKit\QuickKit.Shared.dll</HintPath>
     </Reference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <EditorConfigFiles Remove="C:\Users\valdi\OneDrive\Área de Trabalho\Harmonic\Harmonic.API\.editorconfig" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="C:\Users\valdi\OneDrive\Área de Trabalho\Harmonic\Harmonic.API\.editorconfig" />
   </ItemGroup>
 
 </Project>

@@ -27,7 +27,7 @@ internal class ConteudoAdicionarRepository : Repository, IConteudoAdicionarRepos
 
         object parameters = new
         {
-           dataCadastroParam = entity.DataCadastro,
+            dataCadastroParam = entity.DataCadastro,
             descricaoParam = entity.Descricao,
             idFeedbackParam = entity.Feedback.Id,
             idTipoConteudoParam = entity.TipoConteudo.Id,

@@ -1,6 +1,4 @@
-﻿using FluentValidation;
-using Harmonic.Domain.Entities.Pais;
-using Harmonic.Regras.Contracts.Repositories.Common;
+﻿using Harmonic.Regras.Contracts.Repositories.Common;
 using Harmonic.Regras.Contracts.Repositories.Pais;
 using Harmonic.Regras.Enums;
 using Harmonic.Regras.Services.Pais.Contracts;

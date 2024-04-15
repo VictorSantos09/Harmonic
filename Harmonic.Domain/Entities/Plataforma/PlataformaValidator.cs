@@ -1,7 +1,6 @@
 ﻿using FluentValidation;
 using Harmonic.Domain.Entities.Base;
 using Harmonic.Shared.Constants;
-using System.Configuration;
 
 namespace Harmonic.Domain.Entities.Plataforma;
 

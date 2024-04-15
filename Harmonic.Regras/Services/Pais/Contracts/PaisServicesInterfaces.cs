@@ -11,15 +11,15 @@ public interface IPaisAdicionarService : IAddService<PaisDTO>
 
 public interface IPaisDeletarService : IDeleteService<int>
 {
-    
+
 }
 
 public interface IPaisAtualizarService : IUpdateService<PaisDTO>
 {
-    
+
 }
 
 public interface IPaisGetService : IGetAllService<PaisEntity>, IGetByIdService<PaisEntity, int>
 {
-    
+
 }

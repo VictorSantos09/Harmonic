@@ -21,5 +21,5 @@ public interface IConteudoAtualizarService : IUpdateService<ConteudoDTO>
 
 public interface IConteudoGetService : IGetAllService<ConteudoEntity>, IGetByIdService<ConteudoEntity, int>
 {
-    
+
 }

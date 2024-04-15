@@ -5,5 +5,5 @@ namespace Harmonic.Regras.Contracts.Repositories.Conteudo;
 
 public interface IConteudoAtualizarRepository : IUpdateRepository<ConteudoEntity>
 {
-    
+
 }

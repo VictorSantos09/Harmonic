@@ -3,7 +3,6 @@ using Harmonic.Domain.Entities.Conteudo;
 using Harmonic.Regras.Contracts.Repositories.Conteudo;
 using Harmonic.Shared.Data;
 using QuickKit.Builders.ProcedureName.Delete;
-using QuickKit.Builders.ProcedureName.Update;
 using QuickKit.Extensions;
 using System.Data;
 

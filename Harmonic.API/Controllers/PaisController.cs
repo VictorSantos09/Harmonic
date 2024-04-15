@@ -4,7 +4,6 @@ using Microsoft.AspNetCore.Mvc;
 using QuickKit.AspNetCore.Attributes;
 using QuickKit.AspNetCore.Controllers.Contracts;
 using QuickKit.ResultTypes.Converters;
-using System.ComponentModel.DataAnnotations;
 using System.Net;
 
 namespace Harmonic.API.Controllers;
