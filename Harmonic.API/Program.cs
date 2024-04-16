@@ -1,5 +1,8 @@
+using Harmonic.API.Context;
 using Harmonic.Infra.Configuration;
 using Harmonic.Regras.Configuration;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -9,10 +12,20 @@ builder.Services.AddSwaggerGen();
 
 builder.Services.AddProblemDetails();
 
-builder.Services.AddInfra();
-builder.Services.AddRegras();
+//builder.Services.AddInfra();
+//builder.Services.AddRegras();
+
+builder.Services.AddDbContext<ApplicationDbContext>(
+    options => options.UseMySql(ServerVersion.AutoDetect(builder.Configuration.GetConnectionString("Development"))));
+
+builder.Services.AddAuthorization();
+
+builder.Services.AddIdentityApiEndpoints<HarmonicIdentityUser>()
+    .AddEntityFrameworkStores<ApplicationDbContext>();
 
 var app = builder.Build();
+
+app.MapIdentityApi<HarmonicIdentityUser>();
 
 if (app.Environment.IsDevelopment())
 {
@@ -23,6 +36,7 @@ if (app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 
 app.UseAuthorization();
+
 
 app.MapControllers();
 
