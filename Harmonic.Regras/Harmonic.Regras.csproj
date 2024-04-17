@@ -8,6 +8,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Harmonic.Domain\Harmonic.Domain.csproj" />
+    <ProjectReference Include="..\Harmonic.Infra\Harmonic.Infra.csproj" />
   </ItemGroup>
 
   <ItemGroup>
@@ -34,6 +35,10 @@
 
   <ItemGroup>
     <None Include="C:\Users\valdi\OneDrive\Área de Trabalho\Harmonic\Harmonic.Regras\.editorconfig" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Contracts\Repositories\" />
   </ItemGroup>
 
 </Project>

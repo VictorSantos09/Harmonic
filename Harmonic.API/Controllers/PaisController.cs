@@ -1,5 +1,6 @@
 ﻿using Harmonic.Regras.Services.Conteudo.DTOs;
 using Harmonic.Regras.Services.Pais.Contracts;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using QuickKit.AspNetCore.Attributes;
 using QuickKit.AspNetCore.Controllers.Contracts;
@@ -8,6 +9,7 @@ using System.Net;
 
 namespace Harmonic.API.Controllers;
 
+[Authorize]
 [ApiController]
 [Route("[controller]")]
 public class PaisController : ControllerBase, IAddController<PaisDTO>

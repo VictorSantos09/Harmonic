@@ -1,9 +1,10 @@
 ﻿using Dapper;
 using FluentValidation;
 using Harmonic.Domain.Entities.Conteudo;
-using Harmonic.Regras.Contracts.Repositories.Conteudo;
+using Harmonic.Infra.Repositories.Contracts.Conteudo;
 using Harmonic.Shared.Constants.Base;
 using Harmonic.Shared.Data;
+using Microsoft.Extensions.Configuration;
 using QuickKit.Builders.ProcedureName.Add;
 using QuickKit.Extensions;
 using System.Data;
@@ -15,7 +16,7 @@ internal class ConteudoAdicionarRepository : Repository, IConteudoAdicionarRepos
     private readonly IProcedureNameBuilderAddStrategy _procedureNameBuilderAddStrategy;
     private readonly IValidator<ConteudoEntity> _validator;
 
-    public ConteudoAdicionarRepository(IProcedureNameBuilderAddStrategy procedureNameBuilderAddStrategy, IValidator<ConteudoEntity> validator)
+    public ConteudoAdicionarRepository(IProcedureNameBuilderAddStrategy procedureNameBuilderAddStrategy, IValidator<ConteudoEntity> validator, IConfiguration configuration) : base(configuration)
     {
         _procedureNameBuilderAddStrategy = procedureNameBuilderAddStrategy;
         _validator = validator;

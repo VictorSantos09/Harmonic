@@ -1,5 +1,5 @@
 ﻿using Harmonic.Domain.Entities.Pais;
-using Harmonic.Regras.Contracts.Repositories.Pais;
+using Harmonic.Infra.Repositories.Contracts.Pais;
 using Harmonic.Regras.Services.Pais.Contracts;
 using QuickKit.ResultTypes;
 using QuickKit.Shared.Extensions;

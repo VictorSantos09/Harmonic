@@ -1,8 +1,9 @@
 ﻿using Dapper;
 using Harmonic.Domain.Entities.Conteudo;
-using Harmonic.Regras.Contracts.Repositories.Conteudo;
+using Harmonic.Infra.Repositories.Contracts.Conteudo;
 using Harmonic.Shared.Data;
 using Harmonic.Shared.Extensions.Collection;
+using Microsoft.Extensions.Configuration;
 using QuickKit.Builders.ProcedureName.GetAll;
 using QuickKit.Builders.ProcedureName.GetById;
 using System.Data;
@@ -15,7 +16,7 @@ internal class ConteudoGetRepository : Repository, IConteudoGetRepository
     private readonly IProcedureNameBuilderGetByIdStrategy _procedureNameBuilderGetByIdStrategy;
 
     public ConteudoGetRepository(IProcedureNameBuilderGetAllStrategy procedureNameBuilderGetAllStrategy,
-                                IProcedureNameBuilderGetByIdStrategy procedureNameBuilderGetByIdStrategy)
+                                IProcedureNameBuilderGetByIdStrategy procedureNameBuilderGetByIdStrategy, IConfiguration configuration) : base(configuration)
     {
         _procedureNameBuilderGetAllStrategy = procedureNameBuilderGetAllStrategy;
         _procedureNameBuilderGetByIdStrategy = procedureNameBuilderGetByIdStrategy;

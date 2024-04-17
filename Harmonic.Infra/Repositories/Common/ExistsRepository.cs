@@ -1,12 +1,13 @@
 ﻿using Dapper;
-using Harmonic.Regras.Contracts.Repositories.Common;
-using Harmonic.Regras.Enums;
+using Harmonic.Infra.Enums;
+using Harmonic.Infra.Repositories.Contracts.Common;
 using Harmonic.Shared.Data;
+using Microsoft.Extensions.Configuration;
 using System.Data;
 
 namespace Harmonic.Infra.Repositories.Common;
 
-internal class ExistsRepository : Repository, IExistsRepository
+internal class ExistsRepository(IConfiguration configuration) : Repository(configuration), IExistsRepository
 {
     public async Task<bool> ExistsAsync(TABLES table, int id, CancellationToken cancellationToken)
     {

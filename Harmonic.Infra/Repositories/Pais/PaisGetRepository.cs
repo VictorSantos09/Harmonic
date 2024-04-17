@@ -1,8 +1,9 @@
 ﻿using Dapper;
 using Harmonic.Domain.Entities.Pais;
-using Harmonic.Regras.Contracts.Repositories.Pais;
+using Harmonic.Infra.Repositories.Contracts.Pais;
 using Harmonic.Shared.Data;
 using Harmonic.Shared.Extensions.Collection;
+using Microsoft.Extensions.Configuration;
 using QuickKit.Builders.ProcedureName.GetAll;
 using QuickKit.Builders.ProcedureName.GetById;
 using System.Data;
@@ -14,11 +15,10 @@ internal class PaisGetRepository : Repository, IPaisGetRepository
     private readonly IProcedureNameBuilderGetAllStrategy _procedureNameBuilderGetAllStrategy;
     private readonly IProcedureNameBuilderGetByIdStrategy _procedureNameBuilderGetByIdStrategy;
 
-    public PaisGetRepository(IProcedureNameBuilderGetAllStrategy procedureNameBuilderGetAllStrategy,
-                            IProcedureNameBuilderGetByIdStrategy procedureNameBuilderGetByIdStrategy)
+    public PaisGetRepository(IConfiguration configuration, IProcedureNameBuilderGetByIdStrategy procedureNameBuilderGetByIdStrategy, IProcedureNameBuilderGetAllStrategy procedureNameBuilderGetAllStrategy) : base(configuration)
     {
-        _procedureNameBuilderGetAllStrategy = procedureNameBuilderGetAllStrategy;
         _procedureNameBuilderGetByIdStrategy = procedureNameBuilderGetByIdStrategy;
+        _procedureNameBuilderGetAllStrategy = procedureNameBuilderGetAllStrategy;
     }
 
     public async Task<IEnumerable<PaisEntity>> GetAllAsync(CancellationToken cancellationToken)

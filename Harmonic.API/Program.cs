@@ -1,22 +1,64 @@
+using FluentValidation;
 using Harmonic.API.Context;
+using Harmonic.Domain.Configuration;
+using Harmonic.Domain.Entities.Pais;
 using Harmonic.Infra.Configuration;
 using Harmonic.Regras.Configuration;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.OpenApi.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+builder.Services.AddSwaggerGen(c =>
+{
+    c.SwaggerDoc("v1", new OpenApiInfo { Title = "Harmonic API", Version = "v1" });
+
+    // Configuração da autenticação Swagger
+    c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+    {
+        Description = "JWT Authorization header using the Bearer scheme. Example: 'Bearer {token}'",
+        Name = "Authorization",
+        In = ParameterLocation.Header,
+        Type = SecuritySchemeType.ApiKey
+    });
+
+    c.AddSecurityRequirement(new OpenApiSecurityRequirement
+        {
+            {
+                new OpenApiSecurityScheme
+                {
+                    Reference = new OpenApiReference
+                    {
+                        Type = ReferenceType.SecurityScheme,
+                        Id = "Bearer"
+                    }
+                },
+                new string[] {}
+            }
+        });
+});
 
 builder.Services.AddProblemDetails();
 
-//builder.Services.AddInfra();
-//builder.Services.AddRegras();
+
+builder.Services.Configure<IdentityOptions>(options =>
+{
+    options.SignIn.RequireConfirmedPhoneNumber = false;
+    options.SignIn.RequireConfirmedEmail = false;
+    options.SignIn.RequireConfirmedAccount = false;
+});
+
+builder.Services.AddDomain();
+builder.Services.AddInfra();
+builder.Services.AddRegras();
+
+string connectionString = builder.Configuration.GetConnectionString("Development");
 
 builder.Services.AddDbContext<ApplicationDbContext>(
-    options => options.UseMySql(ServerVersion.AutoDetect(builder.Configuration.GetConnectionString("Development"))));
+    options => options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString)));
 
 builder.Services.AddAuthorization();
 

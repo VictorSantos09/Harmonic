@@ -1,9 +1,10 @@
 ﻿using Dapper;
 using FluentValidation;
 using Harmonic.Domain.Entities.Conteudo;
-using Harmonic.Regras.Contracts.Repositories.Conteudo;
+using Harmonic.Infra.Repositories.Contracts.Conteudo;
 using Harmonic.Shared.Constants.Base;
 using Harmonic.Shared.Data;
+using Microsoft.Extensions.Configuration;
 using QuickKit.Builders.ProcedureName.Update;
 using QuickKit.Extensions;
 using System.Data;
@@ -16,7 +17,7 @@ internal class ConteudoAtualizarRepository : Repository, IConteudoAtualizarRepos
     private readonly IValidator<ConteudoEntity> _validator;
 
     public ConteudoAtualizarRepository(IProcedureNameBuilderUpdateStrategy procedureNameBuilderUpdateStrategy,
-                                       IValidator<ConteudoEntity> validator)
+                                       IValidator<ConteudoEntity> validator, IConfiguration configuration) : base(configuration)
     {
         _procedureNameBuilderUpdateStrategy = procedureNameBuilderUpdateStrategy;
         _validator = validator;

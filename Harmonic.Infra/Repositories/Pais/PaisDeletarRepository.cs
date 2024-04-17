@@ -1,7 +1,8 @@
 ﻿using Dapper;
 using Harmonic.Domain.Entities.Pais;
-using Harmonic.Regras.Contracts.Repositories.Pais;
+using Harmonic.Infra.Repositories.Contracts.Pais;
 using Harmonic.Shared.Data;
+using Microsoft.Extensions.Configuration;
 using QuickKit.Builders.ProcedureName.Delete;
 using QuickKit.Extensions;
 using System.Data;
@@ -14,7 +15,7 @@ internal class PaisDeletarRepository : Repository, IPaisDeletarRepository
 {
     private readonly IProcedureNameBuilderDeleteStrategy _procedureNameBuilderDeleteStrategy;
 
-    public PaisDeletarRepository(IProcedureNameBuilderDeleteStrategy procedureNameBuilderDeleteStrategy)
+    public PaisDeletarRepository(IConfiguration configuration, IProcedureNameBuilderDeleteStrategy procedureNameBuilderDeleteStrategy) : base(configuration)
     {
         _procedureNameBuilderDeleteStrategy = procedureNameBuilderDeleteStrategy;
     }

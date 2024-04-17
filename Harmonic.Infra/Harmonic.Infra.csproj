@@ -12,7 +12,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Harmonic.Domain\Harmonic.Domain.csproj" />
-    <ProjectReference Include="..\Harmonic.Regras\Harmonic.Regras.csproj" />
   </ItemGroup>
 
   <ItemGroup>

@@ -1,5 +1,5 @@
 ﻿using Harmonic.Domain.Entities.Conteudo;
-using Harmonic.Regras.Contracts.Repositories.Conteudo;
+using Harmonic.Infra.Repositories.Contracts.Conteudo;
 using Harmonic.Regras.Services.Conteudo.Contracts;
 using QuickKit.ResultTypes;
 using QuickKit.Shared.Extensions;

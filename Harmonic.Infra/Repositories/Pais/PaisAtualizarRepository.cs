@@ -1,8 +1,9 @@
 ﻿using Dapper;
 using FluentValidation;
 using Harmonic.Domain.Entities.Pais;
-using Harmonic.Regras.Contracts.Repositories.Pais;
+using Harmonic.Infra.Repositories.Contracts.Pais;
 using Harmonic.Shared.Data;
+using Microsoft.Extensions.Configuration;
 using QuickKit.Builders.ProcedureName.Update;
 using QuickKit.Extensions;
 using System.Data;
@@ -15,7 +16,7 @@ internal class PaisAtualizarRepository : Repository, IPaisAtualizarRepository
     private readonly IValidator<PaisEntity> _validator;
 
     public PaisAtualizarRepository(IProcedureNameBuilderUpdateStrategy procedureNameBuilderUpdateStrategy,
-                                    IValidator<PaisEntity> validator)
+                                    IValidator<PaisEntity> validator, IConfiguration configuration) : base(configuration)
     {
         _procedureNameBuilderUpdateStrategy = procedureNameBuilderUpdateStrategy;
         _validator = validator;
