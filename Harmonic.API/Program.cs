@@ -7,6 +7,7 @@ using Harmonic.Regras.Configuration;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
+using System.Security.Claims;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -43,7 +44,6 @@ builder.Services.AddSwaggerGen(c =>
 
 builder.Services.AddProblemDetails();
 
-
 builder.Services.Configure<IdentityOptions>(options =>
 {
     options.SignIn.RequireConfirmedPhoneNumber = false;
@@ -55,7 +55,7 @@ builder.Services.AddDomain();
 builder.Services.AddInfra();
 builder.Services.AddRegras();
 
-string connectionString = builder.Configuration.GetConnectionString("Development");
+string? connectionString = builder.Configuration.GetConnectionString("Development");
 
 builder.Services.AddDbContext<ApplicationDbContext>(
     options => options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString)));
@@ -63,6 +63,7 @@ builder.Services.AddDbContext<ApplicationDbContext>(
 builder.Services.AddAuthorization();
 
 builder.Services.AddIdentityApiEndpoints<HarmonicIdentityUser>()
+    .AddRoles<IdentityRole>()
     .AddEntityFrameworkStores<ApplicationDbContext>();
 
 var app = builder.Build();
@@ -79,7 +80,26 @@ app.UseHttpsRedirection();
 
 app.UseAuthorization();
 
-
 app.MapControllers();
+
+using (var scope = app.Services.CreateScope())
+{
+    var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
+    var userManager = scope.ServiceProvider.GetRequiredService<UserManager<IdentityUser>>();
+    List<string> roles = ["ADMIN"];
+    var user = userManager.Users.First();
+    await userManager.AddToRolesAsync(user, roles);
+
+    List<Claim> claims = [new Claim("ADMIN", "TRUE")];
+
+    foreach (var r in roles)
+    {
+        IdentityRole role = new(r);
+        if (!await roleManager.RoleExistsAsync(r))
+        {
+            await roleManager.CreateAsync(role);
+        }
+    }
+}
 
 app.Run();
