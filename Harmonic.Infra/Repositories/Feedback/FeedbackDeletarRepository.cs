@@ -27,7 +27,7 @@ internal class FeedbackDeletarRepository : Repository, IFeedbackDeletarRepositor
         CommandDefinition command = new(
             procedureName, new
             {
-                idParam = id
+                ID_PARAM = id
             }, commandType: CommandType.StoredProcedure, cancellationToken: cancellationToken);
 
         using IDbConnection conn = Connect();

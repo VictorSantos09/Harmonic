@@ -31,9 +31,9 @@ internal class FeedbackAtualizarRepository : Repository, IFeedbackAtualizarRepos
         CommandDefinition command = new(
             procedureName, new
             {
-                IdParam = entity.Id,
-                totalCurtidasParam = entity.TotalCurtidas,
-                totalGosteisParam = entity.TotalGosteis,
+                ID_PARAM = entity.Id,
+                TOTAL_CURTIDAS_PARAM = entity.TotalCurtidas,
+                TOTAL_GOSTEIS_PARAM = entity.TotalGosteis,
             }, commandType: CommandType.StoredProcedure, cancellationToken: cancellationToken);
 
         using IDbConnection conn = Connect();

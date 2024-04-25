@@ -30,8 +30,8 @@ internal class FeedbackAdicionarRepository : Repository, IFeedbackAdicionarRepos
 
         object parameters = new
         {
-            totalCurtidas = entity.TotalCurtidas,
-            totalGosteis = entity.TotalGosteis,
+            TOTAL_CURTIDAS_PARAM = entity.TotalCurtidas,
+            TOTAL_GOSTEIS_PARAM = entity.TotalGosteis,
             
         };
 

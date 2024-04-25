@@ -42,7 +42,7 @@ internal class FeedbackGetRepository : Repository, IFeedbackGetRepository
         CommandDefinition command = new(
             procedureName, new
             {
-                IdParam = id
+                ID_PARAM = id
             }, commandType: CommandType.StoredProcedure, cancellationToken: cancellationToken);
 
         FeedbackSnapshot? result;

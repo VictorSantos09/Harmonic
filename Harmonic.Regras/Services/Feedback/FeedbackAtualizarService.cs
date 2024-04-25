@@ -30,7 +30,7 @@ internal class FeedbackAtualizarService : IFeedbackAtualizarService
 
         if (!exists) return Final.Failure("feedback.atualizar.NaoExiste", "o feedback não foi encontrado");
 
-        FeedbackEntity feedback = new(dto.TotalCurtidas, dto.TotalGosteis);
+        FeedbackEntity feedback = new(dto.TotalCurtidas, dto.TotalGosteis) { Id = dto.Id };
 
         var validationResult = await _validator.ValidateAsync(feedback, cancellationToken);
 
