@@ -11,11 +11,7 @@ public static class DomainConfiguration
 {
     public static IServiceCollection AddDomain(this IServiceCollection services)
     {
-        //services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
-
-        services.AddTransient<IValidator<PaisEntity>, PaisValidator>();
-
-        services.AddTransient<IValidator<ConteudoEntity>, ConteudoValidator>();
+        services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly(), includeInternalTypes: true);
 
         return services;
     }
