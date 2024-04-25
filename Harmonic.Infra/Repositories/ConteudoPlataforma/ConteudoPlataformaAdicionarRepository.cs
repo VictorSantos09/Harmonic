@@ -42,6 +42,7 @@ namespace Harmonic.Infra.Repositories.ConteudoPlataforma
 
             using (IDbConnection conn = Connect())
             {
+                var validationResult = await _validator.ValidateAsync(entity, cancellationToken);
                 return await conn.ExecuteValidatingAsync(entity, _validator, "O ConteudoPlataforma é inválido", command);
             }
         }

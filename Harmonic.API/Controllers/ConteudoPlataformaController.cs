@@ -9,11 +9,10 @@ using System.Net;
 
 namespace Harmonic.API.Controllers;
 
-[Authorize]
 [ApiController]
 [Route("[controller]")]
 
-public class ConteudoPlataformaController
+public class ConteudoPlataformaController : ControllerBase
 {
     private readonly IConteudoPlataformaAdicionarService _adicionarService;
     private readonly IConteudoPlataformaDeletarService _deletarService;
