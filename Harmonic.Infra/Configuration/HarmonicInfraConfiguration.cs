@@ -1,4 +1,6 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using FluentValidation;
+using Harmonic.Shared.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 using QuickKit.Configuration;
 using Scrutor;
 
@@ -9,13 +11,7 @@ public static class HarmonicInfraConfiguration
     public static IServiceCollection AddInfra(this IServiceCollection services)
     {
         services.AddProcedureNameBuildersFromAssembly();
-
-        services.Scan(scan => scan.FromCallingAssembly()
-        .AddClasses(false)
-        .UsingRegistrationStrategy(RegistrationStrategy.Skip)
-        .AsMatchingInterface()
-        .AsImplementedInterfaces()
-        .WithTransientLifetime());
+        services.AddDependencies(typeof(HarmonicInfraConfiguration).Assembly);
 
         return services;
     }

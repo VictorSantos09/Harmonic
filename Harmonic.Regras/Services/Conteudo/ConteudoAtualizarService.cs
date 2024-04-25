@@ -10,12 +10,12 @@ using QuickKit.ResultTypes;
 
 namespace Harmonic.Regras.Services.Conteudo;
 
-internal class ConteudoAtualizsrService : IConteudoAtualizarService
+internal class ConteudoAtualizarService : IConteudoAtualizarService
 {
     private readonly IConteudoAtualizarRepository _conteudoAtualizarRepository;
     private readonly IValidator<ConteudoEntity> _validator;
 
-    public ConteudoAtualizsrService(IConteudoAtualizarRepository conteudoAtualizarRepository,
+    public ConteudoAtualizarService(IConteudoAtualizarRepository conteudoAtualizarRepository,
                                     IValidator<ConteudoEntity> validator)
     {
         _conteudoAtualizarRepository = conteudoAtualizarRepository;
@@ -28,7 +28,7 @@ internal class ConteudoAtualizsrService : IConteudoAtualizarService
         PaisEntity pais = new(dto.Pais.Nome);
         FeedbackEntity feedback = new(dto.Feedback.TotalCurtidas, dto.Feedback.TotalGosteis);
 
-        ConteudoEntity conteudo = new ConteudoEntity(dto.Titulo, dto.DataCadastro, dto.Descricao, tipoConteudo, pais, feedback);
+        ConteudoEntity conteudo = new (dto.Titulo, dto.DataCadastro, dto.Descricao, tipoConteudo, pais, feedback);
 
         var validationResult = await _validator.ValidateAsync(conteudo, cancellationToken);
 
