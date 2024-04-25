@@ -2,7 +2,7 @@
 
 public record ConteudoDTO(int Id,
                           string Titulo,
-                          DateOnly DataCadastro,
+                          DateTime DataCadastro,
                           string Descricao,
                           TipoConteudoDTO TipoConteudo,
                           PaisDTO Pais,

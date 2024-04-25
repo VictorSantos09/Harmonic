@@ -8,14 +8,14 @@ internal class FeedbackValidator : Validator<FeedbackEntity, int>
 {
     public FeedbackValidator(bool validateId = false) : base(validateId)
     {
-        RuleFor(x => x.TotalGosteis).NotEmpty()
+        RuleFor(x => x.TotalGosteis).NotNull()
             .WithMessage(CONSTANTS.STRING.MESSAGE_VAZIO)
-            .GreaterThan(0)
+            .GreaterThanOrEqualTo(0)
             .WithMessage(CONSTANTS.INT.MESSAGE_MAIOR_QUE_ZERO);
 
-        RuleFor(x => x.TotalCurtidas).NotEmpty()
+        RuleFor(x => x.TotalCurtidas).NotNull()
             .WithMessage(CONSTANTS.STRING.MESSAGE_VAZIO)
-            .GreaterThan(0)
+            .GreaterThanOrEqualTo(0)
             .WithMessage(CONSTANTS.INT.MESSAGE_MAIOR_QUE_ZERO);
     }
 }

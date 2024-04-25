@@ -9,14 +9,14 @@ public class ConteudoEntity : IEntity<ConteudoEntity, ConteudoSnapshot, int>
 {
     public int Id { get; set; }
     public string Titulo { get; set; }
-    public DateOnly DataCadastro { get; set; }
+    public DateTime DataCadastro { get; set; }
     public string Descricao { get; set; }
     public TipoConteudoEntity TipoConteudo { get; set; }
     public PaisEntity Pais { get; set; }
     public FeedbackEntity Feedback { get; set; }
 
     public ConteudoEntity(string titulo,
-                                DateOnly dataCadastro,
+                                DateTime dataCadastro,
                                   string descricao,
                                   TipoConteudoEntity tipoConteudo,
                                   PaisEntity pais,
@@ -40,7 +40,7 @@ public class ConteudoEntity : IEntity<ConteudoEntity, ConteudoSnapshot, int>
         if (snapshot is null) return null;
 
         return new(snapshot.TITULO,
-                   DateOnly.FromDateTime(snapshot.DATA_CADASTRO),
+                   snapshot.DATA_CADASTRO,
                    snapshot.DESCRICAO,
                    snapshot.TipoConteudo,
                    snapshot.Pais,

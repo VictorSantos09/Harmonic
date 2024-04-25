@@ -6,7 +6,7 @@ using Harmonic.Shared.Constants;
 
 namespace Harmonic.Domain.Entities.ConteudoPlataforma;
 
-internal class ConteudoPlataformaValidator : Validator<ConteudoPlataforma, int>
+internal class ConteudoPlataformaValidator : Validator<ConteudoPlataformaEntity, int>
 {
     public ConteudoPlataformaValidator(bool validateId = false) : base(validateId)
     {
