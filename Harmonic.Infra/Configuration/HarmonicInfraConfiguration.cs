@@ -1,9 +1,8 @@
-﻿using Harmonic.Infra.Repositories.Conteudo;
-using Harmonic.Infra.Repositories.Pais.Add;
-using Harmonic.Regras.Contracts.Repositories.Conteudo;
-using Harmonic.Regras.Contracts.Repositories.Pais;
+﻿using FluentValidation;
+using Harmonic.Shared.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using QuickKit.Configuration;
+using Scrutor;
 
 namespace Harmonic.Infra.Configuration;
 
@@ -12,8 +11,8 @@ public static class HarmonicInfraConfiguration
     public static IServiceCollection AddInfra(this IServiceCollection services)
     {
         services.AddProcedureNameBuildersFromAssembly();
-        services.AddTransient<IAdicionarPaisRepository, AdicionarPaisRepository>();
-        services.AddTransient<IAdicionarConteudoRepository, AdicionarConteudoRepository>();
+        services.AddDependencies(typeof(HarmonicInfraConfiguration).Assembly);
+
         return services;
     }
 }

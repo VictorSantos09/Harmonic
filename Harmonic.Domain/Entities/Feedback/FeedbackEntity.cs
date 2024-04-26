@@ -2,7 +2,7 @@
 
 namespace Harmonic.Domain.Entities.Feedback;
 
-public class FeedbackEntity : IEntity<int>
+public class FeedbackEntity : IEntity<FeedbackEntity, FeedbackSnapshot, int>
 {
     public int Id { get; set; }
     public int TotalCurtidas { get; set; }
@@ -18,4 +18,19 @@ public class FeedbackEntity : IEntity<int>
     {
 
     }
+
+    public static FeedbackEntity? FromSnapshot(FeedbackSnapshot? snapshot)
+    {
+        if (snapshot is null) return null;
+
+        return new(snapshot.TOTAL_CURTIDAS,
+                   snapshot.TOTAL_GOSTEIS)
+                   { Id = snapshot.ID};
+    }
+
+    public FeedbackSnapshot ToSnapshot()
+    {
+        return new(Id, TotalCurtidas, TotalGosteis);
+    }
+
 }

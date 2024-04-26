@@ -1,13 +1,20 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net7.0</TargetFramework>
+    <TargetFramework>net8.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Contracts\**" />
+    <EmbeddedResource Remove="Contracts\**" />
+    <None Remove="Contracts\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\Harmonic.Domain\Harmonic.Domain.csproj" />
+    <ProjectReference Include="..\Harmonic.Infra\Harmonic.Infra.csproj" />
   </ItemGroup>
 
   <ItemGroup>
@@ -27,5 +34,7 @@
       <HintPath>..\External\QuickKit\QuickKit.Shared.dll</HintPath>
     </Reference>
   </ItemGroup>
+
+
 
 </Project>

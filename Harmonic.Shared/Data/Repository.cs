@@ -1,13 +1,22 @@
-﻿using MySql.Data.MySqlClient;
+﻿using Microsoft.Extensions.Configuration;
+using MySql.Data.MySqlClient;
+using System.Configuration;
 using System.Data;
 
 namespace Harmonic.Shared.Data;
 
 public abstract class Repository
 {
-    protected static IDbConnection Connect()
+    private readonly IConfiguration _configuration;
+
+    protected Repository(IConfiguration configuration)
     {
-        var connectionString = "Server=localhost;Database=harmonicDSV;Uid=root;Pwd=root;";
+        _configuration = configuration;
+    }
+
+    protected IDbConnection Connect()
+    {
+        var connectionString = _configuration.GetConnectionString("Development");
         return new MySqlConnection(connectionString);
     }
 }

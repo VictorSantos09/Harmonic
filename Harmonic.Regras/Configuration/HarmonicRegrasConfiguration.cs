@@ -1,6 +1,6 @@
-﻿using Harmonic.Domain.Configuration;
-using Harmonic.Regras.Services.Pais.Add;
+﻿using Harmonic.Shared.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Scrutor;
 
 namespace Harmonic.Regras.Configuration;
 
@@ -8,8 +8,8 @@ public static class HarmonicRegrasConfiguration
 {
     public static IServiceCollection AddRegras(this IServiceCollection services)
     {
-        services.AddDomain();
-        services.AddTransient<IAdicionarPaisService, AdicionarPaisService>();
+        services.AddDependencies(typeof(HarmonicRegrasConfiguration).Assembly);
+
         return services;
     }
 }

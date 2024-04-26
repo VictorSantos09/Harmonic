@@ -13,11 +13,14 @@ internal class ConteudoValidator : Validator<ConteudoEntity, int>
     {
         RuleFor(x => x.DataCadastro).NotEmpty().WithMessage(CONSTANTS.DATE.INVALIDA);
 
-        RuleFor(x => x.Titulo).NotEmpty().MaximumLength(CONSTANTS.INT.DEFAULT_MAX_VALUE);
+        RuleFor(x => x.Titulo).NotEmpty()
+            .WithMessage(CONSTANTS.STRING.MESSAGE_VAZIO)
+            .MaximumLength(CONSTANTS.INT.DEFAULT_MAX_VALUE);
 
         RuleFor(x => x.Descricao).NotNull()
             .WithMessage(CONSTANTS.STRING.MESSAGE_VAZIO)
-            .MaximumLength(800);
+            .MaximumLength(800)
+            .WithMessage(CONSTANTS.INT.MESSAGE_VALOR_MAXIMO_FORNECIDO);
 
         RuleFor(x => x.Pais).SetValidator(new PaisValidator(validateId));
         RuleFor(x => x.TipoConteudo).SetValidator(new TipoConteudoValidator(validateId));
