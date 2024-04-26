@@ -8,16 +8,17 @@ public class PlataformaEntity : IEntity<PlataformaEntity, PlataformaSnapshot, in
     public string Nome { get; set; }
     public string URL { get; set; }
 
-    public PlataformaEntity(string nome, string url)
+    public PlataformaEntity(int id, string nome, string uRL)
     {
+        Id = id;
         Nome = nome;
-        URL = url;
+        URL = uRL;
     }
 
     public static PlataformaEntity? FromSnapshot(PlataformaSnapshot? snapshot)
     {
         if (snapshot is null) return null;
-        return new(snapshot.NOME, snapshot.URL) { Id = snapshot.ID };
+        return new PlataformaEntity(snapshot.ID,snapshot.NOME,snapshot.URL);
     }
 
     public PlataformaSnapshot ToSnapshot()

@@ -6,7 +6,8 @@ public record ConteudoDTO(int Id,
                           string Descricao,
                           TipoConteudoDTO TipoConteudo,
                           PaisDTO Pais,
-                          FeedbackDTO Feedback)
+                          FeedbackDTO Feedback,
+                          PlataformaDTO Plataforma)
 {
 
 }
@@ -23,4 +24,8 @@ public record PaisDTO(string Nome, int Id)
 
 public record TipoConteudoDTO(int Id, string Nome)
 {
+}
+
+public record PlataformaDTO(string Nome, int Id, string URL) 
+{ 
 }
