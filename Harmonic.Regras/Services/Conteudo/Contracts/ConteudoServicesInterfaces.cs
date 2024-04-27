@@ -6,7 +6,6 @@ namespace Harmonic.Regras.Services.Conteudo.Contracts;
 
 public interface IConteudoAdicionarService : IAddService<ConteudoDTO>
 {
-
 }
 
 
