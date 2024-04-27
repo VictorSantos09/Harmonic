@@ -38,8 +38,20 @@ internal class PlataformaGetRepository : Repository, IPlataformaGetRepository
         return snapshots.ToEntities<PlataformaEntity, PlataformaSnapshot, int>();
     }
 
-    public Task<PlataformaEntity?> GetByIdAsync(int id, CancellationToken cancellationToken)
+    public async Task<PlataformaEntity?> GetByIdAsync(int id, CancellationToken cancellationToken)
     {
-        throw new NotImplementedException();
+        var procedureName = _procedureNameBuilderGetByIdStrategy.Build<PlataformaEntity>();
+
+        CommandDefinition command = new(
+            procedureName, new
+            {
+                idParam = id
+            }, commandType: CommandType.StoredProcedure, cancellationToken: cancellationToken);
+
+        PlataformaSnapshot? result;
+        using IDbConnection conn = Connect();
+        result = await conn.QuerySingleOrDefaultAsync<PlataformaSnapshot>(command);
+
+        return PlataformaEntity.FromSnapshot(result);
     }
 }
