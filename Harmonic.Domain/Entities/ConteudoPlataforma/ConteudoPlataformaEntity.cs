@@ -31,7 +31,8 @@ public class ConteudoPlataformaEntity : IEntity<ConteudoPlataformaEntity, Conteu
         return new ConteudoPlataformaEntity(
             snapshot.URL,
             ConteudoEntity.FromSnapshot(snapshot.ConteudoSnapshot) ?? throw new SnapshotNullException<ConteudoPlataformaSnapshot>(),
-            PlataformaEntity.FromSnapshot(snapshot.PlataformaSnapshot) ?? throw new SnapshotNullException<PlataformaSnapshot>());
+            PlataformaEntity.FromSnapshot(snapshot.PlataformaSnapshot) ?? throw new SnapshotNullException<PlataformaSnapshot>())
+        { Id = snapshot.ID };
     }
 
     public ConteudoPlataformaSnapshot ToSnapshot()

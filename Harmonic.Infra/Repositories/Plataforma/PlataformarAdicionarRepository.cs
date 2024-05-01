@@ -1,20 +1,13 @@
-﻿using Harmonic.Infra.Repositories.Contracts.Conteudo;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Harmonic.Shared.Data;
+﻿using Dapper;
 using FluentValidation;
-using QuickKit.Builders.ProcedureName.Add;
-using Harmonic.Domain.Entities.Conteudo;
-using Microsoft.Extensions.Configuration;
 using Harmonic.Domain.Entities.Plataforma;
-using Dapper;
-using System.Data;
-using QuickKit.Extensions;
-using Harmonic.Shared.Constants.Base;
 using Harmonic.Infra.Repositories.Plataforma.Contracts;
+using Harmonic.Shared.Constants.Base;
+using Harmonic.Shared.Data;
+using Microsoft.Extensions.Configuration;
+using QuickKit.Builders.ProcedureName.Add;
+using QuickKit.Extensions;
+using System.Data;
 
 
 namespace Harmonic.Infra.Repositories.Plataforma;

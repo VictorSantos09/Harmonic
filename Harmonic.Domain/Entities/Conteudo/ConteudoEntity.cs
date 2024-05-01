@@ -1,6 +1,7 @@
 ﻿using Harmonic.Domain.Entities.Feedback;
 using Harmonic.Domain.Entities.Pais;
 using Harmonic.Domain.Entities.TipoConteudo;
+using Harmonic.Shared.Exceptions;
 using QuickKit.Shared.Entities;
 
 namespace Harmonic.Domain.Entities.Conteudo;
@@ -42,13 +43,14 @@ public class ConteudoEntity : IEntity<ConteudoEntity, ConteudoSnapshot, int>
         return new(snapshot.TITULO,
                    snapshot.DATA_CADASTRO,
                    snapshot.DESCRICAO,
-                   snapshot.TipoConteudo,
-                   snapshot.Pais,
-                   snapshot.Feedback);
+                   TipoConteudoEntity.FromSnapshot(snapshot.TipoConteudo) ??throw new SnapshotNullException<TipoConteudoSnapshot>(),
+                   PaisEntity.FromSnapshot(snapshot.Pais) ?? throw new SnapshotNullException<PaisSnapshot>(),
+                   FeedbackEntity.FromSnapshot(snapshot.Feedback) ?? throw new SnapshotNullException<FeedbackEntity>())
+        { Id = snapshot.ID };
     }
 
     public ConteudoSnapshot ToSnapshot()
     {
-        return new ConteudoSnapshot(Id, Titulo, DateTime.Parse(DataCadastro.ToString()), Descricao, TipoConteudo, Pais, Feedback);
+        return new ConteudoSnapshot(Id, Titulo, DateTime.Parse(DataCadastro.ToString()), Descricao, TipoConteudo.ToSnapshot(), Pais.ToSnapshot(), Feedback.ToSnapshot());
     }
 }

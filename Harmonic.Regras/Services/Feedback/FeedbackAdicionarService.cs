@@ -21,7 +21,7 @@ internal class FeedbackAdicionarService : IFeedbackAdicionarService
 
     public async Task<IFinal> AddAsync(FeedbackDTO dto, CancellationToken cancellationToken)
     {
-        FeedbackEntity entity = new(dto.TotalCurtidas, dto.TotalGosteis);
+        FeedbackEntity entity = new(dto.TotalCurtidas, dto.TotalGosteis) { Id = dto.Id };
         
 
         var validationResult = await _validator.ValidateAsync(entity, cancellationToken);

@@ -17,7 +17,6 @@ internal class PlataformaAdicionarService : IPlataformaAdicionarService
 
     public async Task<IFinal> AddAsync(PlataformaDTO dto, CancellationToken cancellationToken)
     {
-
         PlataformaEntity entity = new(dto.Id, dto.Nome, dto.URL);
 
         int result = await _adicionarPlataformaRepository.AddAsync(entity, cancellationToken);

@@ -29,6 +29,6 @@ internal class PlataformaDeletarRepository : Repository, IPlataformaDeletarRepos
             }, commandType: CommandType.StoredProcedure, cancellationToken: cancellationToken);
 
         using IDbConnection conn = Connect();
-        return await conn.ExecuteAsync(command);
+        return await conn.ExecuteOnTransactionAsync(command);
     }
 }

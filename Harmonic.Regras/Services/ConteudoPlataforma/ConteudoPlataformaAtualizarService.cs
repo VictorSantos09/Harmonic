@@ -22,7 +22,10 @@ internal class ConteudoPlataformaAtualizarService : IConteudoPlataformaAtualizar
 
     public async Task<IFinal> UpdateAsync(ConteudoPlataformaDTO dto, CancellationToken cancellationToken)
     {
-        ConteudoPlataformaEntity conteudoPlataforma = new(dto.URL, dto.Conteudo, dto.Plataforma);
+        ConteudoPlataformaEntity conteudoPlataforma = new(dto.URL, dto.Conteudo, dto.Plataforma)
+        {
+            Id = dto.Id
+        } ;
 
         var validationResult = await _validator.ValidateAsync(conteudoPlataforma, cancellationToken);
 

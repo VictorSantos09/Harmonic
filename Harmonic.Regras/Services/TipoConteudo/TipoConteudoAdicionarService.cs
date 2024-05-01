@@ -17,7 +17,6 @@ namespace Harmonic.Regras.Services.TipoConteudo
 
         public async Task<IFinal> AddAsync(TipoConteudoDTO dto, CancellationToken cancellationToken)
         {
-
             TipoConteudoEntity entity = new(dto.Nome);
 
             int result = await _adicionarRepository.AddAsync(entity, cancellationToken);

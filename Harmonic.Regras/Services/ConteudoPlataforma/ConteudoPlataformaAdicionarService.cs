@@ -17,7 +17,7 @@ internal class ConteudoPlataformaAdicionarService : IConteudoPlataformaAdicionar
 
     public async Task<IFinal> AddAsync(ConteudoPlataformaDTO dto, CancellationToken cancellationToken)
     {
-        ConteudoPlataformaEntity conteudoPlataforma = new(dto.URL, dto.Conteudo, dto.Plataforma);
+        ConteudoPlataformaEntity conteudoPlataforma = new(dto.URL, dto.Conteudo, dto.Plataforma) { Id = dto.Id };
 
         int result = await _adicionarRepository.AddAsync(conteudoPlataforma, cancellationToken);
         if (result > 0) return Final.Success();

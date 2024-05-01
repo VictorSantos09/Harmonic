@@ -10,17 +10,17 @@ public class ConteudoSnapshot
     public string TITULO { get; set; }
     public DateTime DATA_CADASTRO { get; set; }
     public string DESCRICAO { get; set; }
-    public TipoConteudoEntity TipoConteudo { get; set; }
-    public PaisEntity Pais { get; set; }
-    public FeedbackEntity Feedback { get; set; }
+    public TipoConteudoSnapshot TipoConteudo { get; set; }
+    public PaisSnapshot Pais { get; set; }
+    public FeedbackSnapshot Feedback { get; set; }
 
     public ConteudoSnapshot(int iD,
-        string titulo,
+                            string titulo,
                             DateTime dATA_CADASTRO,
                             string dESCRICAO,
-                            TipoConteudoEntity tipoConteudo,
-                            PaisEntity pais,
-                            FeedbackEntity feedback)
+                            TipoConteudoSnapshot tipoConteudo,
+                            PaisSnapshot pais,
+                            FeedbackSnapshot feedback)
     {
         ID = iD;
         TITULO = titulo;

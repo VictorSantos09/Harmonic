@@ -6,11 +6,11 @@ public class PlataformaSnapshot
     public string NOME { get; set; }
     public string URL { get; set; }
 
-    public PlataformaSnapshot(int id, string Nome, string URL)
+    public PlataformaSnapshot(int id, string nome, string url)
     {
-        id = id;
-        Nome = Nome;
-        URL = URL;
+        ID = id;
+        NOME = nome;
+        URL = url;
     }
 
     public PlataformaSnapshot()

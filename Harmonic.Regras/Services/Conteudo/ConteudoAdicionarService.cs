@@ -20,9 +20,9 @@ internal class ConteudoAdicionarService : IConteudoAdicionarService
 
     public async Task<IFinal> AddAsync(ConteudoDTO dto, CancellationToken cancellationToken)
     {
-        TipoConteudoEntity tipoConteudo = new(dto.TipoConteudo.Nome);
-        PaisEntity pais = new(dto.Pais.Nome);
-        FeedbackEntity feedback = new(0, 0);
+        TipoConteudoEntity tipoConteudo = new(dto.TipoConteudo.Nome) { Id = dto.TipoConteudo.Id };
+        PaisEntity pais = new(dto.Pais.Nome) { Id = dto.Pais.Id };
+        FeedbackEntity feedback = new(0, 0) { Id = dto.Feedback.Id };
         ConteudoEntity entity = new(dto.Titulo, dto.DataCadastro, dto.Descricao, tipoConteudo, pais, feedback);
 
         int result = await _adicionarConteudoRepository.AddAsync(entity, cancellationToken);

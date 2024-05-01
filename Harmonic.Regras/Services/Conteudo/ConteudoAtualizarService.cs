@@ -24,11 +24,17 @@ internal class ConteudoAtualizarService : IConteudoAtualizarService
 
     public async Task<IFinal> UpdateAsync(ConteudoDTO dto, CancellationToken cancellationToken)
     {
-        TipoConteudoEntity tipoConteudo = new(dto.TipoConteudo.Nome);
-        PaisEntity pais = new(dto.Pais.Nome);
-        FeedbackEntity feedback = new(dto.Feedback.TotalCurtidas, dto.Feedback.TotalGosteis);
+        TipoConteudoEntity tipoConteudo = new(dto.TipoConteudo.Nome)
+        {
+            Id = dto.TipoConteudo.Id
+        };
+        PaisEntity pais = new(dto.Pais.Nome)
+        {
+            Id = dto.Pais.Id
+        };
+        FeedbackEntity feedback = new(dto.Feedback.TotalCurtidas, dto.Feedback.TotalGosteis) { Id = dto.Feedback.Id };
 
-        ConteudoEntity conteudo = new (dto.Titulo, dto.DataCadastro, dto.Descricao, tipoConteudo, pais, feedback);
+        ConteudoEntity conteudo = new(dto.Titulo, dto.DataCadastro, dto.Descricao, tipoConteudo, pais, feedback) { Id = dto.Id };
 
         var validationResult = await _validator.ValidateAsync(conteudo, cancellationToken);
 
