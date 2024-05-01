@@ -1,6 +1,6 @@
 ﻿using Dapper;
 using Harmonic.Domain.Entities.Pais;
-using Harmonic.Infra.Repositories.Contracts.Pais;
+using Harmonic.Infra.Repositories.Pais.Contracts;
 using Harmonic.Shared.Data;
 using Microsoft.Extensions.Configuration;
 using QuickKit.Builders.ProcedureName.Delete;

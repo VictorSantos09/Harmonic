@@ -1,7 +1,7 @@
 ﻿using Dapper;
 using FluentValidation;
 using Harmonic.Domain.Entities.Conteudo;
-using Harmonic.Infra.Repositories.Contracts.Conteudo;
+using Harmonic.Infra.Repositories.Conteudo.Contracts;
 using Harmonic.Shared.Constants.Base;
 using Harmonic.Shared.Data;
 using Microsoft.Extensions.Configuration;

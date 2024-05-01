@@ -1,6 +1,6 @@
 ﻿using Dapper;
 using Harmonic.Domain.Entities.Conteudo;
-using Harmonic.Infra.Repositories.Contracts.Conteudo;
+using Harmonic.Infra.Repositories.Conteudo.Contracts;
 using Harmonic.Shared.Data;
 using Microsoft.Extensions.Configuration;
 using QuickKit.Builders.ProcedureName.Delete;

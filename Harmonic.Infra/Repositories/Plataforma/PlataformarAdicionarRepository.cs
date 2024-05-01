@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Harmonic.Infra.Repositories.Contracts.Plataforma;
 using Harmonic.Shared.Data;
 using FluentValidation;
 using QuickKit.Builders.ProcedureName.Add;
@@ -15,6 +14,7 @@ using Dapper;
 using System.Data;
 using QuickKit.Extensions;
 using Harmonic.Shared.Constants.Base;
+using Harmonic.Infra.Repositories.Plataforma.Contracts;
 
 
 namespace Harmonic.Infra.Repositories.Plataforma;

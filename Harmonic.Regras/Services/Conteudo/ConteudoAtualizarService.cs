@@ -3,7 +3,7 @@ using Harmonic.Domain.Entities.Conteudo;
 using Harmonic.Domain.Entities.Feedback;
 using Harmonic.Domain.Entities.Pais;
 using Harmonic.Domain.Entities.TipoConteudo;
-using Harmonic.Infra.Repositories.Contracts.Conteudo;
+using Harmonic.Infra.Repositories.Conteudo.Contracts;
 using Harmonic.Regras.Services.Conteudo.Contracts;
 using Harmonic.Regras.Services.Conteudo.DTOs;
 using QuickKit.ResultTypes;

@@ -1,8 +1,8 @@
 ﻿using FluentValidation;
 using Harmonic.Domain.Entities.Pais;
 using Harmonic.Infra.Enums;
-using Harmonic.Infra.Repositories.Contracts.Common;
-using Harmonic.Infra.Repositories.Contracts.Pais;
+using Harmonic.Infra.Repositories.Common;
+using Harmonic.Infra.Repositories.Pais.Contracts;
 using Harmonic.Regras.Services.Conteudo.DTOs;
 using Harmonic.Regras.Services.Pais.Contracts;
 using QuickKit.ResultTypes;

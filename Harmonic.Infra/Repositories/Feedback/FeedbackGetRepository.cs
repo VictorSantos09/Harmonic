@@ -1,6 +1,6 @@
 ﻿using Dapper;
 using Harmonic.Domain.Entities.Feedback;
-using Harmonic.Infra.Repositories.Contracts.Feedback;
+using Harmonic.Infra.Repositories.Feedback.Contracts;
 using Harmonic.Shared.Data;
 using Harmonic.Shared.Extensions.Collection;
 using Microsoft.Extensions.Configuration;

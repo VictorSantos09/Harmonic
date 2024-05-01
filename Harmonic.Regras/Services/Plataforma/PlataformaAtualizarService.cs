@@ -1,9 +1,9 @@
 ﻿using FluentValidation;
 using Harmonic.Regras.Services.Conteudo.DTOs;
 using Harmonic.Regras.Services.Plataforma.Contracts;
-using Harmonic.Infra.Repositories.Contracts.Plataforma;
 using QuickKit.ResultTypes;
 using Harmonic.Domain.Entities.Plataforma;
+using Harmonic.Infra.Repositories.Plataforma.Contracts;
 
 
 namespace Harmonic.Regras.Services.Plataforma;

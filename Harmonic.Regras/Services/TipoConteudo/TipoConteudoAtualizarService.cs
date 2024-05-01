@@ -1,6 +1,6 @@
 ﻿using FluentValidation;
 using Harmonic.Domain.Entities.TipoConteudo;
-using Harmonic.Infra.Repositories.Contracts.TipoConteudo;
+using Harmonic.Infra.Repositories.TipoConteudo.Contracts;
 using Harmonic.Regras.Services.Conteudo.DTOs;
 using Harmonic.Regras.Services.TipoConteudo.Contracts;
 using QuickKit.ResultTypes;

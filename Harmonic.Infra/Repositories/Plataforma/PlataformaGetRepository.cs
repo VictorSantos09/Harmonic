@@ -1,6 +1,6 @@
 ﻿using Dapper;
 using Harmonic.Domain.Entities.Plataforma;
-using Harmonic.Infra.Repositories.Contracts.Plataforma;
+using Harmonic.Infra.Repositories.Plataforma.Contracts;
 using Harmonic.Shared.Data;
 using Harmonic.Shared.Extensions.Collection;
 using Microsoft.Extensions.Configuration;

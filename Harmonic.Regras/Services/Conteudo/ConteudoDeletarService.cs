@@ -1,6 +1,6 @@
 ﻿using Harmonic.Infra.Enums;
-using Harmonic.Infra.Repositories.Contracts.Common;
-using Harmonic.Infra.Repositories.Contracts.Conteudo;
+using Harmonic.Infra.Repositories.Common;
+using Harmonic.Infra.Repositories.Conteudo.Contracts;
 using Harmonic.Regras.Services.Conteudo.Contracts;
 using QuickKit.ResultTypes;
 

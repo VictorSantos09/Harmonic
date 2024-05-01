@@ -27,4 +27,11 @@ public class PaisController : ControllerBase, IAddController<PaisDTO>
         var result = await _adicionarPaisService.AddAsync(dto, cancellationToken);
         return result.Convert(HttpStatusCode.BadRequest);
     }
+
+    [GetAll]
+    public async Task<ActionResult<IEnumerable<PaisDTO>>> GetAllAsync(CancellationToken cancellationToken)
+    {
+        var result = await _adicionarPaisService.GetAllAsync(cancellationToken);
+        return result.Convert(HttpStatusCode.NoContent);
+    }
 }
