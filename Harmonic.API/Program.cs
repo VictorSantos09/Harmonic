@@ -55,6 +55,13 @@ builder.Services.AddDomain();
 builder.Services.AddInfra();
 builder.Services.AddRegras();
 
+builder.Services.AddCors(o => o.AddPolicy("MyPolicy", builder =>
+{
+    builder.WithOrigins("*")
+           .AllowAnyMethod()
+           .AllowAnyHeader();
+}));
+
 string? connectionString = builder.Configuration.GetConnectionString("Development");
 
 builder.Services.AddDbContext<ApplicationDbContext>(
@@ -75,6 +82,8 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+app.UseCors("MyPolicy");
 
 app.UseHttpsRedirection();
 
