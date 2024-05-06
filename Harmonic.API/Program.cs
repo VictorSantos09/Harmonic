@@ -4,6 +4,7 @@ using Harmonic.Domain.Configuration;
 using Harmonic.Domain.Entities.Pais;
 using Harmonic.Infra.Configuration;
 using Harmonic.Regras.Configuration;
+using Harmonic.Shared.Data;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
@@ -62,7 +63,7 @@ builder.Services.AddCors(o => o.AddPolicy("MyPolicy", builder =>
            .AllowAnyHeader();
 }));
 
-string? connectionString = builder.Configuration.GetConnectionString("Development");
+string? connectionString = builder.Configuration.GetConnectionString();
 
 builder.Services.AddDbContext<ApplicationDbContext>(
     options => options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString)));
@@ -79,6 +80,7 @@ app.MapIdentityApi<HarmonicIdentityUser>();
 
 if (app.Environment.IsDevelopment())
 {
+    RepositoryConnection.UseDevelopment = true;
     app.UseSwagger();
     app.UseSwaggerUI();
 }

@@ -16,7 +16,7 @@ public abstract class Repository
 
     protected IDbConnection Connect()
     {
-        var connectionString = _configuration.GetConnectionString("Development");
+        var connectionString = _configuration.GetConnectionString();
         return new MySqlConnection(connectionString);
     }
 }
