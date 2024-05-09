@@ -10,7 +10,6 @@ using System.Net;
 
 namespace Harmonic.API.Controllers;
 
-[Authorize]
 [ApiController]
 [Route("[controller]")]
 public class ConteudoController : ControllerBase, ISelfContainedController<ConteudoDTO, ConteudoEntity, int>

@@ -7,6 +7,12 @@ public class PaisEntity : IEntity<PaisEntity, PaisSnapshot, int>
     public int Id { get; set; }
     public string Nome { get; set; }
 
+    public PaisEntity(int iD, string nome)
+    {
+        Id = iD;
+        Nome = nome;
+    }
+
     public PaisEntity(string nome)
     {
         Nome = nome;
@@ -20,7 +26,7 @@ public class PaisEntity : IEntity<PaisEntity, PaisSnapshot, int>
     public static PaisEntity? FromSnapshot(PaisSnapshot? snapshot)
     {
         if (snapshot is null) return null;
-        return new(snapshot.NOME) { Id = snapshot.ID };
+        return new(snapshot.ID, snapshot.NOME) ;
     }
 
     public PaisSnapshot ToSnapshot()
