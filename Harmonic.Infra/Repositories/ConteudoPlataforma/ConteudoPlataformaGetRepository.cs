@@ -17,10 +17,10 @@ internal class ConteudoPlataformaGetRepository : Repository, IConteudoPlataforma
     private readonly IProcedureNameBuilderGetByIdStrategy _procedureNameBuilderGetByIdStrategy;
     private readonly IValidator<ConteudoPlataformaEntity> _validator;
 
-    public ConteudoPlataformaGetRepository(IConfiguration configuration,
-                                           IProcedureNameBuilderGetAllStrategy procedureNameBuilderGetAllStrategy,
+    public ConteudoPlataformaGetRepository(IProcedureNameBuilderGetAllStrategy procedureNameBuilderGetAllStrategy,
                                            IProcedureNameBuilderGetByIdStrategy procedureNameBuilderGetByIdStrategy,
-                                           IValidator<ConteudoPlataformaEntity> validator) : base(configuration)
+                                           IValidator<ConteudoPlataformaEntity> validator,
+                                           IDbConnection conn) : base(conn)
     {
         _procedureNameBuilderGetAllStrategy = procedureNameBuilderGetAllStrategy;
         _procedureNameBuilderGetByIdStrategy = procedureNameBuilderGetByIdStrategy;
@@ -36,8 +36,7 @@ internal class ConteudoPlataformaGetRepository : Repository, IConteudoPlataforma
 
         IEnumerable<ConteudoPlataformaSnapshot> snapshots;
 
-        using IDbConnection conn = Connect();
-        snapshots = await conn.QueryAsync<ConteudoPlataformaSnapshot>(command);
+        snapshots = await _connection.QueryAsync<ConteudoPlataformaSnapshot>(command);
 
         return snapshots.ToEntities<ConteudoPlataformaEntity, ConteudoPlataformaSnapshot, int>();
     }
@@ -53,8 +52,7 @@ internal class ConteudoPlataformaGetRepository : Repository, IConteudoPlataforma
             }, commandType: CommandType.StoredProcedure, cancellationToken: cancellationToken);
 
         ConteudoPlataformaSnapshot? snapshot;
-        using IDbConnection conn = Connect();
-        snapshot = await conn.QuerySingleOrDefaultAsync<ConteudoPlataformaSnapshot>(command);
+        snapshot = await _connection.QuerySingleOrDefaultAsync<ConteudoPlataformaSnapshot>(command);
 
         return ConteudoPlataformaEntity.FromSnapshot(snapshot);
     }

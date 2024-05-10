@@ -1,8 +1,6 @@
-﻿using FluentValidation;
-using Harmonic.Shared.Configuration;
+﻿using Harmonic.Shared.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using QuickKit.Configuration;
-using Scrutor;
 
 namespace Harmonic.Infra.Configuration;
 

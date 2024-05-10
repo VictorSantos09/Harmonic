@@ -14,7 +14,8 @@ namespace Harmonic.Infra.Repositories.TipoConteudo
     {
         private readonly IProcedureNameBuilderDeleteStrategy _procedureNameBuilderDeleteStrategy;
 
-        public TipoConteudoDeletarRepository(IProcedureNameBuilderDeleteStrategy procedureNameBuilderDeleteStrategy, IConfiguration configuration) : base(configuration)
+        public TipoConteudoDeletarRepository(IProcedureNameBuilderDeleteStrategy procedureNameBuilderDeleteStrategy,
+                                             IDbConnection conn) : base(conn)
         {
             _procedureNameBuilderDeleteStrategy = procedureNameBuilderDeleteStrategy;
         }
@@ -29,8 +30,7 @@ namespace Harmonic.Infra.Repositories.TipoConteudo
                     idParam = id
                 }, commandType: CommandType.StoredProcedure, cancellationToken: cancellationToken);
 
-            using IDbConnection conn = Connect();
-            return await conn.ExecuteOnTransactionAsync(command);
+            return await _connection.ExecuteOnTransactionAsync(command);
         }
     }
 }

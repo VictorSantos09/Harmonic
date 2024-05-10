@@ -18,7 +18,7 @@ internal class FeedbackAdicionarRepository : Repository, IFeedbackAdicionarRepos
 
     public FeedbackAdicionarRepository(IProcedureNameBuilderAddStrategy procedureNameBuilderAddStrategy,
                                        IValidator<FeedbackEntity> validator,
-                                       IConfiguration configuration) : base(configuration)
+                                       IDbConnection conn) : base(conn)
     {
         _procedureNameBuilderAddStrategy = procedureNameBuilderAddStrategy;
         _validator = validator;
@@ -32,7 +32,7 @@ internal class FeedbackAdicionarRepository : Repository, IFeedbackAdicionarRepos
         {
             TOTAL_CURTIDAS_PARAM = entity.TotalCurtidas,
             TOTAL_GOSTEIS_PARAM = entity.TotalGosteis,
-            
+
         };
 
         CommandDefinition command = new(procedureName,
@@ -40,10 +40,7 @@ internal class FeedbackAdicionarRepository : Repository, IFeedbackAdicionarRepos
                                         commandType: CommandType.StoredProcedure,
                                         cancellationToken: cancellationToken);
 
-        using (IDbConnection conn = Connect())
-        {
-            return await conn.ExecuteValidatingAsync(entity, _validator, "O feedback é inválido", command);
-        }
+        return await _connection.ExecuteValidatingAsync(entity, _validator, "O feedback é inválido", command);
     }
 }
 

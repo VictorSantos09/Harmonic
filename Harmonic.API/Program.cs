@@ -8,6 +8,8 @@ using Harmonic.Shared.Data;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
+using MySql.Data.MySqlClient;
+using System.Data;
 using System.Security.Claims;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -52,6 +54,10 @@ builder.Services.Configure<IdentityOptions>(options =>
     options.SignIn.RequireConfirmedAccount = false;
 });
 
+string? connectionString = builder.Configuration.GetConnectionString();
+
+builder.Services.AddTransient<IDbConnection>(x => new MySqlConnection(connectionString));
+
 builder.Services.AddDomain();
 builder.Services.AddInfra();
 builder.Services.AddRegras();
@@ -63,7 +69,6 @@ builder.Services.AddCors(o => o.AddPolicy("MyPolicy", builder =>
            .AllowAnyHeader();
 }));
 
-string? connectionString = builder.Configuration.GetConnectionString();
 
 builder.Services.AddDbContext<ApplicationDbContext>(
     options => options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString)));

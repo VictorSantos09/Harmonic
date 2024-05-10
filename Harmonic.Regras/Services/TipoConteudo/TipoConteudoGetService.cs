@@ -29,7 +29,5 @@ namespace Harmonic.Regras.Services.TipoConteudo
 
             return Final.Success(result);
         }
-    
-
     }
 }

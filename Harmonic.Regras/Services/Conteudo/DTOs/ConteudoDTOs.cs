@@ -2,11 +2,9 @@
 
 public record ConteudoDTO(int Id,
                           string Titulo,
-                          DateTime DataCadastro,
                           string Descricao,
-                          TipoConteudoDTO TipoConteudo,
+                          int IdTipoConteudo,
                           int IdPais,
-                          FeedbackDTO Feedback,
                           int IdPlataforma)
 {
 

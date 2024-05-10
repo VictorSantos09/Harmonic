@@ -13,7 +13,8 @@ internal class PlataformaDeletarRepository : Repository, IPlataformaDeletarRepos
 {
     private readonly IProcedureNameBuilderDeleteStrategy _procedureNameBuilderDeleteStrategy;
 
-    public PlataformaDeletarRepository(IConfiguration configuration, IProcedureNameBuilderDeleteStrategy procedureNameBuilderDeleteStrategy) : base(configuration)
+    public PlataformaDeletarRepository(IProcedureNameBuilderDeleteStrategy procedureNameBuilderDeleteStrategy,
+                                       IDbConnection conn) : base(conn)
     {
         _procedureNameBuilderDeleteStrategy = procedureNameBuilderDeleteStrategy;
     }
@@ -28,7 +29,6 @@ internal class PlataformaDeletarRepository : Repository, IPlataformaDeletarRepos
                 idParam = id
             }, commandType: CommandType.StoredProcedure, cancellationToken: cancellationToken);
 
-        using IDbConnection conn = Connect();
-        return await conn.ExecuteOnTransactionAsync(command);
+        return await _connection.ExecuteOnTransactionAsync(command);
     }
 }

@@ -13,7 +13,8 @@ internal class ConteudoDeletarRepository : Repository, IConteudoDeletarRepositor
 {
     private readonly IProcedureNameBuilderDeleteStrategy _procedureNameBuilderDeleteStrategy;
 
-    public ConteudoDeletarRepository(IProcedureNameBuilderDeleteStrategy procedureNameBuilderDeleteStrategy, IConfiguration configuration) : base(configuration)
+    public ConteudoDeletarRepository(IProcedureNameBuilderDeleteStrategy procedureNameBuilderDeleteStrategy,
+                                     IDbConnection conn) : base(conn)
     {
         _procedureNameBuilderDeleteStrategy = procedureNameBuilderDeleteStrategy;
     }
@@ -28,7 +29,6 @@ internal class ConteudoDeletarRepository : Repository, IConteudoDeletarRepositor
                 idParam = id
             }, commandType: CommandType.StoredProcedure, cancellationToken: cancellationToken);
 
-        using IDbConnection conn = Connect();
-        return conn.ExecuteOnTransactionAsync(command);
+        return _connection.ExecuteOnTransactionAsync(command);
     }
 }

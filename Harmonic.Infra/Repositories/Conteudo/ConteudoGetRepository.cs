@@ -16,7 +16,8 @@ internal class ConteudoGetRepository : Repository, IConteudoGetRepository
     private readonly IProcedureNameBuilderGetByIdStrategy _procedureNameBuilderGetByIdStrategy;
 
     public ConteudoGetRepository(IProcedureNameBuilderGetAllStrategy procedureNameBuilderGetAllStrategy,
-                                IProcedureNameBuilderGetByIdStrategy procedureNameBuilderGetByIdStrategy, IConfiguration configuration) : base(configuration)
+                                IProcedureNameBuilderGetByIdStrategy procedureNameBuilderGetByIdStrategy,
+                                IDbConnection conn) : base(conn)
     {
         _procedureNameBuilderGetAllStrategy = procedureNameBuilderGetAllStrategy;
         _procedureNameBuilderGetByIdStrategy = procedureNameBuilderGetByIdStrategy;
@@ -31,8 +32,7 @@ internal class ConteudoGetRepository : Repository, IConteudoGetRepository
 
         IEnumerable<ConteudoSnapshot> snapshots;
 
-        using IDbConnection conn = Connect();
-        snapshots = await conn.QueryAsync<ConteudoSnapshot>(command);
+        snapshots = await _connection.QueryAsync<ConteudoSnapshot>(command);
 
         return snapshots.ToEntities<ConteudoEntity, ConteudoSnapshot, int>();
     }
@@ -48,8 +48,7 @@ internal class ConteudoGetRepository : Repository, IConteudoGetRepository
             }, commandType: CommandType.StoredProcedure, cancellationToken: cancellationToken);
 
         ConteudoSnapshot? snapshot;
-        using IDbConnection conn = Connect();
-        snapshot = await conn.QuerySingleOrDefaultAsync<ConteudoSnapshot>(command);
+        snapshot = await _connection.QuerySingleOrDefaultAsync<ConteudoSnapshot>(command);
 
         return ConteudoEntity.FromSnapshot(snapshot);
     }

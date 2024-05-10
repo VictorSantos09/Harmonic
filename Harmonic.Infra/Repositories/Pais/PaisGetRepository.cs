@@ -15,7 +15,9 @@ internal class PaisGetRepository : Repository, IPaisGetRepository
     private readonly IProcedureNameBuilderGetAllStrategy _procedureNameBuilderGetAllStrategy;
     private readonly IProcedureNameBuilderGetByIdStrategy _procedureNameBuilderGetByIdStrategy;
 
-    public PaisGetRepository(IConfiguration configuration, IProcedureNameBuilderGetByIdStrategy procedureNameBuilderGetByIdStrategy, IProcedureNameBuilderGetAllStrategy procedureNameBuilderGetAllStrategy) : base(configuration)
+    public PaisGetRepository(IProcedureNameBuilderGetByIdStrategy procedureNameBuilderGetByIdStrategy,
+                             IProcedureNameBuilderGetAllStrategy procedureNameBuilderGetAllStrategy,
+                             IDbConnection conn) : base(conn)
     {
         _procedureNameBuilderGetByIdStrategy = procedureNameBuilderGetByIdStrategy;
         _procedureNameBuilderGetAllStrategy = procedureNameBuilderGetAllStrategy;
@@ -28,8 +30,7 @@ internal class PaisGetRepository : Repository, IPaisGetRepository
         CommandDefinition command = new(procedureName, commandType: CommandType.StoredProcedure, cancellationToken: cancellationToken);
 
         IEnumerable<PaisSnapshot> snapshots;
-        using IDbConnection conn = Connect();
-        snapshots = await conn.QueryAsync<PaisSnapshot>(command);
+        snapshots = await _connection.QueryAsync<PaisSnapshot>(command);
 
         return snapshots.ToEntities<PaisEntity, PaisSnapshot, int>();
     }
@@ -45,8 +46,7 @@ internal class PaisGetRepository : Repository, IPaisGetRepository
             }, commandType: CommandType.StoredProcedure, cancellationToken: cancellationToken);
 
         PaisSnapshot? result;
-        using IDbConnection conn = Connect();
-        result = await conn.QuerySingleOrDefaultAsync<PaisSnapshot>(command);
+        result = await _connection.QuerySingleOrDefaultAsync<PaisSnapshot>(command);
 
         return PaisEntity.FromSnapshot(result);
     }

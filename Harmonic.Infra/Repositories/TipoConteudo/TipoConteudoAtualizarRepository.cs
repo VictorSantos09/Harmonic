@@ -17,7 +17,8 @@ namespace Harmonic.Infra.Repositories.TipoConteudo
         private readonly IValidator<TipoConteudoEntity> _validator;
 
         public TipoConteudoAtualizarRepository(IProcedureNameBuilderUpdateStrategy procedureNameBuilderUpdateStrategy,
-                                           IValidator<TipoConteudoEntity> validator, IConfiguration configuration) : base(configuration)
+                                               IValidator<TipoConteudoEntity> validator,
+                                               IDbConnection conn) : base(conn)
         {
             _procedureNameBuilderUpdateStrategy = procedureNameBuilderUpdateStrategy;
             _validator = validator;
@@ -35,8 +36,7 @@ namespace Harmonic.Infra.Repositories.TipoConteudo
 
                 }, commandType: CommandType.StoredProcedure, cancellationToken: cancellationToken);
 
-            using IDbConnection conn = Connect();
-            return await conn.ExecuteValidatingAsync(entity, _validator, DefaultMessages.INVALID_DATA, command);
+            return await _connection.ExecuteValidatingAsync(entity, _validator, DefaultMessages.INVALID_DATA, command);
         }
     }
 }

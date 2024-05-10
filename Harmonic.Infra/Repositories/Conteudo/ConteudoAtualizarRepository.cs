@@ -17,7 +17,8 @@ internal class ConteudoAtualizarRepository : Repository, IConteudoAtualizarRepos
     private readonly IValidator<ConteudoEntity> _validator;
 
     public ConteudoAtualizarRepository(IProcedureNameBuilderUpdateStrategy procedureNameBuilderUpdateStrategy,
-                                       IValidator<ConteudoEntity> validator, IConfiguration configuration) : base(configuration)
+                                       IValidator<ConteudoEntity> validator,
+                                       IDbConnection conn) : base(conn)
     {
         _procedureNameBuilderUpdateStrategy = procedureNameBuilderUpdateStrategy;
         _validator = validator;
@@ -39,7 +40,6 @@ internal class ConteudoAtualizarRepository : Repository, IConteudoAtualizarRepos
                 idFeedbackParam = entity.Feedback.Id
             }, commandType: CommandType.StoredProcedure, cancellationToken: cancellationToken);
 
-        using IDbConnection conn = Connect();
-        return await conn.ExecuteValidatingAsync(entity, _validator, DefaultMessages.INVALID_DATA, command);
+        return await _connection.ExecuteValidatingAsync(entity, _validator, DefaultMessages.INVALID_DATA, command);
     }
 }

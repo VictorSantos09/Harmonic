@@ -6,7 +6,7 @@ using System.Data;
 
 namespace Harmonic.Infra.Repositories.Common;
 
-internal class ExistsRepository(IConfiguration configuration) : Repository(configuration), IExistsRepository
+internal class ExistsRepository(IDbConnection conn) : Repository(conn), IExistsRepository
 {
     public async Task<bool> ExistsAsync(TABLES table, int id, CancellationToken cancellationToken)
     {
@@ -17,7 +17,6 @@ internal class ExistsRepository(IConfiguration configuration) : Repository(confi
             Id = id
         }, cancellationToken: cancellationToken);
 
-        using IDbConnection conn = Connect();
-        return await conn.ExecuteScalarAsync<bool>(command);
+        return await _connection.ExecuteScalarAsync<bool>(command);
     }
 }

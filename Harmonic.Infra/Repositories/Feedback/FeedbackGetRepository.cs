@@ -16,7 +16,9 @@ internal class FeedbackGetRepository : Repository, IFeedbackGetRepository
     private readonly IProcedureNameBuilderGetAllStrategy _procedureNameBuilderGetAllStrategy;
     private readonly IProcedureNameBuilderGetByIdStrategy _procedureNameBuilderGetByIdStrategy;
 
-    public FeedbackGetRepository(IConfiguration configuration, IProcedureNameBuilderGetByIdStrategy procedureNameBuilderGetByIdStrategy, IProcedureNameBuilderGetAllStrategy procedureNameBuilderGetAllStrategy) : base(configuration)
+    public FeedbackGetRepository(IProcedureNameBuilderGetByIdStrategy procedureNameBuilderGetByIdStrategy,
+                                 IProcedureNameBuilderGetAllStrategy procedureNameBuilderGetAllStrategy,
+                                 IDbConnection conn) : base(conn)
     {
         _procedureNameBuilderGetByIdStrategy = procedureNameBuilderGetByIdStrategy;
         _procedureNameBuilderGetAllStrategy = procedureNameBuilderGetAllStrategy;
@@ -29,8 +31,7 @@ internal class FeedbackGetRepository : Repository, IFeedbackGetRepository
         CommandDefinition command = new(procedureName, commandType: CommandType.StoredProcedure, cancellationToken: cancellationToken);
 
         IEnumerable<FeedbackSnapshot> snapshots;
-        using IDbConnection conn = Connect();
-        snapshots = await conn.QueryAsync<FeedbackSnapshot>(command);
+        snapshots = await _connection.QueryAsync<FeedbackSnapshot>(command);
 
         return snapshots.ToEntities<FeedbackEntity, FeedbackSnapshot, int>();
     }
@@ -46,8 +47,7 @@ internal class FeedbackGetRepository : Repository, IFeedbackGetRepository
             }, commandType: CommandType.StoredProcedure, cancellationToken: cancellationToken);
 
         FeedbackSnapshot? result;
-        using IDbConnection conn = Connect();
-        result = await conn.QuerySingleOrDefaultAsync<FeedbackSnapshot>(command);
+        result = await _connection.QuerySingleOrDefaultAsync<FeedbackSnapshot>(command);
 
         return FeedbackEntity.FromSnapshot(result);
     }

@@ -17,7 +17,9 @@ internal class PlataformarAdicionarRepository : Repository, IPlataformaAdicionar
     private readonly IProcedureNameBuilderAddStrategy _procedureNameBuilderAddStrategy;
     private readonly IValidator<PlataformaEntity> _validator;
 
-    public PlataformarAdicionarRepository(IConfiguration configuration, IValidator<PlataformaEntity> validator, IProcedureNameBuilderAddStrategy procedureNameBuilderAddStrategy) : base(configuration)
+    public PlataformarAdicionarRepository(IValidator<PlataformaEntity> validator,
+                                          IProcedureNameBuilderAddStrategy procedureNameBuilderAddStrategy,
+                                          IDbConnection conn) : base(conn)
     {
         _validator = validator;
         _procedureNameBuilderAddStrategy = procedureNameBuilderAddStrategy;
@@ -38,9 +40,6 @@ internal class PlataformarAdicionarRepository : Repository, IPlataformaAdicionar
                                         commandType: CommandType.StoredProcedure,
                                         cancellationToken: cancellationToken);
 
-        using (IDbConnection conn = Connect())
-        {
-            return await conn.ExecuteValidatingAsync(entity, _validator, DefaultMessages.INVALID_DATA, command);
-        }
+        return await _connection.ExecuteValidatingAsync(entity, _validator, DefaultMessages.INVALID_DATA, command);
     }
 }
