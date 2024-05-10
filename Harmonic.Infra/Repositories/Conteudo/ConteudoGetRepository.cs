@@ -83,6 +83,6 @@ internal class ConteudoGetRepository : Repository, IConteudoGetRepository
         if (pais is null) throw new NotFoundException($"país com id {snapshot.ID_PAIS_ORIGEM} não encontrado");
         if (feedback is null) throw new NotFoundException($"feedback com id {snapshot.ID_FEEDBACK} não encontrado");
 
-        return new ConteudoEntity(snapshot.TITULO, snapshot.DATA_CADASTRO, snapshot.DESCRICAO, tipoConteudo, pais, feedback);
+        return new ConteudoEntity(snapshot.TITULO, snapshot.DATA_CADASTRO, snapshot.DESCRICAO, tipoConteudo, pais, feedback) { Id = snapshot.ID };
     }
 }

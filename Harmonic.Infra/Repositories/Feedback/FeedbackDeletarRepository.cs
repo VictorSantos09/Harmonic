@@ -20,7 +20,7 @@ internal class FeedbackDeletarRepository : Repository, IFeedbackDeletarRepositor
         _procedureNameBuilderDeleteStrategy = procedureNameBuilderDeleteStrategy;
     }
 
-    public Task<int> DeleteAsync(int id, CancellationToken cancellationToken)
+    public async Task<int> DeleteAsync(int id, CancellationToken cancellationToken)
     {
         var procedureName = _procedureNameBuilderDeleteStrategy.Build<FeedbackEntity>();
 
@@ -30,6 +30,6 @@ internal class FeedbackDeletarRepository : Repository, IFeedbackDeletarRepositor
                 ID_PARAM = id
             }, commandType: CommandType.StoredProcedure, cancellationToken: cancellationToken);
 
-        return _connection.ExecuteOnTransactionAsync(command);
+        return await _connection.ExecuteOnTransactionAsync(command);
     }
 }

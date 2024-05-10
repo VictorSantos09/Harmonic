@@ -24,6 +24,7 @@ namespace Harmonic.Infra.Repositories.ConteudoPlataforma
             _procedureNameBuilderAddStrategy = procedureNameBuilderAddStrategy;
             _validator = validator;
         }
+
         public async Task<int> AddAsync(ConteudoPlataformaEntity entity, CancellationToken cancellationToken)
         {
             var procedureName = _procedureNameBuilderAddStrategy.Build<ConteudoPlataformaEntity>();
