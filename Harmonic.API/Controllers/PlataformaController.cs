@@ -11,6 +11,7 @@ using System.Net;
 namespace Harmonic.API.Controllers;
 
 
+[Authorize]
 [ApiController]
 [Route("[controller]")]
 public class PlataformaController : ControllerBase, ISelfContainedController<PlataformaDTO, PlataformaEntity, int>
