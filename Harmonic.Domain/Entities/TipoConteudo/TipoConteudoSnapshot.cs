@@ -1,5 +1,4 @@
-﻿
-namespace Harmonic.Domain.Entities.TipoConteudo;
+﻿namespace Harmonic.Domain.Entities.TipoConteudo;
 
 public class TipoConteudoSnapshot
 {
@@ -15,10 +14,5 @@ public class TipoConteudoSnapshot
     {
         ID = iD;
         NOME = nOME;
-    }
-
-    public static implicit operator TipoConteudoSnapshot?(TipoConteudoEntity? v)
-    {
-        throw new NotImplementedException();
     }
 }

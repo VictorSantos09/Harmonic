@@ -28,11 +28,11 @@ internal class ConteudoAdicionarRepository : Repository, IConteudoAdicionarRepos
 
         object parameters = new
         {
-            tituloParam = entity.Titulo,
             dataCadastroParam = entity.DataCadastro,
             descricaoParam = entity.Descricao,
+            idFeedbackParam = entity.Feedback.Id,
             idTipoConteudoParam = entity.TipoConteudo.Id,
-            idPaisOrigemParam = entity.Pais.Id,
+            idPaisParam = entity.Pais,
         };
 
         CommandDefinition command = new(procedureName,

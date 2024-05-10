@@ -41,7 +41,7 @@ internal class PaisGetRepository : Repository, IPaisGetRepository
         CommandDefinition command = new(
             procedureName, new
             {
-                idParam = id
+                IdParam = id
             }, commandType: CommandType.StoredProcedure, cancellationToken: cancellationToken);
 
         PaisSnapshot? result;

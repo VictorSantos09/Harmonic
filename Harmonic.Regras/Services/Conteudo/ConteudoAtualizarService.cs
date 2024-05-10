@@ -20,19 +20,15 @@ internal class ConteudoAtualizarService : IConteudoAtualizarService
     private readonly IFeedbackGetService _feedbackGetService;
 
     public ConteudoAtualizarService(IConteudoAtualizarRepository conteudoAtualizarRepository,
-                                    IValidator<ConteudoEntity> validator,
-                                    IPaisGetService paisGetService,
-                                    IFeedbackGetService feedbackGetService)
+                                    IValidator<ConteudoEntity> validator)
     {
         _conteudoAtualizarRepository = conteudoAtualizarRepository;
         _validator = validator;
-        _paisGetService = paisGetService;
-        _feedbackGetService = feedbackGetService;
     }
 
     public async Task<IFinal> UpdateAsync(ConteudoDTO dto, CancellationToken cancellationToken)
     {
-        var pais = await _paisGetService.GetByIdAsync(dto.ID_PAIS, cancellationToken);
+        var pais = await _paisGetService.GetByIdAsync(dto.IdPais, cancellationToken);
         var feedback = await _feedbackGetService.GetByIdAsync(dto.Feedback.Id, cancellationToken);
 
         if (pais is null) return Final.Failure("conteudo.atualizar.PaisNaoEncontrado", "país não encontrado");
@@ -46,13 +42,9 @@ internal class ConteudoAtualizarService : IConteudoAtualizarService
             Id = dto.TipoConteudo.Id
         };
 
-        ConteudoEntity conteudo = new(dto.Id,
-            dto.Titulo,
+        ConteudoEntity conteudo = new(dto.Titulo,
                                       dto.DataCadastro,
                                       dto.Descricao,
-                                      dto.ID_FEEDBACK,
-                                      dto.ID_PAIS,
-                                      dto.ID_TIPO_CONTEUDO,
                                       tipoConteudo,
                                       pais.Data,
                                       feedback.Data) { Id = dto.Id };

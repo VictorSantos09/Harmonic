@@ -12,12 +12,6 @@ public class TipoConteudoEntity : IEntity<TipoConteudoEntity, TipoConteudoSnapsh
         Nome = nome;
     }
 
-    public TipoConteudoEntity(int id, string nome)
-    {
-        Id = id;
-        Nome = nome;
-    }
-
     public TipoConteudoEntity()
     {
 

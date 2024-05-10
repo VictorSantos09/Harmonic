@@ -4,11 +4,10 @@ public record ConteudoDTO(int Id,
                           string Titulo,
                           DateTime DataCadastro,
                           string Descricao,
-                          int ID_FEEDBACK,
-                          int ID_PAIS,
-                          int ID_TIPO_CONTEUDO,
                           TipoConteudoDTO TipoConteudo,
-                          FeedbackDTO Feedback)
+                          int IdPais,
+                          FeedbackDTO Feedback,
+                          int IdPlataforma)
 {
 
 }
