@@ -5,5 +5,5 @@ namespace Harmonic.Infra.Repositories.Pais.Contracts;
 
 public interface IAdicionarPaisRepository : IAddRepository<PaisEntity>
 {
-
+    Task<bool> ExistsByName(string name, CancellationToken cancellationToken);
 }

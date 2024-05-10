@@ -5,6 +5,7 @@ using Harmonic.Infra.Repositories.Feedback.Contracts;
 using Harmonic.Infra.Repositories.Pais.Contracts;
 using Harmonic.Infra.Repositories.TipoConteudo.Contracts;
 using Harmonic.Shared.Data;
+using Harmonic.Shared.Exceptions;
 using Harmonic.Shared.Extensions.Collection;
 using QuickKit.Builders.ProcedureName.GetAll;
 using QuickKit.Builders.ProcedureName.GetById;
@@ -72,9 +73,15 @@ internal class ConteudoGetRepository : Repository, IConteudoGetRepository
         ConteudoSnapshot? snapshot;
         snapshot = await _connection.QuerySingleOrDefaultAsync<ConteudoSnapshot>(command);
 
+        if (snapshot is null) return null;
+
         var tipoConteudo = await _tipoConteudoGetRepository.GetByIdAsync(snapshot.ID_TIPO_CONTEUDO, cancellationToken);
         var pais = await _paisGetRepository.GetByIdAsync(snapshot.ID_PAIS_ORIGEM, cancellationToken);
         var feedback = await _feedbackGetRepository.GetByIdAsync(snapshot.ID_FEEDBACK, cancellationToken);
+
+        if (tipoConteudo is null) throw new NotFoundException($"tipo conteudo com id {snapshot.ID_TIPO_CONTEUDO} não encontrado");
+        if (pais is null) throw new NotFoundException($"país com id {snapshot.ID_PAIS_ORIGEM} não encontrado");
+        if (feedback is null) throw new NotFoundException($"feedback com id {snapshot.ID_FEEDBACK} não encontrado");
 
         return new ConteudoEntity(snapshot.TITULO, snapshot.DATA_CADASTRO, snapshot.DESCRICAO, tipoConteudo, pais, feedback);
     }
