@@ -1,6 +1,6 @@
 ﻿using FluentValidation;
 using Harmonic.Domain.Entities.Pais;
-using Harmonic.Infra.Repositories.Contracts.Pais;
+using Harmonic.Infra.Repositories.Pais.Contracts;
 using Harmonic.Regras.Services.Conteudo.DTOs;
 using Harmonic.Regras.Services.Pais.Contracts;
 using QuickKit.ResultTypes;
@@ -20,6 +20,11 @@ internal class PaisAdicionarService : IPaisAdicionarService
 
     public async Task<IFinal> AddAsync(PaisDTO dto, CancellationToken cancellationToken)
     {
+        if(await _adicionarPaisRepository.ExistsByName(dto.Nome, cancellationToken))
+        {
+            return Final.Failure("paid.add.existente", $"Já existe um país com nome {dto.Nome} cadastrado");
+        }
+
         PaisEntity entity = new(dto.Nome);
 
         var validationResult = await _validator.ValidateAsync(entity);

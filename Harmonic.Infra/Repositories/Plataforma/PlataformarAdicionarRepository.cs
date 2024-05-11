@@ -1,20 +1,13 @@
-﻿using Harmonic.Infra.Repositories.Contracts.Conteudo;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Harmonic.Infra.Repositories.Contracts.Plataforma;
-using Harmonic.Shared.Data;
+﻿using Dapper;
 using FluentValidation;
-using QuickKit.Builders.ProcedureName.Add;
-using Harmonic.Domain.Entities.Conteudo;
-using Microsoft.Extensions.Configuration;
 using Harmonic.Domain.Entities.Plataforma;
-using Dapper;
-using System.Data;
-using QuickKit.Extensions;
+using Harmonic.Infra.Repositories.Plataforma.Contracts;
 using Harmonic.Shared.Constants.Base;
+using Harmonic.Shared.Data;
+using Microsoft.Extensions.Configuration;
+using QuickKit.Builders.ProcedureName.Add;
+using QuickKit.Extensions;
+using System.Data;
 
 
 namespace Harmonic.Infra.Repositories.Plataforma;
@@ -24,7 +17,9 @@ internal class PlataformarAdicionarRepository : Repository, IPlataformaAdicionar
     private readonly IProcedureNameBuilderAddStrategy _procedureNameBuilderAddStrategy;
     private readonly IValidator<PlataformaEntity> _validator;
 
-    public PlataformarAdicionarRepository(IConfiguration configuration, IValidator<PlataformaEntity> validator, IProcedureNameBuilderAddStrategy procedureNameBuilderAddStrategy) : base(configuration)
+    public PlataformarAdicionarRepository(IValidator<PlataformaEntity> validator,
+                                          IProcedureNameBuilderAddStrategy procedureNameBuilderAddStrategy,
+                                          IDbConnection conn) : base(conn)
     {
         _validator = validator;
         _procedureNameBuilderAddStrategy = procedureNameBuilderAddStrategy;
@@ -45,9 +40,6 @@ internal class PlataformarAdicionarRepository : Repository, IPlataformaAdicionar
                                         commandType: CommandType.StoredProcedure,
                                         cancellationToken: cancellationToken);
 
-        using (IDbConnection conn = Connect())
-        {
-            return await conn.ExecuteValidatingAsync(entity, _validator, DefaultMessages.INVALID_DATA, command);
-        }
+        return await _connection.ExecuteValidatingAsync(entity, _validator, DefaultMessages.INVALID_DATA, command);
     }
 }

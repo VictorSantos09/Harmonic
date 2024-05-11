@@ -1,5 +1,5 @@
 ﻿using Harmonic.Domain.Entities.Plataforma;
-using Harmonic.Infra.Repositories.Contracts.Plataforma;
+using Harmonic.Infra.Repositories.Plataforma.Contracts;
 using Harmonic.Regras.Services.Conteudo.DTOs;
 using Harmonic.Regras.Services.Plataforma.Contracts;
 using QuickKit.ResultTypes;
@@ -17,7 +17,6 @@ internal class PlataformaAdicionarService : IPlataformaAdicionarService
 
     public async Task<IFinal> AddAsync(PlataformaDTO dto, CancellationToken cancellationToken)
     {
-
         PlataformaEntity entity = new(dto.Id, dto.Nome, dto.URL);
 
         int result = await _adicionarPlataformaRepository.AddAsync(entity, cancellationToken);

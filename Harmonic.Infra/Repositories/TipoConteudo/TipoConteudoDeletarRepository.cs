@@ -1,7 +1,7 @@
 ﻿using Dapper;
 using Harmonic.Domain.Entities.Conteudo;
 using Harmonic.Domain.Entities.TipoConteudo;
-using Harmonic.Infra.Repositories.Contracts.TipoConteudo;
+using Harmonic.Infra.Repositories.TipoConteudo.Contracts;
 using Harmonic.Shared.Data;
 using Microsoft.Extensions.Configuration;
 using QuickKit.Builders.ProcedureName.Delete;
@@ -14,7 +14,8 @@ namespace Harmonic.Infra.Repositories.TipoConteudo
     {
         private readonly IProcedureNameBuilderDeleteStrategy _procedureNameBuilderDeleteStrategy;
 
-        public TipoConteudoDeletarRepository(IProcedureNameBuilderDeleteStrategy procedureNameBuilderDeleteStrategy, IConfiguration configuration) : base(configuration)
+        public TipoConteudoDeletarRepository(IProcedureNameBuilderDeleteStrategy procedureNameBuilderDeleteStrategy,
+                                             IDbConnection conn) : base(conn)
         {
             _procedureNameBuilderDeleteStrategy = procedureNameBuilderDeleteStrategy;
         }
@@ -29,8 +30,7 @@ namespace Harmonic.Infra.Repositories.TipoConteudo
                     idParam = id
                 }, commandType: CommandType.StoredProcedure, cancellationToken: cancellationToken);
 
-            using IDbConnection conn = Connect();
-            return await conn.ExecuteOnTransactionAsync(command);
+            return await _connection.ExecuteOnTransactionAsync(command);
         }
     }
 }

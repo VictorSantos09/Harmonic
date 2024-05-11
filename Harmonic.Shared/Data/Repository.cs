@@ -5,18 +5,36 @@ using System.Data;
 
 namespace Harmonic.Shared.Data;
 
-public abstract class Repository
+public interface IRepository
 {
-    private readonly IConfiguration _configuration;
+    void BeginTransaction();
+    void Commit();
+    void Rollback();
+}
 
-    protected Repository(IConfiguration configuration)
+public abstract class Repository : IRepository
+{
+    protected readonly IDbConnection _connection;
+    private IDbTransaction _transaction;
+
+    protected Repository(IDbConnection connection)
     {
-        _configuration = configuration;
+        _connection = connection;
     }
 
-    protected IDbConnection Connect()
+    public void BeginTransaction()
     {
-        var connectionString = _configuration.GetConnectionString("Development");
-        return new MySqlConnection(connectionString);
+        _connection.Open();
+        _transaction = _connection.BeginTransaction();
+    }
+
+    public void Commit()
+    {
+        _transaction.Commit();
+    }
+
+    public void Rollback()
+    {
+        _transaction.Rollback();
     }
 }

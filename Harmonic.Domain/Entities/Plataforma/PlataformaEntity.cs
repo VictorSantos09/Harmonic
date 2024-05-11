@@ -18,7 +18,7 @@ public class PlataformaEntity : IEntity<PlataformaEntity, PlataformaSnapshot, in
     public static PlataformaEntity? FromSnapshot(PlataformaSnapshot? snapshot)
     {
         if (snapshot is null) return null;
-        return new PlataformaEntity(snapshot.ID,snapshot.NOME,snapshot.URL);
+        return new PlataformaEntity(snapshot.ID, snapshot.NOME, snapshot.URL) { Id = snapshot.ID };
     }
 
     public PlataformaSnapshot ToSnapshot()

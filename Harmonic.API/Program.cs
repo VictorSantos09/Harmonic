@@ -4,9 +4,12 @@ using Harmonic.Domain.Configuration;
 using Harmonic.Domain.Entities.Pais;
 using Harmonic.Infra.Configuration;
 using Harmonic.Regras.Configuration;
+using Harmonic.Shared.Data;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
+using MySql.Data.MySqlClient;
+using System.Data;
 using System.Security.Claims;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -51,11 +54,21 @@ builder.Services.Configure<IdentityOptions>(options =>
     options.SignIn.RequireConfirmedAccount = false;
 });
 
+string? connectionString = builder.Configuration.GetConnectionString();
+
+builder.Services.AddTransient<IDbConnection>(x => new MySqlConnection(connectionString));
+
 builder.Services.AddDomain();
 builder.Services.AddInfra();
 builder.Services.AddRegras();
 
-string? connectionString = builder.Configuration.GetConnectionString("Development");
+builder.Services.AddCors(o => o.AddPolicy("MyPolicy", builder =>
+{
+    builder.WithOrigins("*")
+           .AllowAnyMethod()
+           .AllowAnyHeader();
+}));
+
 
 builder.Services.AddDbContext<ApplicationDbContext>(
     options => options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString)));
@@ -72,9 +85,16 @@ app.MapIdentityApi<HarmonicIdentityUser>();
 
 if (app.Environment.IsDevelopment())
 {
+    RepositoryConnection.UseDevelopment = true;
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+else
+{
+    RepositoryConnection.UseDevelopment = false;
+}
+
+app.UseCors("MyPolicy");
 
 app.UseHttpsRedirection();
 

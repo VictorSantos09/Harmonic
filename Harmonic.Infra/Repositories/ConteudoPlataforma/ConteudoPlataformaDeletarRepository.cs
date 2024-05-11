@@ -1,6 +1,6 @@
 ﻿using Dapper;
 using Harmonic.Domain.Entities.ConteudoPlataforma;
-using Harmonic.Infra.Repositories.Contracts.ConteudoPlataforma;
+using Harmonic.Infra.Repositories.ConteudoPlataforma.Contracts;
 using Harmonic.Shared.Data;
 using Microsoft.Extensions.Configuration;
 using QuickKit.Builders.ProcedureName.Delete;
@@ -14,7 +14,7 @@ namespace Harmonic.Infra.Repositories.ConteudoPlataforma
         private readonly IProcedureNameBuilderDeleteStrategy _procedureNameBuilderDeleteStrategy;
 
         public ConteudoPlataformaDeletarRepository(IProcedureNameBuilderDeleteStrategy procedureNameBuilderDeleteStrategy,
-                                                   IConfiguration configuration) : base(configuration)
+                                                   IDbConnection conn) : base(conn)
         {
             _procedureNameBuilderDeleteStrategy = procedureNameBuilderDeleteStrategy;
         }
@@ -29,8 +29,7 @@ namespace Harmonic.Infra.Repositories.ConteudoPlataforma
                     idParam = id
                 }, commandType: CommandType.StoredProcedure, cancellationToken: cancellationToken);
 
-            using IDbConnection conn = Connect();
-            return conn.ExecuteOnTransactionAsync(command);
+            return _connection.ExecuteOnTransactionAsync(command);
         }
     }
 }

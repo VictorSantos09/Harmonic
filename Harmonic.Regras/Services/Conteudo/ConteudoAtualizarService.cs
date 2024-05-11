@@ -3,41 +3,44 @@ using Harmonic.Domain.Entities.Conteudo;
 using Harmonic.Domain.Entities.Feedback;
 using Harmonic.Domain.Entities.Pais;
 using Harmonic.Domain.Entities.TipoConteudo;
-using Harmonic.Infra.Repositories.Contracts.Conteudo;
+using Harmonic.Infra.Repositories.Conteudo.Contracts;
+using Harmonic.Infra.Repositories.Feedback.Contracts;
+using Harmonic.Infra.Repositories.Pais.Contracts;
+using Harmonic.Infra.Repositories.TipoConteudo.Contracts;
 using Harmonic.Regras.Services.Conteudo.Contracts;
 using Harmonic.Regras.Services.Conteudo.DTOs;
+using Harmonic.Regras.Services.Feedback.Contracts;
+using Harmonic.Regras.Services.Pais.Contracts;
 using QuickKit.ResultTypes;
 
 namespace Harmonic.Regras.Services.Conteudo;
 
 internal class ConteudoAtualizarService : IConteudoAtualizarService
 {
+    private readonly IConteudoGetRepository _conteudoGetRepository;
     private readonly IConteudoAtualizarRepository _conteudoAtualizarRepository;
-    private readonly IValidator<ConteudoEntity> _validator;
-
-    public ConteudoAtualizarService(IConteudoAtualizarRepository conteudoAtualizarRepository,
-                                    IValidator<ConteudoEntity> validator)
-    {
-        _conteudoAtualizarRepository = conteudoAtualizarRepository;
-        _validator = validator;
-    }
+    private readonly ITipoConteudoGetRepository _tipoConteudoGetRepository;
+    private readonly IPaisGetRepository _paisGetRepository;
+    private readonly IFeedbackGetRepository _feedbackGetRepository;
 
     public async Task<IFinal> UpdateAsync(ConteudoDTO dto, CancellationToken cancellationToken)
     {
-        TipoConteudoEntity tipoConteudo = new(dto.TipoConteudo.Nome);
-        PaisEntity pais = new(dto.Pais.Nome);
-        FeedbackEntity feedback = new(dto.Feedback.TotalCurtidas, dto.Feedback.TotalGosteis);
+        var conteudo = await _conteudoGetRepository.GetByIdAsync(dto.Id, cancellationToken);
+        var tipoConteudo = await _tipoConteudoGetRepository.GetByIdAsync(dto.IdTipoConteudo, cancellationToken);
+        var pais = await _paisGetRepository.GetByIdAsync(dto.IdPais, cancellationToken);
+        var feedback = await _feedbackGetRepository.GetByIdAsync(dto.Id, cancellationToken);
 
-        ConteudoEntity conteudo = new (dto.Titulo, dto.DataCadastro, dto.Descricao, tipoConteudo, pais, feedback);
+        if (conteudo is null) return Final.Failure("conteudo.update.NotFound", $"conteúdo com id {dto.Id} não encontrado");
+        if (tipoConteudo is null) return Final.Failure("conteudo.update.NotFound", $"tipo conteudo com id {dto.IdTipoConteudo} não encontrado");
+        if (pais is null) return Final.Failure("conteudo.update.NotFound", $"país com id {dto.IdPais} não encontrado");
+        if (feedback is null) return Final.Failure("conteudo.update.NotFound", $"feedback com id {dto.Id} não encontrado");
+ 
+        conteudo.Titulo = dto.Titulo;
+        conteudo.Descricao = dto.Descricao;
+        conteudo.Pais = pais;
+        conteudo.TipoConteudo = tipoConteudo;
+        conteudo.Feedback = feedback;
 
-        var validationResult = await _validator.ValidateAsync(conteudo, cancellationToken);
-
-        if (!validationResult.IsValid) return Final.Failure("conteudo.atualizar.Invalido", "dados do conteúdo são inválidos");
-
-        var result = await _conteudoAtualizarRepository.UpdateAsync(conteudo, cancellationToken);
-
-        if (result > 0) return Final.Success("conteúdo atualizado com sucesso");
-
-        return Final.Failure("conteudo.atualizar.Falha", "não foi possível atualizar o conteúdo");
+        return Final.Failure("conteudo.update.sucess", "conteudo atualizado com sucesso");
     }
 }

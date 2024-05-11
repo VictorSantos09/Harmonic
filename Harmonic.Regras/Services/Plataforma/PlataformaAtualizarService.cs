@@ -1,9 +1,9 @@
 ﻿using FluentValidation;
 using Harmonic.Regras.Services.Conteudo.DTOs;
 using Harmonic.Regras.Services.Plataforma.Contracts;
-using Harmonic.Infra.Repositories.Contracts.Plataforma;
 using QuickKit.ResultTypes;
 using Harmonic.Domain.Entities.Plataforma;
+using Harmonic.Infra.Repositories.Plataforma.Contracts;
 
 
 namespace Harmonic.Regras.Services.Plataforma;
@@ -22,9 +22,7 @@ internal class PlataformaAtualizarService : IPlataformaAtualizarService
 
     public async Task<IFinal> UpdateAsync(PlataformaDTO dto, CancellationToken cancellationToken)
     {
-
-
-        PlataformaEntity plataforma = new(dto.Id, dto.Nome, dto.URL);
+        PlataformaEntity plataforma = new(dto.Id, dto.Nome, dto.URL) { Id = dto.Id };
 
         var validationResult = await _validator.ValidateAsync(plataforma, cancellationToken);
 

@@ -1,7 +1,7 @@
 ﻿using Dapper;
 using FluentValidation;
 using Harmonic.Domain.Entities.Conteudo;
-using Harmonic.Infra.Repositories.Contracts.Conteudo;
+using Harmonic.Infra.Repositories.Conteudo.Contracts;
 using Harmonic.Shared.Constants.Base;
 using Harmonic.Shared.Data;
 using Microsoft.Extensions.Configuration;
@@ -16,7 +16,9 @@ internal class ConteudoAdicionarRepository : Repository, IConteudoAdicionarRepos
     private readonly IProcedureNameBuilderAddStrategy _procedureNameBuilderAddStrategy;
     private readonly IValidator<ConteudoEntity> _validator;
 
-    public ConteudoAdicionarRepository(IProcedureNameBuilderAddStrategy procedureNameBuilderAddStrategy, IValidator<ConteudoEntity> validator, IConfiguration configuration) : base(configuration)
+    public ConteudoAdicionarRepository(IProcedureNameBuilderAddStrategy procedureNameBuilderAddStrategy,
+                                       IValidator<ConteudoEntity> validator,
+                                       IDbConnection conn) : base(conn)
     {
         _procedureNameBuilderAddStrategy = procedureNameBuilderAddStrategy;
         _validator = validator;
@@ -28,11 +30,10 @@ internal class ConteudoAdicionarRepository : Repository, IConteudoAdicionarRepos
 
         object parameters = new
         {
-            dataCadastroParam = entity.DataCadastro,
+            tituloParam = entity.Titulo,
             descricaoParam = entity.Descricao,
-            idFeedbackParam = entity.Feedback.Id,
             idTipoConteudoParam = entity.TipoConteudo.Id,
-            idPaisParam = entity.Pais,
+            idPaisOrigemParam = entity.Pais.Id,
         };
 
         CommandDefinition command = new(procedureName,
@@ -40,9 +41,6 @@ internal class ConteudoAdicionarRepository : Repository, IConteudoAdicionarRepos
                                         commandType: CommandType.StoredProcedure,
                                         cancellationToken: cancellationToken);
 
-        using (IDbConnection conn = Connect())
-        {
-            return await conn.ExecuteValidatingAsync(entity, _validator, DefaultMessages.INVALID_DATA, command);
-        }
+        return await _connection.ExecuteValidatingAsync(entity, _validator, DefaultMessages.INVALID_DATA, command);
     }
 }

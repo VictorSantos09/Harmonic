@@ -1,20 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Dapper;
+﻿using Dapper;
 using FluentValidation;
 using Harmonic.Domain.Entities.Conteudo;
 using Harmonic.Domain.Entities.Plataforma;
-using Harmonic.Infra.Repositories.Contracts.Conteudo;
-using Harmonic.Infra.Repositories.Contracts.Plataforma;
+using Harmonic.Infra.Repositories.Plataforma.Contracts;
 using Harmonic.Shared.Constants.Base;
 using Harmonic.Shared.Data;
 using Microsoft.Extensions.Configuration;
 using QuickKit.Builders.ProcedureName.Update;
 using QuickKit.Extensions;
+using System.Data;
 
 namespace Harmonic.Infra.Repositories.Plataforma;
 
@@ -24,7 +18,8 @@ internal class PlataformaAtualizarRepository : Repository, IPlataformaAtualizarR
     private readonly IValidator<PlataformaEntity> _validator;
 
     public PlataformaAtualizarRepository(IProcedureNameBuilderUpdateStrategy procedureNameBuilderUpdateStrategy,
-                                       IValidator<PlataformaEntity> validator, IConfiguration configuration) : base(configuration)
+                                         IValidator<PlataformaEntity> validator,
+                                         IDbConnection conn) : base(conn)
     {
         _procedureNameBuilderUpdateStrategy = procedureNameBuilderUpdateStrategy;
         _validator = validator;
@@ -41,7 +36,6 @@ internal class PlataformaAtualizarRepository : Repository, IPlataformaAtualizarR
                 urlParam = entity.URL
             }, commandType: CommandType.StoredProcedure, cancellationToken: cancellationToken);
 
-        using IDbConnection conn = Connect();
-        return await conn.ExecuteValidatingAsync(entity, _validator, DefaultMessages.INVALID_DATA, command);
+        return await _connection.ExecuteValidatingAsync(entity, _validator, DefaultMessages.INVALID_DATA, command);
     }
 }

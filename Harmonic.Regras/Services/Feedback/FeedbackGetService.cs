@@ -1,5 +1,5 @@
 ﻿using Harmonic.Domain.Entities.Feedback;
-using Harmonic.Infra.Repositories.Contracts.Feedback;
+using Harmonic.Infra.Repositories.Feedback.Contracts;
 using Harmonic.Regras.Services.Feedback.Contracts;
 using QuickKit.ResultTypes;
 using QuickKit.Shared.Extensions;

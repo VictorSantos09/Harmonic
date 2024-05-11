@@ -1,6 +1,6 @@
 ﻿using Dapper;
 using Harmonic.Domain.Entities.Feedback;
-using Harmonic.Infra.Repositories.Contracts.Feedback;
+using Harmonic.Infra.Repositories.Feedback.Contracts;
 using Harmonic.Shared.Data;
 using Microsoft.Extensions.Configuration;
 using QuickKit.Builders.ProcedureName.Delete;
@@ -15,12 +15,12 @@ internal class FeedbackDeletarRepository : Repository, IFeedbackDeletarRepositor
     private readonly IProcedureNameBuilderDeleteStrategy _procedureNameBuilderDeleteStrategy;
 
     public FeedbackDeletarRepository(IProcedureNameBuilderDeleteStrategy procedureNameBuilderDeleteStrategy,
-                                     IConfiguration configuration) : base(configuration)
+                                     IDbConnection connection) : base(connection)
     {
         _procedureNameBuilderDeleteStrategy = procedureNameBuilderDeleteStrategy;
     }
 
-    public Task<int> DeleteAsync(int id, CancellationToken cancellationToken)
+    public async Task<int> DeleteAsync(int id, CancellationToken cancellationToken)
     {
         var procedureName = _procedureNameBuilderDeleteStrategy.Build<FeedbackEntity>();
 
@@ -30,7 +30,6 @@ internal class FeedbackDeletarRepository : Repository, IFeedbackDeletarRepositor
                 ID_PARAM = id
             }, commandType: CommandType.StoredProcedure, cancellationToken: cancellationToken);
 
-        using IDbConnection conn = Connect();
-        return conn.ExecuteOnTransactionAsync(command);
+        return await _connection.ExecuteOnTransactionAsync(command);
     }
 }

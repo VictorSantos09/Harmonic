@@ -1,8 +1,8 @@
 ﻿using FluentValidation;
 using Harmonic.Domain.Entities.Pais;
 using Harmonic.Infra.Enums;
-using Harmonic.Infra.Repositories.Contracts.Common;
-using Harmonic.Infra.Repositories.Contracts.Pais;
+using Harmonic.Infra.Repositories.Common;
+using Harmonic.Infra.Repositories.Pais.Contracts;
 using Harmonic.Regras.Services.Conteudo.DTOs;
 using Harmonic.Regras.Services.Pais.Contracts;
 using QuickKit.ResultTypes;
@@ -30,7 +30,7 @@ internal class PaisAtualizarService : IPaisAtualizarService
 
         if (!exists) return Final.Failure("pais.atualizar.NaoExiste", "o país não foi encontrado");
 
-        PaisEntity pais = new(dto.Nome);
+        PaisEntity pais = new(dto.Nome) { Id = dto.Id };
 
         var validationResult = await _validator.ValidateAsync(pais, cancellationToken);
 

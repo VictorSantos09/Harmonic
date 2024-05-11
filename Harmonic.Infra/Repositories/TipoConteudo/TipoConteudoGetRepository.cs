@@ -1,7 +1,7 @@
 ﻿using Dapper;
 using FluentValidation;
 using Harmonic.Domain.Entities.TipoConteudo;
-using Harmonic.Infra.Repositories.Contracts.TipoConteudo;
+using Harmonic.Infra.Repositories.TipoConteudo.Contracts;
 using Harmonic.Shared.Data;
 using Harmonic.Shared.Extensions.Collection;
 using Microsoft.Extensions.Configuration;
@@ -17,10 +17,10 @@ namespace Harmonic.Infra.Repositories.TipoConteudo
         private readonly IProcedureNameBuilderGetByIdStrategy _procedureNameBuilderGetByIdStrategy;
         private readonly IValidator<TipoConteudoEntity> _validator;
 
-        public TipoConteudoGetRepository(IConfiguration configuration,
-                                               IProcedureNameBuilderGetAllStrategy procedureNameBuilderGetAllStrategy,
+        public TipoConteudoGetRepository(IProcedureNameBuilderGetAllStrategy procedureNameBuilderGetAllStrategy,
                                                IProcedureNameBuilderGetByIdStrategy procedureNameBuilderGetByIdStrategy,
-                                               IValidator<TipoConteudoEntity> validator) : base(configuration)
+                                               IValidator<TipoConteudoEntity> validator,
+                                               IDbConnection conn) : base(conn)
         {
             _procedureNameBuilderGetAllStrategy = procedureNameBuilderGetAllStrategy;
             _procedureNameBuilderGetByIdStrategy = procedureNameBuilderGetByIdStrategy;
@@ -36,8 +36,7 @@ namespace Harmonic.Infra.Repositories.TipoConteudo
 
             IEnumerable<TipoConteudoSnapshot> snapshots;
 
-            using IDbConnection conn = Connect();
-            snapshots = await conn.QueryAsync<TipoConteudoSnapshot>(command);
+            snapshots = await _connection.QueryAsync<TipoConteudoSnapshot>(command);
 
             return snapshots.ToEntities<TipoConteudoEntity, TipoConteudoSnapshot, int>();
         }
@@ -53,8 +52,7 @@ namespace Harmonic.Infra.Repositories.TipoConteudo
                 }, commandType: CommandType.StoredProcedure, cancellationToken: cancellationToken);
 
             TipoConteudoSnapshot? snapshot;
-            using IDbConnection conn = Connect();
-            snapshot = await conn.QuerySingleOrDefaultAsync<TipoConteudoSnapshot>(command);
+            snapshot = await _connection.QuerySingleOrDefaultAsync<TipoConteudoSnapshot>(command);
 
             return TipoConteudoEntity.FromSnapshot(snapshot);
         }

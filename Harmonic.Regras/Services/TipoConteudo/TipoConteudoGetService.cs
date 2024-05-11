@@ -1,5 +1,5 @@
 ﻿using Harmonic.Domain.Entities.TipoConteudo;
-using Harmonic.Infra.Repositories.Contracts.TipoConteudo;
+using Harmonic.Infra.Repositories.TipoConteudo.Contracts;
 using Harmonic.Regras.Services.TipoConteudo.Contracts;
 using QuickKit.ResultTypes;
 using QuickKit.Shared.Extensions;
@@ -29,7 +29,5 @@ namespace Harmonic.Regras.Services.TipoConteudo
 
             return Final.Success(result);
         }
-    
-
     }
 }

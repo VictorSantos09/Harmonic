@@ -1,7 +1,7 @@
 ﻿using Dapper;
 using FluentValidation;
 using Harmonic.Domain.Entities.ConteudoPlataforma;
-using Harmonic.Infra.Repositories.Contracts.ConteudoPlataforma;
+using Harmonic.Infra.Repositories.ConteudoPlataforma.Contracts;
 using Harmonic.Shared.Constants.Base;
 using Harmonic.Shared.Data;
 using Microsoft.Extensions.Configuration;
@@ -18,7 +18,7 @@ namespace Harmonic.Infra.Repositories.ConteudoPlataforma
 
         public ConteudoPlataformaAtualizarRepository(IProcedureNameBuilderUpdateStrategy procedureNameBuilderUpdateStrategy,
                                                      IValidator<ConteudoPlataformaEntity> validator,
-                                                     IConfiguration configuration) : base(configuration)
+                                                     IDbConnection conn) : base(conn)
         {
             _procedureNameBuilderUpdateStrategy = procedureNameBuilderUpdateStrategy;
             _validator = validator;
@@ -37,8 +37,7 @@ namespace Harmonic.Infra.Repositories.ConteudoPlataforma
                     idPlataformaParam = entity.Plataforma.Id,
                 }, commandType: CommandType.StoredProcedure, cancellationToken: cancellationToken);
 
-            using IDbConnection conn = Connect();
-            return await conn.ExecuteValidatingAsync(entity, _validator, DefaultMessages.INVALID_DATA, command);
+            return await _connection.ExecuteValidatingAsync(entity, _validator, DefaultMessages.INVALID_DATA, command);
 
         }
     }

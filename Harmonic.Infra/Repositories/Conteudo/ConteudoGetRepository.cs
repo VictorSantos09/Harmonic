@@ -1,9 +1,12 @@
 ﻿using Dapper;
 using Harmonic.Domain.Entities.Conteudo;
-using Harmonic.Infra.Repositories.Contracts.Conteudo;
+using Harmonic.Infra.Repositories.Conteudo.Contracts;
+using Harmonic.Infra.Repositories.Feedback.Contracts;
+using Harmonic.Infra.Repositories.Pais.Contracts;
+using Harmonic.Infra.Repositories.TipoConteudo.Contracts;
 using Harmonic.Shared.Data;
+using Harmonic.Shared.Exceptions;
 using Harmonic.Shared.Extensions.Collection;
-using Microsoft.Extensions.Configuration;
 using QuickKit.Builders.ProcedureName.GetAll;
 using QuickKit.Builders.ProcedureName.GetById;
 using System.Data;
@@ -14,12 +17,22 @@ internal class ConteudoGetRepository : Repository, IConteudoGetRepository
 {
     private readonly IProcedureNameBuilderGetAllStrategy _procedureNameBuilderGetAllStrategy;
     private readonly IProcedureNameBuilderGetByIdStrategy _procedureNameBuilderGetByIdStrategy;
+    private readonly ITipoConteudoGetRepository _tipoConteudoGetRepository;
+    private readonly IPaisGetRepository _paisGetRepository;
+    private readonly IFeedbackGetRepository _feedbackGetRepository;
 
     public ConteudoGetRepository(IProcedureNameBuilderGetAllStrategy procedureNameBuilderGetAllStrategy,
-                                IProcedureNameBuilderGetByIdStrategy procedureNameBuilderGetByIdStrategy, IConfiguration configuration) : base(configuration)
+                                 IProcedureNameBuilderGetByIdStrategy procedureNameBuilderGetByIdStrategy,
+                                 ITipoConteudoGetRepository tipoConteudoGetRepository,
+                                 IPaisGetRepository paisGetRepository,
+                                 IFeedbackGetRepository feedbackGetRepository,
+                                 IDbConnection conn) : base(conn)
     {
         _procedureNameBuilderGetAllStrategy = procedureNameBuilderGetAllStrategy;
         _procedureNameBuilderGetByIdStrategy = procedureNameBuilderGetByIdStrategy;
+        _tipoConteudoGetRepository = tipoConteudoGetRepository;
+        _paisGetRepository = paisGetRepository;
+        _feedbackGetRepository = feedbackGetRepository;
     }
 
     public async Task<IEnumerable<ConteudoEntity>> GetAllAsync(CancellationToken cancellationToken)
@@ -29,12 +42,22 @@ internal class ConteudoGetRepository : Repository, IConteudoGetRepository
         CommandDefinition command = new(
             procedureName, commandType: CommandType.StoredProcedure, cancellationToken: cancellationToken);
 
-        IEnumerable<ConteudoSnapshot> snapshots;
+        var snapshots = await _connection.QueryAsync<ConteudoSnapshot>(command);
 
-        using IDbConnection conn = Connect();
-        snapshots = await conn.QueryAsync<ConteudoSnapshot>(command);
+        List<ConteudoEntity> output = [];
+        ConteudoEntity conteudo;
 
-        return snapshots.ToEntities<ConteudoEntity, ConteudoSnapshot, int>();
+        foreach (var snapshot in snapshots)
+        {
+            var tipoConteudo = await _tipoConteudoGetRepository.GetByIdAsync(snapshot.ID_FEEDBACK, cancellationToken);
+            var pais = await _paisGetRepository.GetByIdAsync(snapshot.ID_PAIS_ORIGEM, cancellationToken);
+            var feedback = await _feedbackGetRepository.GetByIdAsync(snapshot.ID_FEEDBACK, cancellationToken);
+
+            conteudo = new ConteudoEntity(snapshot.TITULO, snapshot.DATA_CADASTRO, snapshot.DESCRICAO, tipoConteudo, pais, feedback);
+            output.Add(conteudo);
+        }
+
+        return output;
     }
 
     public async Task<ConteudoEntity?> GetByIdAsync(int id, CancellationToken cancellationToken)
@@ -48,9 +71,18 @@ internal class ConteudoGetRepository : Repository, IConteudoGetRepository
             }, commandType: CommandType.StoredProcedure, cancellationToken: cancellationToken);
 
         ConteudoSnapshot? snapshot;
-        using IDbConnection conn = Connect();
-        snapshot = await conn.QuerySingleOrDefaultAsync<ConteudoSnapshot>(command);
+        snapshot = await _connection.QuerySingleOrDefaultAsync<ConteudoSnapshot>(command);
 
-        return ConteudoEntity.FromSnapshot(snapshot);
+        if (snapshot is null) return null;
+
+        var tipoConteudo = await _tipoConteudoGetRepository.GetByIdAsync(snapshot.ID_TIPO_CONTEUDO, cancellationToken);
+        var pais = await _paisGetRepository.GetByIdAsync(snapshot.ID_PAIS_ORIGEM, cancellationToken);
+        var feedback = await _feedbackGetRepository.GetByIdAsync(snapshot.ID_FEEDBACK, cancellationToken);
+
+        if (tipoConteudo is null) throw new NotFoundException($"tipo conteudo com id {snapshot.ID_TIPO_CONTEUDO} não encontrado");
+        if (pais is null) throw new NotFoundException($"país com id {snapshot.ID_PAIS_ORIGEM} não encontrado");
+        if (feedback is null) throw new NotFoundException($"feedback com id {snapshot.ID_FEEDBACK} não encontrado");
+
+        return new ConteudoEntity(snapshot.TITULO, snapshot.DATA_CADASTRO, snapshot.DESCRICAO, tipoConteudo, pais, feedback) { Id = snapshot.ID };
     }
 }

@@ -1,6 +1,6 @@
 ﻿using FluentValidation;
 using Harmonic.Domain.Entities.Feedback;
-using Harmonic.Infra.Repositories.Contracts.Feedback;
+using Harmonic.Infra.Repositories.Feedback.Contracts;
 using Harmonic.Regras.Services.Conteudo.DTOs;
 using Harmonic.Regras.Services.Feedback.Contracts;
 using QuickKit.ResultTypes;
@@ -21,7 +21,7 @@ internal class FeedbackAdicionarService : IFeedbackAdicionarService
 
     public async Task<IFinal> AddAsync(FeedbackDTO dto, CancellationToken cancellationToken)
     {
-        FeedbackEntity entity = new(dto.TotalCurtidas, dto.TotalGosteis);
+        FeedbackEntity entity = new(dto.TotalCurtidas, dto.TotalGosteis) { Id = dto.Id };
         
 
         var validationResult = await _validator.ValidateAsync(entity, cancellationToken);

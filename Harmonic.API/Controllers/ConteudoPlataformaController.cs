@@ -1,4 +1,5 @@
-﻿using Harmonic.Domain.Entities.ConteudoPlataforma;
+﻿using Harmonic.API.Common;
+using Harmonic.Domain.Entities.ConteudoPlataforma;
 using Harmonic.Regras.Services.ConteudoPlataforma.Contracts;
 using Harmonic.Regras.Services.ConteudoPlataforma.DTOs;
 using Microsoft.AspNetCore.Authorization;
@@ -9,10 +10,11 @@ using System.Net;
 
 namespace Harmonic.API.Controllers;
 
+[Authorize]
 [ApiController]
 [Route("[controller]")]
 
-public class ConteudoPlataformaController : ControllerBase
+public class ConteudoPlataformaController : ControllerBase, ISelfContainedController<ConteudoPlataformaDTO, ConteudoPlataformaEntity, int>
 {
     private readonly IConteudoPlataformaAdicionarService _adicionarService;
     private readonly IConteudoPlataformaDeletarService _deletarService;

@@ -2,6 +2,7 @@
 using Harmonic.Domain.Entities.TipoConteudo;
 using Harmonic.Regras.Services.Conteudo.DTOs;
 using Harmonic.Regras.Services.TipoConteudo.Contracts;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using QuickKit.AspNetCore.Attributes;
 using QuickKit.ResultTypes.Converters;
@@ -9,6 +10,7 @@ using System.Net;
 
 namespace Harmonic.API.Controllers;
 
+[Authorize]
 [ApiController]
 [Route("[controller]")]
 public class TipoConteudoController : ControllerBase, ISelfContainedController<TipoConteudoDTO, TipoConteudoEntity, int>

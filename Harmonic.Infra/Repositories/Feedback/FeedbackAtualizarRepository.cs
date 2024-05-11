@@ -1,7 +1,7 @@
 ﻿using Dapper;
 using FluentValidation;
 using Harmonic.Domain.Entities.Feedback;
-using Harmonic.Infra.Repositories.Contracts.Feedback;
+using Harmonic.Infra.Repositories.Feedback.Contracts;
 using Harmonic.Shared.Data;
 using Microsoft.Extensions.Configuration;
 using QuickKit.Builders.ProcedureName.Update;
@@ -18,7 +18,7 @@ internal class FeedbackAtualizarRepository : Repository, IFeedbackAtualizarRepos
 
     public FeedbackAtualizarRepository(IProcedureNameBuilderUpdateStrategy procedureNameBuilderUpdateStrategy,
                                        IValidator<FeedbackEntity> validator,
-                                       IConfiguration configuration) : base(configuration)
+                                       IDbConnection conn) : base(conn)
     {
         _procedureNameBuilderUpdateStrategy = procedureNameBuilderUpdateStrategy;
         _validator = validator;
@@ -36,7 +36,6 @@ internal class FeedbackAtualizarRepository : Repository, IFeedbackAtualizarRepos
                 TOTAL_GOSTEIS_PARAM = entity.TotalGosteis,
             }, commandType: CommandType.StoredProcedure, cancellationToken: cancellationToken);
 
-        using IDbConnection conn = Connect();
-        return await conn.ExecuteValidatingAsync(entity, _validator, "O Feedback é inválido", command);
+        return await _connection.ExecuteValidatingAsync(entity, _validator, "O Feedback é inválido", command);
     }
 }
