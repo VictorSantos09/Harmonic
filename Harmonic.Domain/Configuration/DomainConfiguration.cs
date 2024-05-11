@@ -8,7 +8,7 @@ public static class DomainConfiguration
 {
     public static IServiceCollection AddDomain(this IServiceCollection services)
     {
-        services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly(),includeInternalTypes:true);
+        services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly(), includeInternalTypes: true);
         return services;
     }
 }

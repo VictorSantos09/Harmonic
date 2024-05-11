@@ -2,7 +2,6 @@
 using Harmonic.Domain.Entities.Pais;
 using Harmonic.Infra.Repositories.Pais.Contracts;
 using Harmonic.Shared.Data;
-using Microsoft.Extensions.Configuration;
 using QuickKit.Builders.ProcedureName.Delete;
 using QuickKit.Extensions;
 using System.Data;

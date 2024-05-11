@@ -6,7 +6,6 @@ using Harmonic.Infra.Repositories.Pais.Contracts;
 using Harmonic.Infra.Repositories.TipoConteudo.Contracts;
 using Harmonic.Shared.Data;
 using Harmonic.Shared.Exceptions;
-using Harmonic.Shared.Extensions.Collection;
 using QuickKit.Builders.ProcedureName.GetAll;
 using QuickKit.Builders.ProcedureName.GetById;
 using System.Data;

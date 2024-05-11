@@ -1,7 +1,4 @@
-﻿using Microsoft.Extensions.Configuration;
-using MySql.Data.MySqlClient;
-using System.Configuration;
-using System.Data;
+﻿using System.Data;
 
 namespace Harmonic.Shared.Data;
 

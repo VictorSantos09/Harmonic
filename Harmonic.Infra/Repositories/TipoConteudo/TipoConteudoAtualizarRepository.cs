@@ -4,7 +4,6 @@ using Harmonic.Domain.Entities.TipoConteudo;
 using Harmonic.Infra.Repositories.TipoConteudo.Contracts;
 using Harmonic.Shared.Constants.Base;
 using Harmonic.Shared.Data;
-using Microsoft.Extensions.Configuration;
 using QuickKit.Builders.ProcedureName.Update;
 using QuickKit.Extensions;
 using System.Data;

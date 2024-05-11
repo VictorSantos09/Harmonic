@@ -24,6 +24,6 @@ public record TipoConteudoDTO(int Id, string Nome)
 {
 }
 
-public record PlataformaDTO(string Nome, int Id, string URL) 
-{ 
+public record PlataformaDTO(string Nome, int Id, string URL)
+{
 }

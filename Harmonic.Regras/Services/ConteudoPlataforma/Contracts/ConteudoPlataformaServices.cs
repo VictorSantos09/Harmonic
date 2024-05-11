@@ -21,5 +21,5 @@ public interface IConteudoPlataformaAtualizarService : IUpdateService<ConteudoPl
 
 public interface IConteudoPlataformaGetService : IGetAllService<ConteudoPlataformaEntity>, IGetByIdService<ConteudoPlataformaEntity, int>
 {
-    
+
 }

@@ -2,7 +2,6 @@
 using Harmonic.Domain.Entities.Plataforma;
 using Harmonic.Infra.Repositories.Plataforma.Contracts;
 using Harmonic.Shared.Data;
-using Microsoft.Extensions.Configuration;
 using QuickKit.Builders.ProcedureName.Delete;
 using QuickKit.Extensions;
 using System.Data;

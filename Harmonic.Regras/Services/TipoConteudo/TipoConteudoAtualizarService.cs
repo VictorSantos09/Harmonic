@@ -22,7 +22,7 @@ namespace Harmonic.Regras.Services.TipoConteudo
         public async Task<IFinal> UpdateAsync(TipoConteudoDTO dto, CancellationToken cancellationToken)
         {
 
-            TipoConteudoEntity tipoconteudo = new(dto.Nome) {Id = dto.Id };
+            TipoConteudoEntity tipoconteudo = new(dto.Nome) { Id = dto.Id };
 
             var validationResult = await _validator.ValidateAsync(tipoconteudo, cancellationToken);
 

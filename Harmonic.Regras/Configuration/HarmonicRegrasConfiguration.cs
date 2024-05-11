@@ -1,6 +1,5 @@
 ﻿using Harmonic.Shared.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Scrutor;
 
 namespace Harmonic.Regras.Configuration;
 

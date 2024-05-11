@@ -10,7 +10,7 @@ public static class RepositoryConnection
     {
         var connection = Environment.GetEnvironmentVariable("DATABASE_CONNECTION");
 
-        if(connection is not null)
+        if (connection is not null)
         {
             Console.WriteLine("connection found");
             return connection;

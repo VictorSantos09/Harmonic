@@ -22,16 +22,16 @@ internal class FeedbackAdicionarService : IFeedbackAdicionarService
     public async Task<IFinal> AddAsync(FeedbackDTO dto, CancellationToken cancellationToken)
     {
         FeedbackEntity entity = new(dto.TotalCurtidas, dto.TotalGosteis) { Id = dto.Id };
-        
+
 
         var validationResult = await _validator.ValidateAsync(entity, cancellationToken);
-        
+
 
         if (!validationResult.IsValid) return Final.Failure("feedback.add.falhaValidacao", "feedback inválido");
-        
+
 
         var result = await _adicionarFeedbackRepository.AddAsync(entity, cancellationToken);
-       
+
 
         if (result > 0) return Final.Success();
         return Final.Failure("feedback.add.falha", "não foi possível adicionar o feedback");

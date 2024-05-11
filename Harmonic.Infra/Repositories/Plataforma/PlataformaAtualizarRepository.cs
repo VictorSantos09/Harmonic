@@ -5,7 +5,6 @@ using Harmonic.Domain.Entities.Plataforma;
 using Harmonic.Infra.Repositories.Plataforma.Contracts;
 using Harmonic.Shared.Constants.Base;
 using Harmonic.Shared.Data;
-using Microsoft.Extensions.Configuration;
 using QuickKit.Builders.ProcedureName.Update;
 using QuickKit.Extensions;
 using System.Data;

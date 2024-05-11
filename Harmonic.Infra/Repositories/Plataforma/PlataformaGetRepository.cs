@@ -3,7 +3,6 @@ using Harmonic.Domain.Entities.Plataforma;
 using Harmonic.Infra.Repositories.Plataforma.Contracts;
 using Harmonic.Shared.Data;
 using Harmonic.Shared.Extensions.Collection;
-using Microsoft.Extensions.Configuration;
 using QuickKit.Builders.ProcedureName.GetAll;
 using QuickKit.Builders.ProcedureName.GetById;
 using System.Data;

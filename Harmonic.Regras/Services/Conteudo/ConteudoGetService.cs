@@ -26,7 +26,7 @@ internal class ConteudoGetService : IConteudoGetService
         var result = await _conteudoGetRepository.GetByIdAsync(id, cancellationToken);
 
         if (result.IsNull()) return Final.Failure(result, "conteudo.getById.NaoEncontrado", "Não foi encontrado nenhum conteúdo");
-        
+
         return Final.Success(result);
     }
 }

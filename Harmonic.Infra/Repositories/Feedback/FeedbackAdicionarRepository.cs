@@ -2,9 +2,7 @@
 using FluentValidation;
 using Harmonic.Domain.Entities.Feedback;
 using Harmonic.Infra.Repositories.Feedback.Contracts;
-using Harmonic.Shared.Constants.Base;
 using Harmonic.Shared.Data;
-using Microsoft.Extensions.Configuration;
 using QuickKit.Builders.ProcedureName.Add;
 using QuickKit.Extensions;
 using System.Data;

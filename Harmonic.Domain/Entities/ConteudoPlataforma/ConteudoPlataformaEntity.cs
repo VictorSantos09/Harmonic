@@ -1,6 +1,5 @@
 ﻿using Harmonic.Domain.Entities.Conteudo;
 using Harmonic.Domain.Entities.Plataforma;
-using Harmonic.Shared.Exceptions;
 using QuickKit.Shared.Entities;
 
 namespace Harmonic.Domain.Entities.ConteudoPlataforma;

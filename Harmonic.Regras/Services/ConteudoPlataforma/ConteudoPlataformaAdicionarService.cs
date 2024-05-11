@@ -1,6 +1,5 @@
 ﻿using Harmonic.Domain.Entities.ConteudoPlataforma;
 using Harmonic.Infra.Repositories.ConteudoPlataforma.Contracts;
-using Harmonic.Infra.Repositories.Plataforma.Contracts;
 using Harmonic.Regras.Services.Conteudo.Contracts;
 using Harmonic.Regras.Services.ConteudoPlataforma.Contracts;
 using Harmonic.Regras.Services.ConteudoPlataforma.DTOs;
@@ -37,7 +36,7 @@ internal class ConteudoPlataformaAdicionarService : IConteudoPlataformaAdicionar
         int result = await _adicionarRepository.AddAsync(conteudoPlataforma, cancellationToken);
 
         if (result > 0) return Final.Success();
-        
+
         return Final.Failure("ConteudoPlataforma.Add.Falha", "Falha ao inserir registro");
     }
 }

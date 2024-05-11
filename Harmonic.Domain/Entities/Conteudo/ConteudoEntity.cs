@@ -1,7 +1,6 @@
 ﻿using Harmonic.Domain.Entities.Feedback;
 using Harmonic.Domain.Entities.Pais;
 using Harmonic.Domain.Entities.TipoConteudo;
-using Harmonic.Shared.Exceptions;
 using QuickKit.Shared.Entities;
 
 namespace Harmonic.Domain.Entities.Conteudo;

@@ -8,16 +8,16 @@ namespace Harmonic.Regras.Services.TipoConteudo.Contracts
     {
     }
 
-    public interface ITipoConteudoAtualizarServices : IUpdateService<TipoConteudoDTO> 
+    public interface ITipoConteudoAtualizarServices : IUpdateService<TipoConteudoDTO>
     {
     }
 
-    public interface ITipoConteudoDeletarServices : IDeleteService<int> 
+    public interface ITipoConteudoDeletarServices : IDeleteService<int>
     {
     }
 
     public interface ITipoConteudoGetServices : IGetAllService<TipoConteudoEntity>, IGetByIdService<TipoConteudoEntity, int>
-    { 
+    {
     }
 
 }

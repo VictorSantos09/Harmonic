@@ -3,11 +3,9 @@ using FluentValidation;
 using Harmonic.Domain.Entities.Pais;
 using Harmonic.Infra.Repositories.Pais.Contracts;
 using Harmonic.Shared.Data;
-using MySqlX.XDevAPI.Relational;
 using QuickKit.Builders.ProcedureName.Add;
 using QuickKit.Extensions;
 using System.Data;
-using System.Threading;
 
 namespace Harmonic.Infra.Repositories.Pais;
 internal class PaisAdicionarRepository : Repository, IAdicionarPaisRepository
@@ -34,7 +32,7 @@ internal class PaisAdicionarRepository : Repository, IAdicionarPaisRepository
         CommandDefinition command = new(
             procedureName, parameters, commandType: CommandType.StoredProcedure, cancellationToken: cancellationToken);
 
-            return await _connection.ExecuteValidatingAsync(entity, _validator, "O País informado é inválido", command);
+        return await _connection.ExecuteValidatingAsync(entity, _validator, "O País informado é inválido", command);
     }
 
     public async Task<bool> ExistsByName(string name, CancellationToken cancellationToken)

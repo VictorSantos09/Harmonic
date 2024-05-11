@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using System.Reflection.Emit;
 
 namespace Harmonic.API.Context;
 public class ApplicationDbContext : IdentityDbContext<HarmonicIdentityUser>
@@ -13,7 +12,8 @@ public class ApplicationDbContext : IdentityDbContext<HarmonicIdentityUser>
     {
         base.OnModelCreating(builder);
 
-        builder.Entity<HarmonicIdentityUser>(b => {
+        builder.Entity<HarmonicIdentityUser>(b =>
+        {
             b.ToTable("USERS");
             b.Property(x => x.UserName).IsRequired();
             b.Property(x => x.NormalizedUserName).IsRequired();

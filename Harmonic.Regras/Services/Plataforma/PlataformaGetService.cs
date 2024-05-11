@@ -1,13 +1,8 @@
 ﻿using Harmonic.Domain.Entities.Plataforma;
+using Harmonic.Infra.Repositories.Plataforma.Contracts;
 using Harmonic.Regras.Services.Plataforma.Contracts;
 using QuickKit.ResultTypes;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using QuickKit.Shared.Extensions;
-using Harmonic.Infra.Repositories.Plataforma.Contracts;
 
 namespace Harmonic.Regras.Services.Plataforma;
 

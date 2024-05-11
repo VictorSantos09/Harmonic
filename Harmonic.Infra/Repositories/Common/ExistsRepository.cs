@@ -1,7 +1,6 @@
 ﻿using Dapper;
 using Harmonic.Infra.Enums;
 using Harmonic.Shared.Data;
-using Microsoft.Extensions.Configuration;
 using System.Data;
 
 namespace Harmonic.Infra.Repositories.Common;

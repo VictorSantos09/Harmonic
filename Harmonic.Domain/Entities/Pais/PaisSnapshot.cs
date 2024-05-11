@@ -13,6 +13,6 @@ public class PaisSnapshot
 
     public PaisSnapshot()
     {
-            
+
     }
 }

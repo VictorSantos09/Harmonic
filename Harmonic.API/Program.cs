@@ -1,7 +1,5 @@
-using FluentValidation;
 using Harmonic.API.Context;
 using Harmonic.Domain.Configuration;
-using Harmonic.Domain.Entities.Pais;
 using Harmonic.Infra.Configuration;
 using Harmonic.Regras.Configuration;
 using Harmonic.Shared.Data;

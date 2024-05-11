@@ -38,7 +38,7 @@ internal class ConteudoPlataformaAtualizarService : IConteudoPlataformaAtualizar
         ConteudoPlataformaEntity conteudoPlataforma = new(dto.URL, conteudoResult.Data!, plataformaResult.Data!)
         {
             Id = dto.Id
-        } ;
+        };
 
         var validationResult = await _validator.ValidateAsync(conteudoPlataforma, cancellationToken);
 

@@ -5,7 +5,7 @@ public class TipoConteudoSnapshot
     public int ID { get; set; }
     public string NOME { get; set; }
 
-    
+
     public TipoConteudoSnapshot()
     {
     }

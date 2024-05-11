@@ -25,7 +25,7 @@ public class FeedbackEntity : IEntity<FeedbackEntity, FeedbackSnapshot, int>
 
         return new(snapshot.TOTAL_CURTIDAS,
                    snapshot.TOTAL_GOSTEIS)
-                   { Id = snapshot.ID};
+        { Id = snapshot.ID };
     }
 
     public FeedbackSnapshot ToSnapshot()
