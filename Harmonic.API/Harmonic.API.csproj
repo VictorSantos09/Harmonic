@@ -53,4 +53,8 @@
     <None Include="C:\Users\valdi\OneDrive\Área de Trabalho\Harmonic\Harmonic.API\.editorconfig" />
   </ItemGroup>
 
+    <Target Name="PrePublishTarget" AfterTargets="Publish">
+        <Exec Command="dotnet ef database update" />
+    </Target>
+
 </Project>
