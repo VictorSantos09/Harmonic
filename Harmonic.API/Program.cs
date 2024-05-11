@@ -89,6 +89,10 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+else
+{
+    RepositoryConnection.UseDevelopment = false;
+}
 
 app.UseCors("MyPolicy");
 

@@ -8,6 +8,14 @@ public static class RepositoryConnection
 
     public static string? GetConnectionString(this IConfiguration configuration)
     {
+        var connection = Environment.GetEnvironmentVariable("DATABASE_CONNECTION");
+
+        if(connection is not null)
+        {
+            Console.WriteLine("connection found");
+            return connection;
+        }
+
         if (!string.IsNullOrEmpty(UseConnectionString)) return configuration.GetConnectionString(UseConnectionString);
 
         if (UseDevelopment) return configuration.GetConnectionString("Development");
