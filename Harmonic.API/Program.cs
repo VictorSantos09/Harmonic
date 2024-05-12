@@ -64,9 +64,10 @@ builder.Services.AddRegras();
 
 builder.Services.AddCors(o => o.AddPolicy("MyPolicy", builder =>
 {
-    builder.WithOrigins("*")
+    builder.WithOrigins("http://localhost:4200")
            .AllowAnyMethod()
-           .AllowAnyHeader();
+           .AllowAnyHeader()
+           .AllowCredentials();
 }));
 
 
