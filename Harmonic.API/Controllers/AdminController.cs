@@ -2,7 +2,6 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using System.Security.Claims;
 
 namespace Harmonic.API.Controllers;
 
@@ -32,17 +31,4 @@ public class AdminController : ControllerBase
 
         return Ok(r);
     }
-
-    //[HttpGet("create-admin")]
-    //public async Task<IActionResult> CreateAdmin()
-    //{
-    //    var user = await _userManager.GetUserAsync(User);
-
-    //    if(user is null)
-    //    {
-    //        return BadRequest("Wasn't possible to find the user");
-    //    }
-
-    //    return Ok(await _userManager.AddToRoleAsync(user, "ADMIN"));
-    //}
 }
