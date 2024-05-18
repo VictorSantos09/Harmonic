@@ -65,7 +65,7 @@ builder.Services.AddRegras();
 
 builder.Services.AddCors(o => o.AddPolicy("MyPolicy", builder =>
 {
-    builder.WithOrigins("http://localhost:4200", "https://localhost:4200")
+    builder.WithOrigins("http://localhost:4200", "https://localhost:4200", "https://harmonic-tau.vercel.app")
            .AllowAnyMethod()
            .AllowAnyHeader()
            .AllowCredentials();
