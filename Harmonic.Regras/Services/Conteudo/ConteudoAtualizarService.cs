@@ -23,6 +23,19 @@ internal class ConteudoAtualizarService : IConteudoAtualizarService
     private readonly IPaisGetRepository _paisGetRepository;
     private readonly IFeedbackGetRepository _feedbackGetRepository;
 
+    public ConteudoAtualizarService(IConteudoGetRepository conteudoGetRepository,
+                                    IConteudoAtualizarRepository conteudoAtualizarRepository,
+                                    ITipoConteudoGetRepository tipoConteudoGetRepository,
+                                    IPaisGetRepository paisGetRepository,
+                                    IFeedbackGetRepository feedbackGetRepository)
+    {
+        _conteudoGetRepository = conteudoGetRepository;
+        _conteudoAtualizarRepository = conteudoAtualizarRepository;
+        _tipoConteudoGetRepository = tipoConteudoGetRepository;
+        _paisGetRepository = paisGetRepository;
+        _feedbackGetRepository = feedbackGetRepository;
+    }
+
     public async Task<IFinal> UpdateAsync(ConteudoDTO dto, CancellationToken cancellationToken)
     {
         var conteudo = await _conteudoGetRepository.GetByIdAsync(dto.Id, cancellationToken);
@@ -41,6 +54,10 @@ internal class ConteudoAtualizarService : IConteudoAtualizarService
         conteudo.TipoConteudo = tipoConteudo;
         conteudo.Feedback = feedback;
 
-        return Final.Failure("conteudo.update.sucess", "conteudo atualizado com sucesso");
+        var result = await _conteudoAtualizarRepository.UpdateAsync(conteudo, cancellationToken);
+
+        if(result == 0) return Final.Failure("conteudo.update.sucess", "conteudo atualizado com sucesso");
+
+        return Final.Success("conteudo.update.ok");
     }
 }
