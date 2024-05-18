@@ -49,11 +49,11 @@ internal class ConteudoGetRepository : Repository, IConteudoGetRepository
 
         foreach (var snapshot in snapshots)
         {
-            var tipoConteudo = await _tipoConteudoGetRepository.GetByIdAsync(snapshot.ID_FEEDBACK, cancellationToken);
+            var tipoConteudo = await _tipoConteudoGetRepository.GetByIdAsync(snapshot.ID_TIPO_CONTEUDO, cancellationToken);
             var pais = await _paisGetRepository.GetByIdAsync(snapshot.ID_PAIS_ORIGEM, cancellationToken);
             var feedback = await _feedbackGetRepository.GetByIdAsync(snapshot.ID_FEEDBACK, cancellationToken);
 
-            conteudo = new ConteudoEntity(snapshot.TITULO, snapshot.DATA_CADASTRO, snapshot.DESCRICAO, tipoConteudo, pais, feedback);
+            conteudo = new ConteudoEntity(snapshot.TITULO, snapshot.DATA_CADASTRO, snapshot.DESCRICAO, tipoConteudo, pais, feedback) { Id = snapshot.ID};
             output.Add(conteudo);
         }
 

@@ -5,6 +5,7 @@ using Harmonic.Domain.Entities.Pais;
 using Harmonic.Infra.Configuration;
 using Harmonic.Regras.Configuration;
 using Harmonic.Shared.Data;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
@@ -64,9 +65,10 @@ builder.Services.AddRegras();
 
 builder.Services.AddCors(o => o.AddPolicy("MyPolicy", builder =>
 {
-    builder.WithOrigins("*")
+    builder.WithOrigins("http://localhost:4200", "https://localhost:4200", "https://harmonic-tau.vercel.app")
            .AllowAnyMethod()
-           .AllowAnyHeader();
+           .AllowAnyHeader()
+           .AllowCredentials();
 }));
 
 
