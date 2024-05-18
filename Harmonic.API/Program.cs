@@ -48,6 +48,15 @@ builder.Services.AddSwaggerGen(c =>
 
 builder.Services.AddProblemDetails();
 
+builder.Services.ConfigureApplicationCookie(options =>
+{
+    options.Cookie.Name = "Harmonic";
+    options.Cookie.HttpOnly = true;
+    options.Cookie.IsEssential = true;
+    options.Cookie.SecurePolicy = CookieSecurePolicy.Always;
+    options.Cookie.SameSite = SameSiteMode.None;
+});
+
 builder.Services.Configure<IdentityOptions>(options =>
 {
     options.SignIn.RequireConfirmedPhoneNumber = false;
