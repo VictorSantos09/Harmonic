@@ -29,4 +29,34 @@ internal class ConteudoGetService : IConteudoGetService
         
         return Final.Success(result);
     }
+
+    public async Task<IFinal<IEnumerable<ConteudoTopEntity>>> GetTopRadiosAsync(CancellationToken cancellationToken)
+    {
+        var result = await _conteudoGetRepository.GetTopRadiosAsync(cancellationToken);
+        return Final.Success(result);
+    }
+
+    public async Task<IFinal<IEnumerable<ConteudoTopEntity>>> GetTopPodcastsAsync(CancellationToken cancellationToken)
+    {
+        var result = await _conteudoGetRepository.GetTopPodcastsAsync(cancellationToken);
+        return Final.Success(result);
+    }
+
+    public async Task<IFinal<ConteudoDetalhesDto>> GetDetalhesAsync(int id, CancellationToken cancellationToken)
+    {
+        var result = await _conteudoGetRepository.GetDetalhesAsync(id, cancellationToken);
+
+        if(result is null) return Final.Failure(result, "get.detalhes.notFound", $"conteudo com id {id} não encontrado");
+
+        return Final.Success(result);
+    }
+
+    public async Task<IFinal<IEnumerable<string>>> GetConteudoPlataformasURL(int id, CancellationToken cancellationToken)
+    {
+        var result = await _conteudoGetRepository.GetConteudoPlataformasURL(id, cancellationToken);
+
+        if (result.Count() == 0) return Final.Failure(result, "get.conteudoPlataformasURL.notFound", $"nenhuma plataforma do conteúdo com id {id} encontrada");
+
+        return Final.Success(result);
+    }
 }
