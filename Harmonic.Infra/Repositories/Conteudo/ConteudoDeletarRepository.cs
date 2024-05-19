@@ -31,4 +31,30 @@ internal class ConteudoDeletarRepository : Repository, IConteudoDeletarRepositor
 
         return _connection.ExecuteOnTransactionAsync(command);
     }
+
+    public async Task DeleteRangeAsync(IEnumerable<int> ids, CancellationToken cancellationToken)
+    {
+        BeginTransaction();
+        try
+        {
+            var procedureName = _procedureNameBuilderDeleteStrategy.Build<ConteudoEntity>();
+            CommandDefinition command;
+            foreach (var i in ids)
+            {
+                command = new(
+                    procedureName, new
+                    {
+                        idParam = i
+                    }, commandType: CommandType.StoredProcedure, cancellationToken: cancellationToken);
+
+                await _connection.ExecuteAsync(command);
+            }
+            Commit();
+        }
+        catch (Exception)
+        {
+            Rollback();
+            throw;
+        }
+    }
 }

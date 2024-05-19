@@ -46,6 +46,14 @@ public class ConteudoController : ControllerBase, ISelfContainedController<Conte
         return result.Convert(HttpStatusCode.BadRequest);
     }
 
+    [HttpDelete("range")]
+    [Authorize]
+    public async Task<IActionResult> DeleteRangeAsync(IEnumerable<int> ids, CancellationToken cancellationToken = default)
+    {
+        await _conteudoDeletarService.DeleteRangeAsync(ids, cancellationToken);
+        return Ok();
+    }
+
     [GetAll]
     [Authorize]
     public async Task<ActionResult<IEnumerable<ConteudoEntity>>> GetAllAsync(CancellationToken cancellationToken = default)
