@@ -85,4 +85,33 @@ internal class ConteudoGetRepository : Repository, IConteudoGetRepository
 
         return new ConteudoEntity(snapshot.TITULO, snapshot.DATA_CADASTRO, snapshot.DESCRICAO, tipoConteudo, pais, feedback) { Id = snapshot.ID };
     }
+
+    public async Task<IEnumerable<ConteudoTopEntity>> GetTopRadiosAsync(CancellationToken cancellationToken)
+    {
+        return await _connection.QueryAsync<ConteudoTopEntity>("SELECT * FROM VW_CONSULTA_TOP_RADIOS", cancellationToken);
+    }
+
+    public async Task<IEnumerable<ConteudoTopEntity>> GetTopPodcastsAsync(CancellationToken cancellationToken)
+    {
+        return await _connection.QueryAsync<ConteudoTopEntity>("SELECT * FROM VW_CONSULTA_TOP_PODCASTS", cancellationToken);
+    }
+
+    public async Task<ConteudoDetalhesDto?> GetDetalhesAsync(int id, CancellationToken cancellationToken)
+    {
+        CommandDefinition command = new("SP_GET_DETALHES_CONTEUDO", new
+        {
+            idConteudo = id
+        }, commandType: CommandType.StoredProcedure, cancellationToken: cancellationToken);
+        return await _connection.QuerySingleOrDefaultAsync<ConteudoDetalhesDto>(command);
+    }
+
+    public async Task<IEnumerable<string>> GetConteudoPlataformasURL(int id, CancellationToken cancellationToken)
+    {
+        CommandDefinition command = new("SP_GET_CONTEUDO_PLATAFORMAS", new
+        {
+            idConteudo = id
+        }, commandType: CommandType.StoredProcedure, cancellationToken: cancellationToken);
+
+        return await _connection.QueryAsync<string>(command);
+    }
 }

@@ -10,7 +10,6 @@ using System.Net;
 
 namespace Harmonic.API.Controllers;
 
-[Authorize]
 [ApiController]
 [Route("[controller]")]
 public class ConteudoController : ControllerBase, ISelfContainedController<ConteudoDTO, ConteudoEntity, int>
@@ -32,6 +31,7 @@ public class ConteudoController : ControllerBase, ISelfContainedController<Conte
     }
 
     [Add]
+    [Authorize]
     public async Task<IActionResult> AddAsync(ConteudoDTO dto, CancellationToken cancellationToken = default)
     {
         var result = await _adicionarConteudoService.AddAsync(dto, cancellationToken);
@@ -39,6 +39,7 @@ public class ConteudoController : ControllerBase, ISelfContainedController<Conte
     }
 
     [Delete]
+    [Authorize]
     public async Task<IActionResult> DeleteAsync(int id, CancellationToken cancellationToken = default)
     {
         var result = await _conteudoDeletarService.DeleteAsync(id, cancellationToken);
@@ -46,6 +47,7 @@ public class ConteudoController : ControllerBase, ISelfContainedController<Conte
     }
 
     [GetAll]
+    [Authorize]
     public async Task<ActionResult<IEnumerable<ConteudoEntity>>> GetAllAsync(CancellationToken cancellationToken = default)
     {
         var result = await _conteudoGetService.GetAllAsync(cancellationToken);
@@ -53,13 +55,47 @@ public class ConteudoController : ControllerBase, ISelfContainedController<Conte
     }
 
     [GetById]
+    [Authorize]
     public async Task<ActionResult<ConteudoEntity?>> GetByIdAsync(int id, CancellationToken cancellationToken = default)
     {
         var result = await _conteudoGetService.GetByIdAsync(id, cancellationToken);
         return result.Convert(HttpStatusCode.NotFound);
     }
 
+    [HttpGet("top-radios")]
+    [AllowAnonymous]
+    public async Task<ActionResult<IEnumerable<ConteudoTopEntity>>> GetTopRadiosAsync(CancellationToken cancellationToken = default)
+    {
+        var result = await _conteudoGetService.GetTopRadiosAsync(cancellationToken);
+        return result.Convert(HttpStatusCode.NoContent);
+    }
+
+    [HttpGet("top-podcasts")]
+    [AllowAnonymous]
+    public async Task<ActionResult<IEnumerable<ConteudoTopEntity>>> GetTopPodcastsAsync(CancellationToken cancellationToken = default)
+    {
+        var result = await _conteudoGetService.GetTopPodcastsAsync(cancellationToken);
+        return result.Convert(HttpStatusCode.NoContent);
+    }
+
+    [HttpGet("detalhes")]
+    [AllowAnonymous]
+    public async Task<ActionResult<ConteudoDetalhesDto>> GetDetalhesAsync(int id, CancellationToken cancellationToken = default)
+    {
+        var result = await _conteudoGetService.GetDetalhesAsync(id,cancellationToken);
+        return result.Convert(HttpStatusCode.NotFound);
+    }
+
+    [HttpGet("conteudo-plataformas-url")]
+    [AllowAnonymous]
+    public async Task<ActionResult<IEnumerable<string>>> GetConteudoPlataformasURL(int id, CancellationToken cancellationToken = default)
+    {
+        var result = await _conteudoGetService.GetConteudoPlataformasURL(id, cancellationToken);
+        return result.Convert(HttpStatusCode.NotFound);
+    }
+
     [Update]
+    [Authorize]
     public async Task<IActionResult> UpdateAsync(ConteudoDTO dto, CancellationToken cancellationToken = default)
     {
         var result = await _conteudoAtualizarService.UpdateAsync(dto, cancellationToken);
