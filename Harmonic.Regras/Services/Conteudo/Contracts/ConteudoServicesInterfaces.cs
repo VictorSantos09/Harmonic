@@ -12,6 +12,7 @@ public interface IConteudoAdicionarService : IAddService<ConteudoDTO>
 
 public interface IConteudoDeletarService : IDeleteService<int>
 {
+    Task DeleteRangeAsync(IEnumerable<int> ids, CancellationToken cancellationToken);
 }
 
 public interface IConteudoAtualizarService : IUpdateService<ConteudoDTO>

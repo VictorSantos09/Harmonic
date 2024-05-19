@@ -41,18 +41,15 @@ internal class ConteudoAtualizarService : IConteudoAtualizarService
         var conteudo = await _conteudoGetRepository.GetByIdAsync(dto.Id, cancellationToken);
         var tipoConteudo = await _tipoConteudoGetRepository.GetByIdAsync(dto.IdTipoConteudo, cancellationToken);
         var pais = await _paisGetRepository.GetByIdAsync(dto.IdPais, cancellationToken);
-        var feedback = await _feedbackGetRepository.GetByIdAsync(dto.Id, cancellationToken);
 
         if (conteudo is null) return Final.Failure("conteudo.update.NotFound", $"conteúdo com id {dto.Id} não encontrado");
         if (tipoConteudo is null) return Final.Failure("conteudo.update.NotFound", $"tipo conteudo com id {dto.IdTipoConteudo} não encontrado");
         if (pais is null) return Final.Failure("conteudo.update.NotFound", $"país com id {dto.IdPais} não encontrado");
-        if (feedback is null) return Final.Failure("conteudo.update.NotFound", $"feedback com id {dto.Id} não encontrado");
  
         conteudo.Titulo = dto.Titulo;
         conteudo.Descricao = dto.Descricao;
         conteudo.Pais = pais;
         conteudo.TipoConteudo = tipoConteudo;
-        conteudo.Feedback = feedback;
 
         var result = await _conteudoAtualizarRepository.UpdateAsync(conteudo, cancellationToken);
 

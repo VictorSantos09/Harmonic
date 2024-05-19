@@ -3,6 +3,7 @@ using Harmonic.Infra.Repositories.Common;
 using Harmonic.Infra.Repositories.Conteudo.Contracts;
 using Harmonic.Regras.Services.Conteudo.Contracts;
 using QuickKit.ResultTypes;
+using System.Text;
 
 namespace Harmonic.Regras.Services.Conteudo;
 
@@ -28,5 +29,10 @@ internal class ConteudoDeletarService : IConteudoDeletarService
         if (result > 0) return Final.Success("conteúdo deletado com sucesso");
 
         return Final.Failure("conteudo.delete.Falha", "não foi possível deletar o conteúdo");
+    }
+
+    public async Task DeleteRangeAsync(IEnumerable<int> ids, CancellationToken cancellationToken)
+    {
+        await _conteudoDeletarRepository.DeleteRangeAsync(ids, cancellationToken);
     }
 }
