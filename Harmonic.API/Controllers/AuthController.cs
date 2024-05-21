@@ -30,7 +30,6 @@ public class AuthController : ControllerBase
     {
         if (empty is not null)
         {
-            await _signInManager.ForgetTwoFactorClientAsync();
             await _signInManager.SignOutAsync();
             return Ok();
         }
