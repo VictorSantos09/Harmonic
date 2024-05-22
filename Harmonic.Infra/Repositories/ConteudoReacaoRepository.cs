@@ -13,13 +13,13 @@ internal class ConteudoReacaoRepository : Repository, IConteudoReacaoRepository
 
     public async Task<int> AddAsync(ConteudoReacaoEntity entity, CancellationToken cancellationToken)
     {
-        var sql = "INSERT INTO CONTEUDOS_REACOES(ID_CONTEUDO, ID_USUARIO, CURTIU) VALUES (idConteudo, idUsuario, curtiu)";
+        var sql = "INSERT INTO CONTEUDOS_REACOES(ID_CONTEUDO, ID_USUARIO, CURTIU) VALUES (@idConteudo, @idUsuario, @curtiu)";
 
         CommandDefinition command = new(sql, new
         {
-            entity.IdConteudo,
-            entity.IdUsuario,
-            entity.Curtiu
+            @idConteudo = entity.IdConteudo,
+            @idUsuario = entity.IdUsuario,
+            @curtiu = entity.Curtiu
         }, cancellationToken: cancellationToken);
 
         return await _connection.ExecuteAsync(command);

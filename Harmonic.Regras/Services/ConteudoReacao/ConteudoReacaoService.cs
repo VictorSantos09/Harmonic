@@ -14,7 +14,7 @@ internal class ConteudoReacaoService : IConteudoReacaoService
         _conteudoReacaoRepository = conteudoReacaoRepository;
     }
 
-    public async Task<IFinal> AddAsync(ConteudoReacaoDTO dto, CancellationToken cancellationToken)
+    public async Task<IFinal> AddAsync(ConteudoReacaoDTO dto, CancellationToken cancellationToken = default)
     {
         ConteudoReacaoEntity entity = new()
         {
@@ -27,13 +27,13 @@ internal class ConteudoReacaoService : IConteudoReacaoService
         return result > 0 ? Final.Success() : Final.Failure("conteudoReacao.add.Falha","Erro ao adicionar reação ao conteúdo");
     }
 
-    public async Task<IFinal> DeleteAsync(int id, CancellationToken cancellationToken)
+    public async Task<IFinal> DeleteAsync(int id, CancellationToken cancellationToken = default)
     {
         var result = await _conteudoReacaoRepository.DeleteAsync(id, cancellationToken);
         return result > 0 ? Final.Success() : Final.Failure("conteudoReacao.delete.Falha","Erro ao deletar reação ao conteúdo");
     }
 
-    public async Task<IFinal> UpdateAsync(ConteudoReacaoDTO dto, CancellationToken cancellationToken)
+    public async Task<IFinal> UpdateAsync(ConteudoReacaoDTO dto, CancellationToken cancellationToken = default)
     {
         ConteudoReacaoEntity entity = new()
         {
@@ -46,7 +46,7 @@ internal class ConteudoReacaoService : IConteudoReacaoService
         return result > 0 ? Final.Success() : Final.Failure("conteudoReacao.update.Falha","Erro ao atualizar reação ao conteúdo");
     }
 
-    public async Task<IFinal<ConteudoReacaoEntity?>> GetUsuarioConteudoReacaoAsync(string idUsuario, int idConteudo, CancellationToken cancellationToken)
+    public async Task<IFinal<ConteudoReacaoEntity?>> GetUsuarioConteudoReacaoAsync(string idUsuario, int idConteudo, CancellationToken cancellationToken = default)
     {
         var result = await _conteudoReacaoRepository.GetUsuarioConteudoReacaoAsync(idUsuario, idConteudo, cancellationToken);
         return result is null ? Final.Failure(result, "conteudoReacao.getUsuarioConteudoReacao.Falha","Nenhuma reação encontrada") : Final.Success(result);
