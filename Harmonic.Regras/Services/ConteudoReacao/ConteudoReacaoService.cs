@@ -46,9 +46,9 @@ internal class ConteudoReacaoService : IConteudoReacaoService
         return result > 0 ? Final.Success() : Final.Failure("conteudoReacao.update.Falha","Erro ao atualizar reação ao conteúdo");
     }
 
-    public async Task<IFinal<ConteudoReacaoEntity?>> GetUsuarioConteudoReacaoAsync(string idUsuario, int idConteudo, CancellationToken cancellationToken = default)
+    public async Task<IFinal<bool>> GetUsuarioConteudoReacaoAsync(string idUsuario, int idConteudo, CancellationToken cancellationToken = default)
     {
         var result = await _conteudoReacaoRepository.GetUsuarioConteudoReacaoAsync(idUsuario, idConteudo, cancellationToken);
-        return result is null ? Final.Failure(result, "conteudoReacao.getUsuarioConteudoReacao.Falha","Nenhuma reação encontrada") : Final.Success(result);
+        return result is null ? Final.Failure(false, "conteudoReacao.getUsuarioConteudoReacao.Falha","Nenhuma reação encontrada") : Final.Success(result.Curtiu);
     }
 }

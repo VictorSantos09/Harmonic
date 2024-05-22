@@ -7,5 +7,5 @@ namespace Harmonic.Regras.Services.ConteudoReacao;
 
 public interface IConteudoReacaoService : IAddService<ConteudoReacaoDTO>, IDeleteService<int>, IUpdateService<ConteudoReacaoDTO>
 {
-    Task<IFinal<ConteudoReacaoEntity>> GetUsuarioConteudoReacaoAsync(string idUsuario, int idConteudo, CancellationToken cancellationToken);
+    Task<IFinal<bool>> GetUsuarioConteudoReacaoAsync(string idUsuario, int idConteudo, CancellationToken cancellationToken);
 }

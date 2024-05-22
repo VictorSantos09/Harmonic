@@ -37,7 +37,7 @@ public class ConteudoReacaoController : ControllerBase
         return result.IsSuccess ? Ok() : BadRequest(result);
     }
 
-    [Add("deslike")]
+    [Add("dislike")]
     public async Task<IActionResult> DeslikeAsync(int idConteudo, CancellationToken cancellationToken = default)
     {
         var idUsuario = _userManager.GetUserId(User);
@@ -73,7 +73,7 @@ public class ConteudoReacaoController : ControllerBase
         return result.IsSuccess ? Ok() : BadRequest(result);
     }
 
-    [HttpGet]
+    [HttpGet("liked")]
     public async Task<IActionResult> GetUsuarioConteudoReacaoAsync(int idConteudo, CancellationToken cancellationToken = default)
     {
         var idUsuario = _userManager.GetUserId(User);
@@ -81,7 +81,7 @@ public class ConteudoReacaoController : ControllerBase
         if (idUsuario is null) return Unauthorized();
 
         var result = await _conteudoReacaoService.GetUsuarioConteudoReacaoAsync(idUsuario, idConteudo, cancellationToken);
-        return result.IsSuccess ? Ok() : NotFound(result);
+        return result.IsSuccess ? Ok(result) : NotFound();
     }
 
 }

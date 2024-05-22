@@ -50,7 +50,7 @@ internal class ConteudoReacaoRepository : Repository, IConteudoReacaoRepository
 
     public async Task<ConteudoReacaoEntity?> GetUsuarioConteudoReacaoAsync(string idUsuario, int idConteudo, CancellationToken cancellationToken)
     {
-        var sql = "SELECT * FROM CONTEUDOS_REACOES WHERE ID_USUARIO = @idUsuario AND ID_CONTEUDO = @idConteudo";
+        var sql = "SELECT CURTIU FROM CONTEUDOS_REACOES WHERE ID_USUARIO = @idUsuario AND ID_CONTEUDO = @idConteudo";
 
         CommandDefinition command = new(sql, new
         {
