@@ -1,11 +1,14 @@
 ﻿using Harmonic.API.Context;
-using Harmonic.Domain.Entities.Conteudo;
+using Harmonic.Domain.Entities.ConteudoReacao;
 using Harmonic.Regras.Services.ConteudoReacao;
 using Harmonic.Regras.Services.ConteudoReacao.DTO;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using QuickKit.AspNetCore.Attributes;
+using QuickKit.ResultTypes.Converters;
+using System.Net;
+using System.Numerics;
 
 namespace Harmonic.API.Controllers;
 
@@ -51,13 +54,13 @@ public class ConteudoReacaoController : ControllerBase
     }
 
     [Delete]
-    public async Task<IActionResult> DeleteAsync(int id, CancellationToken cancellationToken = default)
+    public async Task<IActionResult> DeleteAsync(int idConteudo, CancellationToken cancellationToken = default)
     {
         var idUsuario = _userManager.GetUserId(User);
 
         if (idUsuario is null) return Unauthorized();
 
-        var result = await _conteudoReacaoService.DeleteAsync(id, cancellationToken);
+        var result = await _conteudoReacaoService.DeleteAsync(idUsuario, idConteudo, cancellationToken);
         return result.IsSuccess ? Ok() : BadRequest(result);
     }
 
@@ -84,4 +87,14 @@ public class ConteudoReacaoController : ControllerBase
         return result.IsSuccess ? Ok(result) : NotFound();
     }
 
+    [HttpGet("usuario-reacoes")]
+    public async Task<ActionResult<IEnumerable<ConteudoReacaoEntity>>> GetUsuarioReacoesAsync(CancellationToken cancellationToken = default)
+    {
+        var idUsuario = _userManager.GetUserId(User);
+
+        if (idUsuario is null) return Unauthorized();
+
+        var result = await _conteudoReacaoService.GetUsuarioConteudoReacaoAsync(idUsuario, cancellationToken);
+        return result.Convert(HttpStatusCode.NoContent);
+    }
 }
