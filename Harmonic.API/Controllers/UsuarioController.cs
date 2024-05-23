@@ -1,9 +1,11 @@
 ﻿using Harmonic.API.Context;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Harmonic.API.Controllers;
 
+[Authorize]
 [ApiController]
 [Route("[controller]")]
 public class UsuarioController : ControllerBase
