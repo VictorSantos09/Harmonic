@@ -37,13 +37,18 @@ internal class ConteudoReacaoRepository : Repository, IConteudoReacaoRepository
 
     public async Task<int> UpdateAsync(ConteudoReacaoEntity entity, CancellationToken cancellationToken)
     {
-        var sql = "UPDATE CONTEUDOS_REACOES SET ID_CONTEUDO = idConteudo, ID_USUARIO = idUsuario, CURTIU = curtiu WHERE ID = id";
+        var sql = @"UPDATE CONTEUDOS_REACOES SET
+                    ID_CONTEUDO = @idConteudo_param,
+                    ID_USUARIO = @idUsuario_param,
+                    CURTIU = @curtiu_param
+                    WHERE ID = @id_param";
 
         CommandDefinition command = new(sql, new
         {
-            entity.IdConteudo,
-            entity.IdUsuario,
-            entity.Curtiu
+            @idConteudo_param = entity.IdConteudo,
+            @idUsuario_param = entity.IdUsuario,
+            @curtiu_param = entity.Curtiu,
+            @id_param = entity.Id
         }, cancellationToken: cancellationToken);
 
         return await _connection.ExecuteAsync(command);
@@ -51,7 +56,7 @@ internal class ConteudoReacaoRepository : Repository, IConteudoReacaoRepository
 
     public async Task<ConteudoReacaoEntity?> GetUsuarioConteudoReacaoAsync(string idUsuario, int idConteudo, CancellationToken cancellationToken)
     {
-        var sql = "SELECT CURTIU FROM CONTEUDOS_REACOES WHERE ID_USUARIO = @idUsuario AND ID_CONTEUDO = @idConteudo";
+        var sql = "SELECT * FROM CONTEUDOS_REACOES WHERE ID_USUARIO = @idUsuario AND ID_CONTEUDO = @idConteudo";
 
         CommandDefinition command = new(sql, new
         {
@@ -59,7 +64,9 @@ internal class ConteudoReacaoRepository : Repository, IConteudoReacaoRepository
             @idConteudo = idConteudo
         }, cancellationToken: cancellationToken);
 
-        return await _connection.QuerySingleOrDefaultAsync<ConteudoReacaoEntity>(command);
+        var snapshot = await _connection.QuerySingleOrDefaultAsync<ConteudoReacaoSnapshot>(command);
+
+        return ConteudoReacaoEntity.FromSnapshot(snapshot);
     }
 
     public async Task<IEnumerable<ConteudoReacaoEntity>> GetUsuarioConteudoReacaoAsync(string idUsuario, CancellationToken cancellationToken)

@@ -20,7 +20,16 @@ internal class ConteudoReacaoService : IConteudoReacaoService
                                                                                                     dto.IdConteudo,
                                                                                                     cancellationToken);
 
-        if (usuarioReacaoEncontrado is not null) return Final.Failure("conteudoReacao.add.ReacaoExiste", "Já existe uma reação para esse conteúdo");
+        if (usuarioReacaoEncontrado is not null)
+        {
+            if (usuarioReacaoEncontrado.IdUsuario == dto.IdUsuario)
+            {
+                await UpdateAsync(dto, cancellationToken);
+                return Final.Success("Reação atualizada com sucesso");
+            }
+
+            else return Final.Failure("conteudoReacao.add.ReacaoExiste", "Já existe uma reação para esse conteúdo");
+        }
 
         ConteudoReacaoEntity entity = new()
         {
@@ -30,7 +39,7 @@ internal class ConteudoReacaoService : IConteudoReacaoService
         };
         var result = await _conteudoReacaoRepository.AddAsync(entity, cancellationToken);
 
-        return result > 0 ? Final.Success() : Final.Failure("conteudoReacao.add.Falha","Erro ao adicionar reação ao conteúdo");
+        return result > 0 ? Final.Success() : Final.Failure("conteudoReacao.add.Falha", "Erro ao adicionar reação ao conteúdo");
     }
 
     public async Task<IFinal> DeleteAsync(string idUsuario, int idConteudo, CancellationToken cancellationToken = default)
@@ -40,7 +49,7 @@ internal class ConteudoReacaoService : IConteudoReacaoService
         if (conteudoReacaoEncontrado is null) return Final.Failure("conteudoReacao.delete.ReacaoNaoEncontrada", "Não foi encontrada nenhuma reação do usuário para esse conteúdo");
 
         var result = await _conteudoReacaoRepository.DeleteAsync(conteudoReacaoEncontrado.Id, cancellationToken);
-        return result > 0 ? Final.Success() : Final.Failure("conteudoReacao.delete.Falha","Erro ao deletar reação ao conteúdo");
+        return result > 0 ? Final.Success() : Final.Failure("conteudoReacao.delete.Falha", "Erro ao deletar reação ao conteúdo");
     }
 
     public async Task<IFinal> UpdateAsync(ConteudoReacaoDTO dto, CancellationToken cancellationToken = default)
@@ -49,23 +58,20 @@ internal class ConteudoReacaoService : IConteudoReacaoService
                                                                                                  dto.IdConteudo,
                                                                                                  cancellationToken);
 
-        if (usuarioReacaoEncontrado is null) return Final.Failure("conteudoReacao.add.ReacaoNaoExiste", "Reação do coteúdo não encontrada");
+        if (usuarioReacaoEncontrado is null) return Final.Failure("conteudoReacao.add.ReacaoNaoExiste", "Reação do conteúdo não encontrada");
 
-        ConteudoReacaoEntity entity = new()
-        {
-            IdConteudo = dto.IdConteudo,
-            IdUsuario = dto.IdUsuario,
-            Curtiu = dto.Curtiu
-        };
+        usuarioReacaoEncontrado.IdConteudo = dto.IdConteudo;
+        usuarioReacaoEncontrado.IdUsuario = dto.IdUsuario;
+        usuarioReacaoEncontrado.Curtiu = dto.Curtiu;
 
-        var result = await _conteudoReacaoRepository.UpdateAsync(entity, cancellationToken);
-        return result > 0 ? Final.Success() : Final.Failure("conteudoReacao.update.Falha","Erro ao atualizar reação ao conteúdo");
+        var result = await _conteudoReacaoRepository.UpdateAsync(usuarioReacaoEncontrado, cancellationToken);
+        return result > 0 ? Final.Success() : Final.Failure("conteudoReacao.update.Falha", "Erro ao atualizar reação ao conteúdo");
     }
 
     public async Task<IFinal<bool>> GetUsuarioConteudoReacaoAsync(string idUsuario, int idConteudo, CancellationToken cancellationToken = default)
     {
         var result = await _conteudoReacaoRepository.GetUsuarioConteudoReacaoAsync(idUsuario, idConteudo, cancellationToken);
-        return result is null ? Final.Failure(false, "conteudoReacao.getUsuarioConteudoReacao.Falha","Nenhuma reação encontrada") : Final.Success(result.Curtiu);
+        return result is null ? Final.Failure(false, "conteudoReacao.getUsuarioConteudoReacao.Falha", "Nenhuma reação encontrada") : Final.Success(result.Curtiu);
     }
 
     public async Task<IFinal<IEnumerable<ConteudoReacaoEntity>>> GetUsuarioConteudoReacaoAsync(string idUsuario, CancellationToken cancellationToken = default)

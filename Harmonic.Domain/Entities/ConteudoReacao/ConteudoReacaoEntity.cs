@@ -10,6 +10,8 @@ public class ConteudoReacaoEntity : IEntity<ConteudoReacaoEntity, ConteudoReacao
 
     public static ConteudoReacaoEntity? FromSnapshot(ConteudoReacaoSnapshot? snapshot)
     {
+       if (snapshot is null) return null;
+
         return new()
         {
             Id = snapshot.ID,
