@@ -25,7 +25,7 @@ internal class PaisAdicionarService : IPaisAdicionarService
             return Final.Failure("paid.add.existente", $"Já existe um país com nome {dto.Nome} cadastrado");
         }
 
-        PaisEntity entity = new(dto.Nome);
+        PaisEntity entity = new(dto.Nome, dto.Icon);
 
         var validationResult = await _validator.ValidateAsync(entity);
 

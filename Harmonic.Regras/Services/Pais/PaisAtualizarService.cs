@@ -30,7 +30,7 @@ internal class PaisAtualizarService : IPaisAtualizarService
 
         if (!exists) return Final.Failure("pais.atualizar.NaoExiste", "o país não foi encontrado");
 
-        PaisEntity pais = new(dto.Nome) { Id = dto.Id };
+        PaisEntity pais = new(dto.Nome, dto.Icon) { Id = dto.Id };
 
         var validationResult = await _validator.ValidateAsync(pais, cancellationToken);
 

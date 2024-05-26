@@ -11,7 +11,6 @@ using System.Net;
 
 namespace Harmonic.API.Controllers;
 
-[Authorize]
 [ApiController]
 [Route("[controller]")]
 public class PaisController : ControllerBase, IAddController<PaisDTO>, ISelfContainedController<PaisDTO, PaisEntity, int>
@@ -33,6 +32,7 @@ public class PaisController : ControllerBase, IAddController<PaisDTO>, ISelfCont
     }
 
     [Add]
+    [Authorize]
     public async Task<IActionResult> AddAsync(PaisDTO dto, CancellationToken cancellationToken)
     {
         var result = await _adicionarPaisService.AddAsync(dto, cancellationToken);
@@ -40,6 +40,8 @@ public class PaisController : ControllerBase, IAddController<PaisDTO>, ISelfCont
     }
 
     [Delete]
+    [Authorize]
+
     public async Task<IActionResult> DeleteAsync(int id, CancellationToken cancellationToken = default)
     {
         var result = await _paisDeletarService.DeleteAsync(id, cancellationToken);
@@ -54,6 +56,7 @@ public class PaisController : ControllerBase, IAddController<PaisDTO>, ISelfCont
     }
 
     [Update]
+    [Authorize]
     public async Task<IActionResult> UpdateAsync(PaisDTO dto, CancellationToken cancellationToken = default)
     {
         var result = await _paisAtualizarService.UpdateAsync(dto, cancellationToken);

@@ -1,4 +1,5 @@
 ﻿using Harmonic.Domain.Entities.ConteudoPlataforma;
+using Harmonic.Domain.Entities.ConteudoPlataforma.DTOs;
 using Harmonic.Infra.Repositories.ConteudoPlataforma.Contracts;
 using Harmonic.Regras.Services.ConteudoPlataforma.Contracts;
 using QuickKit.ResultTypes;
@@ -27,6 +28,12 @@ internal class ConteudoPlataformaGetService : IConteudoPlataformaGetService
 
         if (result.IsNull()) return Final.Failure(result, "ConteudoPlataforma.getById.NaoEncontrado", "Não foi encontrado nenhum conteúdo");
 
+        return Final.Success(result);
+    }
+
+    public async Task<IFinal<IEnumerable<ConteudoPlataformaDetalhesDTO>>> GetDetalhesAsync(int id, CancellationToken cancellationToken)
+    {
+        var result = await _getRepository.GetDetalhesAsync(id, cancellationToken);
         return Final.Success(result);
     }
 }

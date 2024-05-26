@@ -1,12 +1,11 @@
 ﻿using Dapper;
 using FluentValidation;
 using Harmonic.Domain.Entities.ConteudoPlataforma;
+using Harmonic.Domain.Entities.ConteudoPlataforma.DTOs;
 using Harmonic.Infra.Repositories.Conteudo.Contracts;
 using Harmonic.Infra.Repositories.ConteudoPlataforma.Contracts;
 using Harmonic.Infra.Repositories.Plataforma.Contracts;
 using Harmonic.Shared.Data;
-using Harmonic.Shared.Extensions.Collection;
-using Microsoft.Extensions.Configuration;
 using QuickKit.Builders.ProcedureName.GetAll;
 using QuickKit.Builders.ProcedureName.GetById;
 using System.Data;
@@ -75,5 +74,28 @@ internal class ConteudoPlataformaGetRepository : Repository, IConteudoPlataforma
         var plataforma = await _plataformaGetRepository.GetByIdAsync(snapshot.ID_PLATAFORMA, cancellationToken);
 
         return new ConteudoPlataformaEntity(snapshot.URL, conteudo, plataforma);
+    }
+
+    public async Task<IEnumerable<ConteudoPlataformaDetalhesDTO>> GetDetalhesAsync(int id, CancellationToken cancellationToken)
+    {
+        var sql = @"SELECT  P.NOME as 'PLATAFORMA'
+                , C.DATA_CADASTRO AS 'DATACADASTRO'
+                , PA.NOME AS 'PAIS' 
+                , CONCAT(P.URL, CP.URL) AS 'LINK'
+            FROM CONTEUDOS_PLATAFORMAS CP
+            JOIN PLATAFORMAS P
+	            ON P.ID = CP.ID_PLATAFORMA
+            JOIN CONTEUDOS C
+	            ON C.ID = CP.ID_CONTEUDO
+            JOIN PAISES PA
+	            ON PA.ID = C.ID_PAIS_ORIGEM
+            WHERE C.ID = @id";
+
+        CommandDefinition command = new(sql, new
+        {
+            id
+        }, cancellationToken: cancellationToken);
+
+        return await _connection.QueryAsync<ConteudoPlataformaDetalhesDTO>(command);
     }
 }

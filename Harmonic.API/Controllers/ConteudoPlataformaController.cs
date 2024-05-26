@@ -1,5 +1,6 @@
 ﻿using Harmonic.API.Common;
 using Harmonic.Domain.Entities.ConteudoPlataforma;
+using Harmonic.Domain.Entities.ConteudoPlataforma.DTOs;
 using Harmonic.Regras.Services.ConteudoPlataforma.Contracts;
 using Harmonic.Regras.Services.ConteudoPlataforma.DTOs;
 using Microsoft.AspNetCore.Authorization;
@@ -65,5 +66,12 @@ public class ConteudoPlataformaController : ControllerBase, ISelfContainedContro
     {
         var result = await _atualizarService.UpdateAsync(dto, cancellationToken);
         return result.Convert(HttpStatusCode.BadRequest);
+    }
+
+    [HttpGet("details")]
+    public async Task<ActionResult<IEnumerable<ConteudoPlataformaDetalhesDTO>>> GetDetailsAsync(int id, CancellationToken cancellationToken = default)
+    {
+        var result = await _getService.GetDetalhesAsync(id, cancellationToken);
+        return result.Convert(HttpStatusCode.NotFound);
     }
 }
