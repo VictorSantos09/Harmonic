@@ -1,5 +1,6 @@
 ﻿using Harmonic.API.Context;
 using Harmonic.Domain.Entities.ConteudoReacao;
+using Harmonic.Domain.Entities.ConteudoReacao.DTOs;
 using Harmonic.Regras.Services.ConteudoReacao;
 using Harmonic.Regras.Services.ConteudoReacao.DTO;
 using Microsoft.AspNetCore.Authorization;
@@ -96,5 +97,16 @@ public class ConteudoReacaoController : ControllerBase
 
         var result = await _conteudoReacaoService.GetUsuarioConteudoReacaoAsync(idUsuario, cancellationToken);
         return result.Convert(HttpStatusCode.NoContent);
+    }
+
+    [HttpGet("conteudosCurtidos")]
+    public async Task<ActionResult<IEnumerable<UsuarioConteudoCurtidoDTO>>> GetUsuarioConteudosCurtidos(CancellationToken cancellationToken = default)
+    {
+        var idUsuario = _userManager.GetUserId(User);
+
+        if (idUsuario is null) return Unauthorized();
+
+        var result = await _conteudoReacaoService.GetUsuarioConteudosCurtidosAsync(idUsuario, cancellationToken);
+            return result.Convert(HttpStatusCode.NoContent);
     }
 }

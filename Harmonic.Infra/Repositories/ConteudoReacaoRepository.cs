@@ -1,5 +1,6 @@
 ﻿using Dapper;
 using Harmonic.Domain.Entities.ConteudoReacao;
+using Harmonic.Domain.Entities.ConteudoReacao.DTOs;
 using Harmonic.Shared.Data;
 using Harmonic.Shared.Extensions.Collection;
 using System.Data;
@@ -81,5 +82,29 @@ internal class ConteudoReacaoRepository : Repository, IConteudoReacaoRepository
         var snapshots = await _connection.QueryAsync<ConteudoReacaoSnapshot>(command);
 
         return snapshots.ToEntities<ConteudoReacaoEntity, ConteudoReacaoSnapshot, int>();
+    }
+
+    public async Task<IEnumerable<UsuarioConteudoCurtidoDTO>> GetUsuarioConteudosCurtidosAsync(string idUsuario, CancellationToken cancellationToken)
+    {
+        var sql = @"SELECT C.ID
+                    , C.TITULO
+	                , C.IMAGEM
+                    , P.NOME AS 'PAIS'
+	                , P.ICON
+                    ,TP.NOME AS 'TIPOCONTEUDO'
+                    , CR.ID_CONTEUDO as 'IDCONTEUDO'
+                FROM CONTEUDOS C
+                JOIN PAISES P ON P.ID = C.ID_PAIS_ORIGEM
+                JOIN TIPOS_CONTEUDOS TP ON TP.ID = C.ID_TIPO_CONTEUDO
+                JOIN CONTEUDOS_REACOES CR ON CR.ID_CONTEUDO = C.ID
+                WHERE CR.ID_USUARIO = @idUsuario
+                AND CR.CURTIU = 1;";
+
+        CommandDefinition command = new(sql, new
+        {
+            idUsuario
+        }, cancellationToken: cancellationToken);
+
+        return await _connection.QueryAsync<UsuarioConteudoCurtidoDTO>(command);
     }
 }
