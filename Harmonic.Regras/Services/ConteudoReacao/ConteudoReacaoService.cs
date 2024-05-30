@@ -1,4 +1,5 @@
 ﻿using Harmonic.Domain.Entities.ConteudoReacao;
+using Harmonic.Domain.Entities.ConteudoReacao.DTOs;
 using Harmonic.Infra.Repositories;
 using Harmonic.Regras.Services.ConteudoReacao.DTO;
 using QuickKit.ResultTypes;
@@ -78,6 +79,12 @@ internal class ConteudoReacaoService : IConteudoReacaoService
     {
         var result = await _conteudoReacaoRepository.GetUsuarioConteudoReacaoAsync(idUsuario, cancellationToken);
 
+        return Final.Success(result);
+    }
+
+    public async Task<IFinal<IEnumerable<UsuarioConteudoCurtidoDTO>>> GetUsuarioConteudosCurtidosAsync(string idUsuario, CancellationToken cancellationToken = default)
+    {
+        var result = await _conteudoReacaoRepository.GetUsuarioConteudosCurtidosAsync(idUsuario, cancellationToken);
         return Final.Success(result);
     }
 }
