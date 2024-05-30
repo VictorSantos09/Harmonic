@@ -18,7 +18,7 @@ public static class RepositoryConnection
 
         if (!string.IsNullOrEmpty(UseConnectionString)) return configuration.GetConnectionString(UseConnectionString);
 
-        if (UseDevelopment) return configuration.GetConnectionString("DevelopmentV");
+        if (UseDevelopment) return configuration.GetConnectionString("Development");
         return configuration.GetConnectionString("Production");
     }
 }
