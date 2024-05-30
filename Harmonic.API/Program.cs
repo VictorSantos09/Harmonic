@@ -117,10 +117,7 @@ app.MapControllers();
 using (var scope = app.Services.CreateScope())
 {
     var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
-    //var userManager = scope.ServiceProvider.GetRequiredService<UserManager<IdentityUser>>();
     List<string> roles = ["ADMIN"];
-    //var user = userManager.Users.First();
-    //await userManager.AddToRolesAsync(user, roles);
 
     List<Claim> claims = [new Claim("ADMIN", "TRUE")];
 
