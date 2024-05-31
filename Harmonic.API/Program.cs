@@ -64,7 +64,7 @@ builder.Services.Configure<IdentityOptions>(options =>
     options.SignIn.RequireConfirmedAccount = false;
 });
 
-string? connectionString = builder.Configuration.GetConnectionString("Development");
+string? connectionString = builder.Configuration.GetConnectionString();
 
 builder.Services.AddTransient<IDbConnection>(x => new MySqlConnection(connectionString));
 
