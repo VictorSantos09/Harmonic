@@ -1,12 +1,14 @@
 ﻿using Dapper;
 using Harmonic.Domain.Entities.Conteudo;
+using Harmonic.Domain.Entities.Feedback;
+using Harmonic.Domain.Entities.Pais;
+using Harmonic.Domain.Entities.TipoConteudo;
 using Harmonic.Infra.Repositories.Conteudo.Contracts;
 using Harmonic.Infra.Repositories.Feedback.Contracts;
 using Harmonic.Infra.Repositories.Pais.Contracts;
 using Harmonic.Infra.Repositories.TipoConteudo.Contracts;
 using Harmonic.Shared.Data;
 using Harmonic.Shared.Exceptions;
-using Harmonic.Shared.Extensions.Collection;
 using QuickKit.Builders.ProcedureName.GetAll;
 using QuickKit.Builders.ProcedureName.GetById;
 using System.Data;
@@ -49,9 +51,9 @@ internal class ConteudoGetRepository : Repository, IConteudoGetRepository
 
         foreach (var snapshot in snapshots)
         {
-            var tipoConteudo = await _tipoConteudoGetRepository.GetByIdAsync(snapshot.ID_TIPO_CONTEUDO, cancellationToken);
-            var pais = await _paisGetRepository.GetByIdAsync(snapshot.ID_PAIS_ORIGEM, cancellationToken);
-            var feedback = await _feedbackGetRepository.GetByIdAsync(snapshot.ID_FEEDBACK, cancellationToken);
+            TipoConteudoEntity tipoConteudo = new(snapshot.TIPO_CONTEUDO) { Id = snapshot.ID_TIPO_CONTEUDO };
+            PaisEntity pais = new(snapshot.PAIS, snapshot.PAIS_ICON) { Id = snapshot.ID_PAIS_ORIGEM };
+            FeedbackEntity feedback = new(snapshot.TOTAL_CURTIDAS, snapshot.TOTAL_GOSTEIS) { Id = snapshot.ID_FEEDBACK };
 
             conteudo = new ConteudoEntity(snapshot.TITULO, snapshot.DATA_CADASTRO, snapshot.DESCRICAO, tipoConteudo, pais, feedback) { Id = snapshot.ID};
             output.Add(conteudo);
