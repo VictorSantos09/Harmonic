@@ -9,4 +9,11 @@ public class ConteudoSnapshot
     public int ID_TIPO_CONTEUDO { get; set; }
     public int ID_PAIS_ORIGEM { get; set; }
     public int ID_FEEDBACK { get; set; }
+    public string IMAGEM { get; set; }
+    public string PAIS_ICON { get; set; }
+    public string PAIS { get; set; }
+    public string TIPO_CONTEUDO { get; set; }
+    public bool CURTIU { get; set; }
+    public int TOTAL_CURTIDAS { get; set; }
+    public int TOTAL_GOSTEIS { get; set; }
 }
