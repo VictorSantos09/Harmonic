@@ -1,11 +1,9 @@
 ﻿using FluentValidation;
 using Harmonic.Domain.Entities.Conteudo;
 using Harmonic.Domain.Entities.Feedback;
-using Harmonic.Domain.Entities.Plataforma;
+using Harmonic.Infra.Repositories.Common;
 using Harmonic.Infra.Repositories.Conteudo.Contracts;
-using Harmonic.Infra.Repositories.ConteudoPlataforma.Contracts;
 using Harmonic.Infra.Repositories.Pais.Contracts;
-using Harmonic.Infra.Repositories.Plataforma.Contracts;
 using Harmonic.Infra.Repositories.TipoConteudo.Contracts;
 using Harmonic.Regras.Services.Conteudo.Contracts;
 using Harmonic.Regras.Services.Conteudo.DTOs;
@@ -24,13 +22,15 @@ internal class ConteudoAdicionarService : IConteudoAdicionarService
     private readonly IValidator<ConteudoEntity> _validator;
     private readonly IConteudoPlataformaAdicionarService _conteudoPlataformaAdicionarService;
     private readonly IPlataformaGetService _plataformaGetService;
+    private readonly IQueryRepository _queryRepository;
 
     public ConteudoAdicionarService(IConteudoAdicionarRepository adicionarConteudoRepository,
                                     ITipoConteudoGetRepository tipoConteudoGetRepository,
                                     IPaisGetRepository paisGetRepository,
                                     IValidator<ConteudoEntity> validator,
                                     IPlataformaGetService plataformaGetService,
-                                    IConteudoPlataformaAdicionarService conteudoPlataformaAdicionarService)
+                                    IConteudoPlataformaAdicionarService conteudoPlataformaAdicionarService,
+                                    IQueryRepository queryRepository)
     {
         _adicionarConteudoRepository = adicionarConteudoRepository;
         _tipoConteudoGetRepository = tipoConteudoGetRepository;
@@ -38,6 +38,7 @@ internal class ConteudoAdicionarService : IConteudoAdicionarService
         _validator = validator;
         _conteudoPlataformaAdicionarService = conteudoPlataformaAdicionarService;
         _plataformaGetService = plataformaGetService;
+        _queryRepository = queryRepository;
     }
 
     public async Task<IFinal> AddAsync(ConteudoDTO dto, CancellationToken cancellationToken)
@@ -121,7 +122,9 @@ internal class ConteudoAdicionarService : IConteudoAdicionarService
         if (plataforma is null)
             return Final.Failure(0, "conteudo.add.PlataformaNaoEncontrada", "Não foi encontrada a plataforma");
 
-        var result = await _conteudoPlataformaAdicionarService.AddAsync(new ConteudoPlataformaDTO(0, conteudoUrl, 30, plataforma.Id), cancellationToken);
+        var idConteudo = await _queryRepository.QuerySingleOrDefaultAsync<int>("SELECT MAX(ID) FROM CONTEUDOS");
+        
+        var result = await _conteudoPlataformaAdicionarService.AddAsync(new ConteudoPlataformaDTO(0, conteudoUrl, idConteudo, plataforma.Id), cancellationToken);
 
         if (result.IsSuccess)
             return Final.Success(plataforma.Id);
