@@ -42,5 +42,7 @@ internal class ConteudoAdicionarRepository : Repository, IConteudoAdicionarRepos
                                         cancellationToken: cancellationToken);
 
         return await _connection.ExecuteValidatingAsync(entity, _validator, DefaultMessages.INVALID_DATA, command);
+
+
     }
 }

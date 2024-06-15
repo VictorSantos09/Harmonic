@@ -1,11 +1,19 @@
 ﻿using Harmonic.API.Common;
 using Harmonic.Domain.Entities.Conteudo;
+using Harmonic.Domain.Entities.ConteudoPlataforma;
+using Harmonic.Domain.Entities.Plataforma;
+using Harmonic.Infra.Repositories.ConteudoPlataforma.Contracts;
 using Harmonic.Regras.Services.Conteudo.Contracts;
 using Harmonic.Regras.Services.Conteudo.DTOs;
+using Harmonic.Regras.Services.ConteudoPlataforma.Contracts;
+using Harmonic.Regras.Services.ConteudoPlataforma.DTOs;
+using Harmonic.Regras.Services.Plataforma.Contracts;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using QuickKit.AspNetCore.Attributes;
+using QuickKit.ResultTypes;
 using QuickKit.ResultTypes.Converters;
+using System.Linq;
 using System.Net;
 
 namespace Harmonic.API.Controllers;
@@ -18,22 +26,32 @@ public class ConteudoController : ControllerBase, ISelfContainedController<Conte
     private readonly IConteudoDeletarService _conteudoDeletarService;
     private readonly IConteudoAtualizarService _conteudoAtualizarService;
     private readonly IConteudoGetService _conteudoGetService;
+    private readonly IConteudoPlataformaAdicionarService _conteudoPlataformaAdicionarService;
+    private readonly IPlataformaGetService _plataformaGetService;
 
     public ConteudoController(IConteudoAdicionarService adicionarConteudoService,
                               IConteudoDeletarService conteudoDeletarService,
                               IConteudoAtualizarService conteudoAtualizarService,
-                              IConteudoGetService conteudoGetService)
+                              IConteudoGetService conteudoGetService,
+                              IConteudoPlataformaAdicionarService conteudoPlataformaAdicionar,
+                              IPlataformaGetService plataformaGetService)
     {
         _adicionarConteudoService = adicionarConteudoService;
         _conteudoDeletarService = conteudoDeletarService;
         _conteudoAtualizarService = conteudoAtualizarService;
         _conteudoGetService = conteudoGetService;
+        _conteudoPlataformaAdicionarService = conteudoPlataformaAdicionar;
+        _plataformaGetService = plataformaGetService;
     }
 
     [Add]
     [Authorize]
     public async Task<IActionResult> AddAsync(ConteudoDTO dto, CancellationToken cancellationToken = default)
     {
+
+
+        
+
         var result = await _adicionarConteudoService.AddAsync(dto, cancellationToken);
         return result.Convert(HttpStatusCode.BadRequest);
     }
@@ -90,7 +108,7 @@ public class ConteudoController : ControllerBase, ISelfContainedController<Conte
     [AllowAnonymous]
     public async Task<ActionResult<ConteudoDetalhesDto>> GetDetalhesAsync(int id, CancellationToken cancellationToken = default)
     {
-        var result = await _conteudoGetService.GetDetalhesAsync(id,cancellationToken);
+        var result = await _conteudoGetService.GetDetalhesAsync(id, cancellationToken);
         return result.Convert(HttpStatusCode.NotFound);
     }
 
