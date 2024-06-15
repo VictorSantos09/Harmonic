@@ -4,7 +4,6 @@ using Harmonic.Domain.Entities.Conteudo;
 using Harmonic.Infra.Repositories.Conteudo.Contracts;
 using Harmonic.Shared.Constants.Base;
 using Harmonic.Shared.Data;
-using Microsoft.Extensions.Configuration;
 using QuickKit.Builders.ProcedureName.Add;
 using QuickKit.Extensions;
 using System.Data;
@@ -42,7 +41,5 @@ internal class ConteudoAdicionarRepository : Repository, IConteudoAdicionarRepos
                                         cancellationToken: cancellationToken);
 
         return await _connection.ExecuteValidatingAsync(entity, _validator, DefaultMessages.INVALID_DATA, command);
-
-
     }
 }

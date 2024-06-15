@@ -63,7 +63,7 @@ internal class PlataformaGetRepository : Repository, IPlataformaGetRepository
             procedureName, new
             {
                 nome
-            }, commandType: CommandType.StoredProcedure, cancellationToken: cancellationToken);
+            }, cancellationToken: cancellationToken);
 
         PlataformaSnapshot? result;
         result = await _connection.QuerySingleOrDefaultAsync<PlataformaSnapshot>(command);

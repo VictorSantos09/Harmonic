@@ -57,69 +57,81 @@ internal class ConteudoAdicionarService : IConteudoAdicionarService
             var validationResult = await _validator.ValidateAsync(entity, cancellationToken);
             if (!validationResult.IsValid) return Final.Failure("Conteudo.Add.Invalido", "Dados do conteúdo são inválidos");
 
-            int result = await _adicionarConteudoRepository.AddAsync(entity, cancellationToken);
+            int resultConteudo = await _adicionarConteudoRepository.AddAsync(entity, cancellationToken);
 
-            string[] urlArray = { "https://open.spotify.com/artist/3TVXtAsR1Inumwj472S9r4" };
-
-
-            int idPlat;
-            string contentUrl;
-
-            foreach (var url in urlArray)
+            if (resultConteudo > 0)
             {
-                if (url.ToLower().Contains("youtube"))
+                IFinal resultConteudoPlataforma;
+                foreach (var url in dto.Urls)
                 {
-                    contentUrl = url.Substring(url.IndexOf(".com") + 4);
-                    PlataformaEntity? Plat = await _plataformaGetService.GetByNameAsync("YOUTUBE", cancellationToken);
+                    resultConteudoPlataforma = await CadastrarPlataformasAsync(url, cancellationToken);
 
-                    if (Plat == null) { Final.Failure(Plat, "plataforma.GetByNameAsync", "Não retornou nenhuma plataforma"); };
-
-                    idPlat = Plat.Id;
-
-                    var add = _conteudoPlataformaAdicionarService.AddAsync(new ConteudoPlataformaDTO(0, contentUrl, 30, idPlat), cancellationToken);
-
-                }
-                if (url.ToLower().Contains("spotify"))
-                {
-                    contentUrl = url.Substring(url.IndexOf("artist") + 6);
-
-                    PlataformaEntity? Plat = await _plataformaGetService.GetByNameAsync("SPOTIFY", cancellationToken);
-
-                    if (Plat == null) { Final.Failure(Plat, "plataforma.GetByNameAsync", "Não retornou nenhuma plataforma"); };
-
-                    idPlat = Plat.Id;
-
-                    var add = _conteudoPlataformaAdicionarService.AddAsync(new ConteudoPlataformaDTO(0, contentUrl, 30, idPlat), cancellationToken);
-
-                }
-                if (url.ToLower().Contains("deezer"))
-                {
-                    contentUrl = url.Substring(url.IndexOf("artist") + 6);
-
-                    PlataformaEntity? Plat = await _plataformaGetService.GetByNameAsync("DEEZER", cancellationToken);
-
-                    if (Plat == null) { Final.Failure(Plat, "plataforma.GetByNameAsync", "Não retornou nenhuma plataforma"); };
-
-                    idPlat = Plat.Id;
-
-                    var add = _conteudoPlataformaAdicionarService.AddAsync(new ConteudoPlataformaDTO(0, contentUrl, 30, idPlat), cancellationToken);
+                    if (resultConteudoPlataforma.IsFailure)
+                    {
+                        _adicionarConteudoRepository.Rollback();
+                        return Final.Failure("Conteudo.Add.Falha", "Não foi possível adicionar o conteúdo na plataforma");
+                    }
                 }
 
-            }
-
-            if (result > 0)
-            {
                 _adicionarConteudoRepository.Commit();
                 return Final.Success();
             }
 
             _adicionarConteudoRepository.Rollback();
             return Final.Failure("Conteudo.Add.Falha", "Não foi possível adicionar o conteúdo");
+
         }
         catch (Exception)
         {
             _adicionarConteudoRepository.Rollback();
             throw;
         }
+    }
+
+    private async Task<IFinal> CadastrarPlataformasAsync(string url, CancellationToken cancellationToken)
+    {
+        string contentUrl;
+
+        if (url.Contains("youtube"))
+        {
+            contentUrl = GetConteudoIdUrl(url);
+            return await GravarConteudoPlataformaAsync(contentUrl, "YOUTUBE", cancellationToken);
+        }
+        else if (url.Contains("spotify"))
+        {
+            contentUrl = GetConteudoIdUrl(url);
+            return await GravarConteudoPlataformaAsync(contentUrl, "SPOTIFY", cancellationToken);
+
+        }
+        else if (url.Contains("deezer"))
+        {
+            contentUrl = GetConteudoIdUrl(url);
+            return await GravarConteudoPlataformaAsync(contentUrl, "DEEZER", cancellationToken);
+        }
+        else
+        {
+            return Final.Failure("conteudo.add.PlataformaNaoEncontrada", "Não foi encontrada a plataforma");
+        }
+    }
+
+    private async Task<IFinal<int>> GravarConteudoPlataformaAsync(string conteudoUrl, string nomePlataforma, CancellationToken cancellationToken)
+    {
+        var plataforma = await _plataformaGetService.GetByNameAsync(nomePlataforma, cancellationToken);
+
+        if (plataforma is null)
+            return Final.Failure(0, "conteudo.add.PlataformaNaoEncontrada", "Não foi encontrada a plataforma");
+
+        var result = await _conteudoPlataformaAdicionarService.AddAsync(new ConteudoPlataformaDTO(0, conteudoUrl, 30, plataforma.Id), cancellationToken);
+
+        if (result.IsSuccess)
+            return Final.Success(plataforma.Id);
+
+        return Final.Failure(0, "conteudo.add.ConteudoPlataformaNaoCadastrado", "Não foi cadastrado o conteúdo plataforma");
+    }
+
+    private static string GetConteudoIdUrl(string url, string prefix = "com/")
+    {
+        int startIndex = url.IndexOf(prefix) + prefix.Length;
+        return url[startIndex..];
     }
 }
