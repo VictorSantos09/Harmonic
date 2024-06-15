@@ -48,12 +48,15 @@ internal class ConteudoGetRepository : Repository, IConteudoGetRepository
 
         List<ConteudoEntity> output = [];
         ConteudoEntity conteudo;
+        TipoConteudoEntity tipoConteudo;
+        PaisEntity pais;
+        FeedbackEntity feedback;
 
         foreach (var snapshot in snapshots)
         {
-            TipoConteudoEntity tipoConteudo = new(snapshot.TIPO_CONTEUDO) { Id = snapshot.ID_TIPO_CONTEUDO };
-            PaisEntity pais = new(snapshot.PAIS, snapshot.PAIS_ICON) { Id = snapshot.ID_PAIS_ORIGEM };
-            FeedbackEntity feedback = new(snapshot.TOTAL_CURTIDAS, snapshot.TOTAL_GOSTEIS) { Id = snapshot.ID_FEEDBACK };
+            tipoConteudo = new(snapshot.TIPO_CONTEUDO) { Id = snapshot.ID_TIPO_CONTEUDO };
+            pais = new(snapshot.PAIS, snapshot.PAIS_ICON) { Id = snapshot.ID_PAIS_ORIGEM };
+            feedback = new(snapshot.TOTAL_CURTIDAS, snapshot.TOTAL_GOSTEIS) { Id = snapshot.ID_FEEDBACK };
 
             conteudo = new ConteudoEntity(snapshot.TITULO, snapshot.DATA_CADASTRO, snapshot.DESCRICAO, tipoConteudo, pais, feedback) { Id = snapshot.ID};
             output.Add(conteudo);
