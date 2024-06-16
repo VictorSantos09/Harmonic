@@ -21,6 +21,12 @@ internal class ConteudoGetService : IConteudoGetService
         return Final.Success(result);
     }
 
+    public async Task<IFinal<IEnumerable<ConteudoDetalhesDto>>> GetAllDetalhesAsync(CancellationToken cancellationToken)
+    {
+        var result = await _conteudoGetRepository.GetAllDetalhesAsync(cancellationToken);
+        return Final.Success(result);
+    }
+
     public async Task<IFinal<ConteudoEntity?>> GetByIdAsync(int id, CancellationToken cancellationToken)
     {
         var result = await _conteudoGetRepository.GetByIdAsync(id, cancellationToken);

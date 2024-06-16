@@ -110,6 +110,12 @@ internal class ConteudoGetRepository : Repository, IConteudoGetRepository
         return await _connection.QuerySingleOrDefaultAsync<ConteudoDetalhesDto>(command);
     }
 
+    public async Task<IEnumerable<ConteudoDetalhesDto>> GetAllDetalhesAsync(CancellationToken cancellationToken)
+    {
+        CommandDefinition command = new("SP_GET_ALL_CONTEUDOS_DETALHES", commandType: CommandType.StoredProcedure, cancellationToken: cancellationToken);
+        return await _connection.QueryAsync<ConteudoDetalhesDto>(command);
+    }
+
     public async Task<IEnumerable<string>> GetConteudoPlataformasURL(int id, CancellationToken cancellationToken)
     {
         CommandDefinition command = new("SP_GET_CONTEUDO_PLATAFORMAS", new

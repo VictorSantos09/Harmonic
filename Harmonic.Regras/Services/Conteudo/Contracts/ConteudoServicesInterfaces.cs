@@ -22,6 +22,7 @@ public interface IConteudoAtualizarService : IUpdateService<ConteudoDTO>
 
 public interface IConteudoGetService : IGetAllService<ConteudoEntity>, IGetByIdService<ConteudoEntity, int>
 {
+    Task<IFinal<IEnumerable<ConteudoDetalhesDto>>> GetAllDetalhesAsync(CancellationToken cancellationToken);
     Task<IFinal<IEnumerable<string>>> GetConteudoPlataformasURL(int id, CancellationToken cancellationToken);
     Task<IFinal<ConteudoDetalhesDto>> GetDetalhesAsync(int id, CancellationToken cancellationToken);
     Task<IFinal<IEnumerable<ConteudoTopEntity>>> GetTopPodcastsAsync(CancellationToken cancellationToken);

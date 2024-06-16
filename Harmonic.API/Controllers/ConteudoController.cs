@@ -62,6 +62,14 @@ public class ConteudoController : ControllerBase, ISelfContainedController<Conte
         return result.Convert(HttpStatusCode.NoContent);
     }
 
+    [HttpGet("allDetalhes")]
+    [AllowAnonymous]
+    public async Task<ActionResult<IEnumerable<ConteudoDetalhesDto>>> GetAllDetalhesAsync(CancellationToken cancellationToken = default)
+    {
+        var result = await _conteudoGetService.GetAllDetalhesAsync(cancellationToken);
+        return result.Convert(HttpStatusCode.NoContent);
+    }
+
     [GetById]
     [Authorize]
     public async Task<ActionResult<ConteudoEntity?>> GetByIdAsync(int id, CancellationToken cancellationToken = default)
