@@ -8,6 +8,8 @@ using System.Text;
 using System.Threading.Tasks;
 using QuickKit.Shared.Extensions;
 using Harmonic.Infra.Repositories.Plataforma.Contracts;
+using Org.BouncyCastle.Crypto.Operators;
+using System.Data;
 
 namespace Harmonic.Regras.Services.Plataforma;
 
@@ -34,4 +36,15 @@ internal class PlataformaGetService : IPlataformaGetService
 
         return Final.Success(result);
     }
+
+
+    public async Task<PlataformaEntity?> GetByNameAsync(string nome, CancellationToken cancellationToken)
+    {
+        var result = await _plataformaGetRepository.GetByNameAsync(nome, cancellationToken);
+
+        if (result.IsNull()) return null;
+
+        return result;
+    }
+
 }

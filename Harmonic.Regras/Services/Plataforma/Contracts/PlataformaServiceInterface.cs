@@ -21,5 +21,6 @@ public interface IPlataformaAtualizarService : IUpdateService<PlataformaDTO>
 
 public interface IPlataformaGetService : IGetAllService<PlataformaEntity>, IGetByIdService<PlataformaEntity, int>
 {
+    Task<PlataformaEntity?> GetByNameAsync(string nome, CancellationToken cancellationToken);
 
 }

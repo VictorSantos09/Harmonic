@@ -90,7 +90,7 @@ public class ConteudoController : ControllerBase, ISelfContainedController<Conte
     [AllowAnonymous]
     public async Task<ActionResult<ConteudoDetalhesDto>> GetDetalhesAsync(int id, CancellationToken cancellationToken = default)
     {
-        var result = await _conteudoGetService.GetDetalhesAsync(id,cancellationToken);
+        var result = await _conteudoGetService.GetDetalhesAsync(id, cancellationToken);
         return result.Convert(HttpStatusCode.NotFound);
     }
 

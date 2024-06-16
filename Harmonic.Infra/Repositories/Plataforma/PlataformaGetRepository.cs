@@ -7,6 +7,7 @@ using Microsoft.Extensions.Configuration;
 using QuickKit.Builders.ProcedureName.GetAll;
 using QuickKit.Builders.ProcedureName.GetById;
 using System.Data;
+using System.Threading;
 
 
 namespace Harmonic.Infra.Repositories.Plataforma;
@@ -47,6 +48,22 @@ internal class PlataformaGetRepository : Repository, IPlataformaGetRepository
             {
                 idParam = id
             }, commandType: CommandType.StoredProcedure, cancellationToken: cancellationToken);
+
+        PlataformaSnapshot? result;
+        result = await _connection.QuerySingleOrDefaultAsync<PlataformaSnapshot>(command);
+
+        return PlataformaEntity.FromSnapshot(result);
+    }
+
+    public async Task<PlataformaEntity> GetByNameAsync(string nome, CancellationToken cancellationToken)
+    {
+        var procedureName = "SELECT * FROM PLATAFORMAS WHERE NOME = @nome";
+
+        CommandDefinition command = new(
+            procedureName, new
+            {
+                nome
+            }, cancellationToken: cancellationToken);
 
         PlataformaSnapshot? result;
         result = await _connection.QuerySingleOrDefaultAsync<PlataformaSnapshot>(command);

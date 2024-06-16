@@ -1,6 +1,4 @@
-﻿using Microsoft.Extensions.Configuration;
-using MySql.Data.MySqlClient;
-using System.Configuration;
+﻿using Dapper;
 using System.Data;
 
 namespace Harmonic.Shared.Data;
@@ -14,27 +12,57 @@ public interface IRepository
 
 public abstract class Repository : IRepository
 {
-    protected readonly IDbConnection _connection;
-    private IDbTransaction _transaction;
+    protected IDbConnection _connection;
 
-    protected Repository(IDbConnection connection)
+    protected Repository(IDbConnection conn)
     {
-        _connection = connection;
+        _connection = conn;
+    }
+
+    private protected IDbTransaction _transaction;
+
+    public IDbConnection Open()
+    {
+        if (_connection is null || _connection?.State == ConnectionState.Closed)
+        {
+            _connection.Open();
+        }
+
+        return _connection;
+    }
+
+    public void Close()
+    {
+        _connection.Close();
     }
 
     public void BeginTransaction()
     {
-        _connection.Open();
+        Open();
         _transaction = _connection.BeginTransaction();
     }
 
     public void Commit()
     {
         _transaction.Commit();
+        Close();
     }
 
     public void Rollback()
     {
         _transaction.Rollback();
+        Close();
+    }
+
+    public async Task<bool> ExistsAsync<TKey>(string tableName, TKey id, CancellationToken cancellationToken)
+    {
+        string sql = $"SELECT IF((SELECT COUNT(1) FROM {tableName} WHERE ID = @Id), true, false) AS RESULT;";
+
+        CommandDefinition command = new(sql, new
+        {
+            Id = id
+        }, cancellationToken: cancellationToken);
+
+        return await _connection.ExecuteScalarAsync<bool>(command);
     }
 }

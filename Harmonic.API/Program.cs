@@ -72,7 +72,7 @@ builder.Services.Configure<IdentityOptions>(options =>
 
 string? connectionString = builder.Configuration.GetConnectionString();
 
-builder.Services.AddTransient<IDbConnection>(x => new MySqlConnection(connectionString));
+builder.Services.AddScoped<IDbConnection>(x => new MySqlConnection(connectionString));
 
 builder.Services.AddDomain();
 builder.Services.AddInfra();
