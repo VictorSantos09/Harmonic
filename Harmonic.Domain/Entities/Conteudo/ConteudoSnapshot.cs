@@ -13,7 +13,6 @@ public class ConteudoSnapshot
     public string PAIS_ICON { get; set; }
     public string PAIS { get; set; }
     public string TIPO_CONTEUDO { get; set; }
-    public bool CURTIU { get; set; }
     public int TOTAL_CURTIDAS { get; set; }
     public int TOTAL_GOSTEIS { get; set; }
 }

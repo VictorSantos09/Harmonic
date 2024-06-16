@@ -80,15 +80,12 @@ internal class ConteudoPlataformaGetRepository : Repository, IConteudoPlataforma
     {
         var sql = @"SELECT  P.NOME as 'PLATAFORMA'
                 , C.DATA_CADASTRO AS 'DATACADASTRO'
-                , PA.NOME AS 'PAIS' 
                 , CONCAT(P.URL, CP.URL) AS 'LINK'
             FROM CONTEUDOS_PLATAFORMAS CP
             JOIN PLATAFORMAS P
 	            ON P.ID = CP.ID_PLATAFORMA
             JOIN CONTEUDOS C
 	            ON C.ID = CP.ID_CONTEUDO
-            JOIN PAISES PA
-	            ON PA.ID = C.ID_PAIS_ORIGEM
             WHERE C.ID = @id";
 
         CommandDefinition command = new(sql, new
