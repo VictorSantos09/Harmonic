@@ -6,7 +6,8 @@ public record ConteudoDTO(int Id,
                           int IdTipoConteudo,
                           int IdPais,
                           int IdPlataforma,
-                          IEnumerable<string> Urls)
+                          IEnumerable<string> Urls,
+                          string Imagem)
 {
 
 }

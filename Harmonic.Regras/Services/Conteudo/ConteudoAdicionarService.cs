@@ -53,7 +53,7 @@ internal class ConteudoAdicionarService : IConteudoAdicionarService
             if (pais is null) return Final.Failure("Conteudo.Add.Falha", "Não foi possível adicionar o conteúdo, pais não encontrado");
 
             FeedbackEntity feedback = new(0, 0);
-            ConteudoEntity entity = new(dto.Titulo, DateTime.Now, dto.Descricao, tipoConteudo, pais, feedback);
+            ConteudoEntity entity = new(dto.Titulo, DateTime.Now, dto.Descricao, tipoConteudo, pais, feedback, dto.Imagem);
 
             var validationResult = await _validator.ValidateAsync(entity, cancellationToken);
             if (!validationResult.IsValid) return Final.Failure("Conteudo.Add.Invalido", "Dados do conteúdo são inválidos");
