@@ -33,6 +33,7 @@ internal class ConteudoAdicionarRepository : Repository, IConteudoAdicionarRepos
             descricaoParam = entity.Descricao,
             idTipoConteudoParam = entity.TipoConteudo.Id,
             idPaisOrigemParam = entity.Pais.Id,
+            imagemParam = entity.Imagem,
         };
 
         CommandDefinition command = new(procedureName,

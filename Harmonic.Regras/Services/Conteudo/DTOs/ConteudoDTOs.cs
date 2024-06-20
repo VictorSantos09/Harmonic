@@ -9,7 +9,7 @@ public class ConteudoDTO
     public int IdPais {get; set;}
     public int IdPlataforma { get; set; }
     public IEnumerable<string> Urls { get; set; }
-    public string Imagem { get; set; }
+    public string? Imagem { get; set; }
 
     public ConteudoDTO(int id,
                        string titulo,
