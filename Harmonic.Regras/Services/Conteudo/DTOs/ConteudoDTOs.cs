@@ -1,15 +1,34 @@
 ﻿namespace Harmonic.Regras.Services.Conteudo.DTOs;
 
-public record ConteudoDTO(int Id,
-                          string Titulo,
-                          string Descricao,
-                          int IdTipoConteudo,
-                          int IdPais,
-                          int IdPlataforma,
-                          IEnumerable<string> Urls,
-                          string Imagem)
+public class ConteudoDTO
 {
+    public int Id {get; set;}
+    public string Titulo {get; set;}
+    public string Descricao {get; set;}
+    public int IdTipoConteudo {get; set;}
+    public int IdPais {get; set;}
+    public int IdPlataforma { get; set; }
+    public IEnumerable<string> Urls { get; set; }
+    public string Imagem { get; set; }
 
+    public ConteudoDTO(int id,
+                       string titulo,
+                       string descricao,
+                       int idTipoConteudo,
+                       int idPais,
+                       int idPlataforma,
+                       IEnumerable<string> urls,
+                       string imagem)
+    {
+        Id = id;
+        Titulo = titulo;
+        Descricao = descricao;
+        IdTipoConteudo = idTipoConteudo;
+        IdPais = idPais;
+        IdPlataforma = idPlataforma;
+        Urls = urls;
+        Imagem = imagem;
+    }
 }
 
 public record FeedbackDTO(int Id, int TotalCurtidas, int TotalGosteis)

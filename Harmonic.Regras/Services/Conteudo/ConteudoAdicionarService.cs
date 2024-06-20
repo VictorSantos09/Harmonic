@@ -23,6 +23,7 @@ internal class ConteudoAdicionarService : IConteudoAdicionarService
     private readonly IConteudoPlataformaAdicionarService _conteudoPlataformaAdicionarService;
     private readonly IPlataformaGetService _plataformaGetService;
     private readonly IQueryRepository _queryRepository;
+    private const string DEFAULT_IMAGE = "https://img.freepik.com/vetores-gratis/design-plano-desenhado-a-mao-sem-sinal-de-foto_23-2149278076.jpg?w=826&t=st=1718560107~exp=1718560707~hmac=3a88bf61784f0515a9173c3a091ee742d81f52eb9b94987a61e9f2dcaa2c25ba";
 
     public ConteudoAdicionarService(IConteudoAdicionarRepository adicionarConteudoRepository,
                                     ITipoConteudoGetRepository tipoConteudoGetRepository,
@@ -53,6 +54,8 @@ internal class ConteudoAdicionarService : IConteudoAdicionarService
             if (pais is null) return Final.Failure("Conteudo.Add.Falha", "Não foi possível adicionar o conteúdo, pais não encontrado");
 
             FeedbackEntity feedback = new(0, 0);
+
+            dto.Imagem ??= DEFAULT_IMAGE;
             ConteudoEntity entity = new(dto.Titulo, DateTime.Now, dto.Descricao, tipoConteudo, pais, feedback, dto.Imagem);
 
             var validationResult = await _validator.ValidateAsync(entity, cancellationToken);
@@ -123,7 +126,7 @@ internal class ConteudoAdicionarService : IConteudoAdicionarService
             return Final.Failure(0, "conteudo.add.PlataformaNaoEncontrada", "Não foi encontrada a plataforma");
 
         var idConteudo = await _queryRepository.QuerySingleOrDefaultAsync<int>("SELECT MAX(ID) FROM CONTEUDOS");
-        
+
         var result = await _conteudoPlataformaAdicionarService.AddAsync(new ConteudoPlataformaDTO(0, conteudoUrl, idConteudo, plataforma.Id), cancellationToken);
 
         if (result.IsSuccess)
