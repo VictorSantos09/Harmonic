@@ -15,13 +15,15 @@ public class ConteudoEntity : IEntity<int>
     public TipoConteudoEntity TipoConteudo { get; set; }
     public PaisEntity Pais { get; set; }
     public FeedbackEntity Feedback { get; set; }
+    public string Imagem { get; set; }
 
     public ConteudoEntity(string titulo,
                                 DateTime dataCadastro,
                                   string descricao,
                                   TipoConteudoEntity tipoConteudo,
                                   PaisEntity pais,
-                                  FeedbackEntity feedback)
+                                  FeedbackEntity feedback,
+                                  string imagem)
     {
         Titulo = titulo;
         DataCadastro = dataCadastro;
@@ -29,6 +31,7 @@ public class ConteudoEntity : IEntity<int>
         TipoConteudo = tipoConteudo;
         Pais = pais;
         Feedback = feedback;
+        Imagem = imagem;
     }
 
     public ConteudoEntity()

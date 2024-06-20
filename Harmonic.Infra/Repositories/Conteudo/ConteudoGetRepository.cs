@@ -58,7 +58,7 @@ internal class ConteudoGetRepository : Repository, IConteudoGetRepository
             pais = new(snapshot.PAIS, snapshot.PAIS_ICON) { Id = snapshot.ID_PAIS_ORIGEM };
             feedback = new(snapshot.TOTAL_CURTIDAS, snapshot.TOTAL_GOSTEIS) { Id = snapshot.ID_FEEDBACK };
 
-            conteudo = new ConteudoEntity(snapshot.TITULO, snapshot.DATA_CADASTRO, snapshot.DESCRICAO, tipoConteudo, pais, feedback) { Id = snapshot.ID};
+            conteudo = new ConteudoEntity(snapshot.TITULO, snapshot.DATA_CADASTRO, snapshot.DESCRICAO, tipoConteudo, pais, feedback, snapshot.IMAGEM) { Id = snapshot.ID};
             output.Add(conteudo);
         }
 
@@ -88,7 +88,7 @@ internal class ConteudoGetRepository : Repository, IConteudoGetRepository
         if (pais is null) throw new NotFoundException($"país com id {snapshot.ID_PAIS_ORIGEM} não encontrado");
         if (feedback is null) throw new NotFoundException($"feedback com id {snapshot.ID_FEEDBACK} não encontrado");
 
-        return new ConteudoEntity(snapshot.TITULO, snapshot.DATA_CADASTRO, snapshot.DESCRICAO, tipoConteudo, pais, feedback) { Id = snapshot.ID };
+        return new ConteudoEntity(snapshot.TITULO, snapshot.DATA_CADASTRO, snapshot.DESCRICAO, tipoConteudo, pais, feedback, snapshot.IMAGEM) { Id = snapshot.ID };
     }
 
     public async Task<IEnumerable<ConteudoTopEntity>> GetTopRadiosAsync(CancellationToken cancellationToken)
