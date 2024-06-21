@@ -36,6 +36,7 @@ internal class ConteudoAtualizarRepository : Repository, IConteudoAtualizarRepos
                 descricaoParam = entity.Descricao,
                 idTipoConteudoParam = entity.TipoConteudo.Id,
                 idPaisParam = entity.Pais.Id,
+                imagemParam = entity.Imagem,
             }, commandType: CommandType.StoredProcedure, cancellationToken: cancellationToken);
 
         return await _connection.ExecuteValidatingAsync(entity, _validator, DefaultMessages.INVALID_DATA, command);

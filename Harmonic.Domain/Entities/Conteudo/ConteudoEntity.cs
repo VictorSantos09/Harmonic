@@ -15,7 +15,7 @@ public class ConteudoEntity : IEntity<int>
     public TipoConteudoEntity TipoConteudo { get; set; }
     public PaisEntity Pais { get; set; }
     public FeedbackEntity Feedback { get; set; }
-    public string Imagem { get; set; }
+    public string? Imagem { get; set; }
 
     public ConteudoEntity(string titulo,
                                 DateTime dataCadastro,
@@ -23,7 +23,7 @@ public class ConteudoEntity : IEntity<int>
                                   TipoConteudoEntity tipoConteudo,
                                   PaisEntity pais,
                                   FeedbackEntity feedback,
-                                  string imagem)
+                                  string? imagem)
     {
         Titulo = titulo;
         DataCadastro = dataCadastro;

@@ -23,7 +23,7 @@ internal class ConteudoAdicionarService : IConteudoAdicionarService
     private readonly IConteudoPlataformaAdicionarService _conteudoPlataformaAdicionarService;
     private readonly IPlataformaGetService _plataformaGetService;
     private readonly IQueryRepository _queryRepository;
-    private const string DEFAULT_IMAGE = "https://img.freepik.com/vetores-gratis/design-plano-desenhado-a-mao-sem-sinal-de-foto_23-2149278076.jpg?w=826&t=st=1718560107~exp=1718560707~hmac=3a88bf61784f0515a9173c3a091ee742d81f52eb9b94987a61e9f2dcaa2c25ba";
+    public const string DEFAULT_IMAGE = "https://img.freepik.com/vetores-gratis/design-plano-desenhado-a-mao-sem-sinal-de-foto_23-2149278076.jpg?w=826&t=st=1718560107~exp=1718560707~hmac=3a88bf61784f0515a9173c3a091ee742d81f52eb9b94987a61e9f2dcaa2c25ba";
 
     public ConteudoAdicionarService(IConteudoAdicionarRepository adicionarConteudoRepository,
                                     ITipoConteudoGetRepository tipoConteudoGetRepository,

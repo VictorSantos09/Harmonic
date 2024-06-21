@@ -12,6 +12,7 @@ using Harmonic.Regras.Services.Conteudo.DTOs;
 using Harmonic.Regras.Services.Feedback.Contracts;
 using Harmonic.Regras.Services.Pais.Contracts;
 using QuickKit.ResultTypes;
+using System.Transactions;
 
 namespace Harmonic.Regras.Services.Conteudo;
 
@@ -45,7 +46,9 @@ internal class ConteudoAtualizarService : IConteudoAtualizarService
         if (conteudo is null) return Final.Failure("conteudo.update.NotFound", $"conteúdo com id {dto.Id} não encontrado");
         if (tipoConteudo is null) return Final.Failure("conteudo.update.NotFound", $"tipo conteudo com id {dto.IdTipoConteudo} não encontrado");
         if (pais is null) return Final.Failure("conteudo.update.NotFound", $"país com id {dto.IdPais} não encontrado");
- 
+
+
+        conteudo.Imagem = dto.Imagem is null ? ConteudoAdicionarService.DEFAULT_IMAGE : dto.Imagem;
         conteudo.Titulo = dto.Titulo;
         conteudo.Descricao = dto.Descricao;
         conteudo.Pais = pais;
